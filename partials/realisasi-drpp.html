@@ -1,0 +1,252 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+<style>
+	td.details-control {
+		background: url('template/img/details_open.png') no-repeat center center;
+		cursor: pointer;
+	}
+	tr.shown td.details-control {
+		background: url('template/img/details_close.png') no-repeat center center;
+	}
+</style>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Realisasi/ DRPP</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-table">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data DRPP</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">
+					<table id="tabel-ruh" class="table table-hover">
+						<thead style="background-color:#99CCFF;">
+							<tr>
+								<th></th>
+								<th>No</th>
+								<th>No.DRPP</th>
+								<th>Tgl.DRPP</th>
+								<th>Deputi</th>
+								<th>As.Deputi</th>
+								<th>Kode</th>
+								<th>Kode Status</th>
+								<th>Uraian Status</th>
+								<th>Kuitansi</th>
+								<th>Nilai</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		function form_default(){
+			jQuery('#div-table').show();
+		}
+		
+		form_default();
+	
+		var table=jQuery('#tabel-ruh').DataTable({
+			
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			"columns": [
+				{
+					"className":      'details-control',
+					"orderable":      false,
+					"data":      null,
+					"defaultContent": ''
+				},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{}
+			],
+			aaSorting: [],
+			bServerSide: true,
+			ajax:{
+				url: "drpp/monitoring", // Change this URL to where your json data comes from
+				type: "GET", // This is the default value, could also be POST, or anything you want.
+				data: function(d) {
+					//d.id = jQuery("#inp-id").val()
+				}
+			},
+			fnCreatedRow: function( nRow, aData, iDataIndex ) {
+				jQuery(nRow).attr('id', aData[0]);
+			}
+			
+		});
+		
+		jQuery('#tabel-ruh').off('click', 'td.details-control').on('click', 'td.details-control', function () {
+			var tr = jQuery(this).closest('tr');
+			var row = table.row( tr );
+	 
+			if ( row.child.isShown() ) {
+				// This row is already open - close it
+				var id=jQuery(this).parent().attr('id');
+				jQuery('#nodrpp-'+id).val('');
+				jQuery('#tgdrpp-'+id).val('');
+				jQuery('#nodrpp-'+id).prop('disabled', true);
+				jQuery('#tgdrpp-'+id).prop('disabled', true);
+				
+				row.child.hide();
+				tr.removeClass('shown');
+			}
+			else {
+				var id=jQuery(this).parent().attr('id');
+				
+				jQuery.getJSON('drpp/kuitansi/'+id, function(result){
+					if(result){
+						// Open this row
+						row.child( result.tabel ).show();
+						tr.addClass('shown');
+						
+						var arr_id=id.split('-');
+						
+						if(arr_id[4]==''){ //belum DRPP
+							
+							jQuery('#nodrpp-'+id).val(result.nodrpp);
+							jQuery('#tgdrpp-'+id).val(result.tgdrpp);
+							jQuery('#nodrpp-'+id).prop('disabled', false);
+							jQuery('#tgdrpp-'+id).prop('disabled', false);
+							
+							//init datepicker
+							jQuery('#tgdrpp-'+id).datepicker({
+								format: 'dd-mm-yyyy',
+								autoclose:true
+							});
+							
+						}
+						
+					}
+					else{
+						alertify.log('Tidak ada data detil...');
+					}
+				});
+			}
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.simpan').on('click', '.simpan', function () {
+			var id=this.id;
+			jQuery('#nodrpp1-'+id).val(jQuery('#nodrpp-'+id).val());
+			jQuery('#tgdrpp1-'+id).val(jQuery('#tgdrpp-'+id).val());
+			var data=jQuery('#form-'+id).serialize();
+			
+			jQuery.get('token', function(token) {
+				if(token) {
+					
+					jQuery.post('drpp?_token='+token, data, function(result){
+						if(result=='success'){
+							alertify.log('Data berhasil disimpan!');
+							form_default();
+							table.ajax.reload();
+						}
+						else{
+							alertify.log(result);
+						}
+					});
+					
+				}
+				else{
+					alertify.log('Sesi Anda telah habis!Silahkan refresh browser.');
+				}
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.hapus').on('click', '.hapus', function () {
+			var id=this.id;
+			alertify.confirm('Hapus data DRPP berserta kuitansinya?', function(e){
+				jQuery.get('token', function(token) {
+					if(token) {
+						
+						jQuery.post('drpp/hapus?_token='+token, {nodrpp:id}, function(result){
+							if(result=='success'){
+								alertify.log('Data berhasil dihapus!');
+								form_default();
+								table.ajax.reload();
+							}
+							else{
+								alertify.log(result);
+							}
+						});
+						
+					}
+					else{
+						alertify.log('Sesi Anda telah habis!Silahkan refresh browser.');
+					}
+				});
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.hapus-detil').on('click', '.hapus-detil', function () {
+			var id=this.id;
+			alertify.confirm('Hapus data kuitansi ini?', function(e){
+				jQuery.get('token', function(token) {
+					if(token) {
+						
+						jQuery.post('drpp/hapus-detil?_token='+token, {nokuitansi:id}, function(result){
+							if(result=='success'){
+								alertify.log('Data berhasil dihapus!');
+								form_default();
+								table.ajax.reload();
+							}
+							else{
+								alertify.log(result);
+							}
+						});
+						
+					}
+					else{
+						alertify.log('Sesi Anda telah habis!Silahkan refresh browser.');
+					}
+				});
+			});
+		});
+		
+	});
+</script>

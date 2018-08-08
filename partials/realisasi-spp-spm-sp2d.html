@@ -1,0 +1,333 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+<style>
+	td.details-control {
+		background: url('template/img/details_open.png') no-repeat center center;
+		cursor: pointer;
+	}
+	tr.shown td.details-control {
+		background: url('template/img/details_close.png') no-repeat center center;
+	}
+</style>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Realisasi/ SPP-SPM-SP2D</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-table">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">
+					<table id="tabel-ruh" class="table table-hover">
+						<thead style="background-color:#99CCFF;">
+							<tr>
+								<th rowspan="2"></th>
+								<th rowspan="2">No</th>
+								<th rowspan="2">No.DRPP</th>
+								<th rowspan="2">Tgl.DRPP</th>
+								<th rowspan="2">Deputi</th>
+								<th rowspan="2">As.Deputi</th>
+								<th rowspan="2">Kode</th>
+								<th rowspan="2">Kode Status</th>
+								<th rowspan="2">Uraian Status</th>
+								<th rowspan="2">Kuitansi</th>
+								<th rowspan="2">Nilai</th>
+								<th colspan="2">SPP</th>
+								<th colspan="2">SPM</th>
+								<th colspan="2">SP2D</th>
+								<th rowspan="2">Aksi</th>
+							</tr>
+							<tr>
+								<th>Nomor</th>
+								<th>Tanggal</th>
+								<th>Nomor</th>
+								<th>Tanggal</th>
+								<th>Nomor</th>
+								<th>Tanggal</th>
+							</tr>
+						</thead>
+						
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		function form_default(){
+			jQuery('#div-table').show();
+		}
+		
+		form_default();
+	
+		var table=jQuery('#tabel-ruh').DataTable({
+			
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			"columns": [
+				{
+					"className":      'details-control',
+					"orderable":      false,
+					"data":      null,
+					"defaultContent": ''
+				},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{}
+			],
+			aaSorting: [],
+			bServerSide: true,
+			ajax:{
+				url: "spm/monitoring", // Change this URL to where your json data comes from
+				type: "GET", // This is the default value, could also be POST, or anything you want.
+				data: function(d) {
+					
+				}
+			},
+			fnCreatedRow: function( nRow, aData, iDataIndex ) {
+				jQuery(nRow).attr('id', aData[0]);
+			}
+			
+		});
+		
+		jQuery('#tabel-ruh').off('click', 'td.details-control').on('click', 'td.details-control', function () {
+			var tr = jQuery(this).closest('tr');
+			var row = table.row( tr );
+	 
+			if ( row.child.isShown() ) {
+				// This row is already open - close it
+				row.child.hide();
+				tr.removeClass('shown');
+			}
+			else {
+				var id=jQuery(this).parent().attr('id');
+				
+				jQuery.getJSON('drpp/kuitansi-view/'+id, function(result){
+					if(result){
+						// Open this row
+						row.child( result.tabel ).show();
+						tr.addClass('shown');
+						
+					}
+					else{
+						alertify.log('Tidak ada data detil...');
+					}
+				});
+			}
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.ubah-spp').on('click', '.ubah-spp', function () {
+			var id=this.id;
+			jQuery('#nospp-'+id).prop('disabled', false);
+			jQuery('#tgspp-'+id).prop('disabled', false);
+			jQuery('#tgspp-'+id).datepicker({
+				format: 'dd-mm-yyyy',
+				autoclose:true
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.simpan-spp').on('click', '.simpan-spp', function () {
+			var id=this.id;
+			jQuery.get('token', function(token) {
+				if(token) {
+					var data={
+						nospp:jQuery('#nospp-'+id).val(),
+						tgspp:jQuery('#tgspp-'+id).val(),
+						nodrpp:id
+					};
+					jQuery.post('spm/nomor-spp?_token='+token, data, function(result){
+						if(result=='success'){
+							alertify.log('Data berhasil disimpan!');
+							form_default();
+							table.ajax.reload();
+						}
+						else{
+							alertify.log(result);
+						}
+					});
+					
+				}
+				else{
+					alertify.log('Sesi Anda telah habis!Silahkan refresh browser.');
+				}
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.ubah-spm').on('click', '.ubah-spm', function () {
+			var id=this.id;
+			jQuery('#nospm-'+id).prop('disabled', false);
+			jQuery('#tgspm-'+id).prop('disabled', false);
+			jQuery('#tgspm-'+id).datepicker({
+				format: 'dd-mm-yyyy',
+				autoclose:true
+			});
+			jQuery('#nospp-'+id).prop('disabled', false);
+			jQuery('#tgspp-'+id).prop('disabled', false);
+			jQuery('#tgspp-'+id).datepicker({
+				format: 'dd-mm-yyyy',
+				autoclose:true
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.simpan-spm').on('click', '.simpan-spm', function () {
+			var id=this.id;
+			jQuery.get('token', function(token) {
+				if(token) {
+					var data={
+						nospp:jQuery('#nospp-'+id).val(),
+						tgspp:jQuery('#tgspp-'+id).val(),
+						nospm:jQuery('#nospm-'+id).val(),
+						tgspm:jQuery('#tgspm-'+id).val(),
+						nodrpp:id
+					};
+					jQuery.post('spm/nomor-spm?_token='+token, data, function(result){
+						if(result=='success'){
+							alertify.log('Data berhasil disimpan!');
+							form_default();
+							table.ajax.reload();
+						}
+						else{
+							alertify.log(result);
+						}
+					});
+					
+				}
+				else{
+					alertify.log('Sesi Anda telah habis!Silahkan refresh browser.');
+				}
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.ubah-sp2d').on('click', '.ubah-sp2d', function () {
+			var id=this.id;
+			jQuery('#nospm-'+id).prop('disabled', false);
+			jQuery('#tgspm-'+id).prop('disabled', false);
+			jQuery('#tgspm-'+id).datepicker({
+				format: 'dd-mm-yyyy',
+				autoclose:true
+			});
+			jQuery('#nosp2d-'+id).prop('disabled', false);
+			jQuery('#tgsp2d-'+id).prop('disabled', false);
+			jQuery('#tgsp2d-'+id).datepicker({
+				format: 'dd-mm-yyyy',
+				autoclose:true
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.simpan-sp2d').on('click', '.simpan-sp2d', function () {
+			var id=this.id;
+			jQuery.get('token', function(token) {
+				if(token) {
+					var data={
+						nospm:jQuery('#nospm-'+id).val(),
+						tgspm:jQuery('#tgspm-'+id).val(),
+						nosp2d:jQuery('#nosp2d-'+id).val(),
+						tgsp2d:jQuery('#tgsp2d-'+id).val(),
+						nodrpp:id
+					};
+					jQuery.post('spm/nomor-sp2d?_token='+token, data, function(result){
+						if(result=='success'){
+							alertify.log('Data berhasil disimpan!');
+							form_default();
+							table.ajax.reload();
+						}
+						else{
+							alertify.log(result);
+						}
+					});
+					
+				}
+				else{
+					alertify.log('Sesi Anda telah habis!Silahkan refresh browser.');
+				}
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.ubah-sp2d_').on('click', '.ubah-sp2d_', function () {
+			var id=this.id;
+			jQuery('#nosp2d-'+id).prop('disabled', false);
+			jQuery('#tgsp2d-'+id).prop('disabled', false);
+			jQuery('#tgsp2d-'+id).datepicker({
+				format: 'dd-mm-yyyy',
+				autoclose:true
+			});
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.simpan-sp2d_').on('click', '.simpan-sp2d_', function () {
+			var id=this.id;
+			jQuery.get('token', function(token) {
+				if(token) {
+					var data={
+						nosp2d:jQuery('#nosp2d-'+id).val(),
+						tgsp2d:jQuery('#tgsp2d-'+id).val(),
+						nodrpp:id
+					};
+					jQuery.post('spm/nomor-sp2d_?_token='+token, data, function(result){
+						if(result=='success'){
+							alertify.log('Data berhasil disimpan!');
+							form_default();
+							table.ajax.reload();
+						}
+						else{
+							alertify.log(result);
+						}
+					});
+					
+				}
+				else{
+					alertify.log('Sesi Anda telah habis!Silahkan refresh browser.');
+				}
+			});
+		});
+		
+	});
+</script>

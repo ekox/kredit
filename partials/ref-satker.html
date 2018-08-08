@@ -1,0 +1,336 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1 data-toggle="collapse" data-target="#demo" ><i class="fa fa-list"></i > Referensi Satker</h1>
+	<i id="demo" class="collapse" > 
+		Referensi Satker adalah Referensi Yang berisi Data Satuan Kerja Kementerian / Lembaga Negara, 
+		Silahkan Gunakan Fitur Pencarian "Cari" berdasarkan Kode Satker Maupun Nama Satker
+	</i>
+</section>
+
+<!-- Main content -->
+<section class="content" style="color:blue" >
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Kementerian / Lembaga Negara</label>
+								<div class="col-lg-6">
+									<select id="kddept" name="kddept" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kddept" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Unit</label>
+								<div class="col-lg-6">
+									<select id="kdunit" name="kdunit" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kdunit" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Satker</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="kdsatker" name="kdsatker" />
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kdsatker" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama Satker</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" id="nmsatker" name="nmsatker" />
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-nmsatker" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode KPPN</label>
+								<div class="col-lg-6">
+									<select id="kdkppn" name="kdkppn" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kdkppn" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Lokasi</label>
+								<div class="col-lg-6">
+									<select id="kdlokasi" name="kdlokasi" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kdlokasi" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Kabupaten / Kota</label>
+								<div class="col-lg-6">
+									<select id="kdkabkota" name="kdkabkota" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kdkabkota" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button title="Simpan" id="btn-simpan" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+									<button title="Batal" id="btn-batal" class="btn btn-default"><i class="fa fa-refresh"></i> Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-info" id="btn-tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Kode Kementerian / Lembaga Negara</th>
+								<th>Kode Unit</th>
+								<th>Kode Satker</th>
+								<th>Nama Satker</th>
+								<th>Kode KPPN</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		jQuery.get('dropdown/dept', function(result){
+			if(result){
+				jQuery('#kddept').html(result).trigger('chosen:updated');
+			}
+		});
+		
+		jQuery.get('dropdown/kppn', function(result){
+			if(result){
+				jQuery('#kdkppn').html(result).trigger('chosen:updated');
+			}
+		});
+		
+		jQuery.get('dropdown/lokasi1', function(result){
+			if(result){
+				jQuery('#kdlokasi').html(result).trigger('chosen:updated');
+			}
+		});
+	
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "ref/satker"
+		});
+		
+		jQuery('#refresh').click(function(){
+			table.ajax.url("ref/satker").load();
+		});
+		
+		function form_default() {
+			jQuery('#inp-rekambaru').val(0);
+			jQuery.get('token', function(token){
+				jQuery('#_token').val(token)
+			});
+			jQuery('.warning, #div-form').hide();
+			jQuery('#div-tabel').show();
+			jQuery('#kdsatker,#nmsatker').val('').prop('readonly', false);
+			jQuery('#kddept').removeAttr('disabled');
+			jQuery('#kdunit').removeAttr('disabled');
+			jQuery('#kdkppn').removeAttr('disabled');
+			jQuery('#kdlokasi').removeAttr('disabled');
+			jQuery('#kdkabkota').removeAttr('disabled');
+		}
+		
+		function validasi_form(arr_param) {
+			var lanjut = true;
+			var arr_id = arr_param.split(",");
+			for(i=0; i<arr_id.length; i++) {
+				if(jQuery('#'+arr_id[i]).val() == null || jQuery('#'+arr_id[i]).val() == '') {
+					jQuery('#warning-'+arr_id[i]).show();
+					lanjut = false;
+				} else {
+					jQuery('#warning-'+arr_id[i]).hide();
+					lanjut = true;
+				} 
+			}
+			return lanjut;
+		}
+		
+		function cari_data(param) {
+			jQuery('#inp-rekambaru').val(1);
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+			
+			jQuery.getJSON('ref/satker-cari/'+param, function(result){
+				jQuery('#kddept').val(result.kddept).trigger('chosen:updated').prop("disabled", "disabled");
+				jQuery.get('dropdown/unit/'+result.kddept+'/'+result.kdunit, function(result){
+					if(result){
+						jQuery('#kdunit').html(result).trigger('chosen:updated');
+						jQuery('#kdunit').prop("disabled", "disabled");
+					}
+				});
+				jQuery('#kdkppn').val(result.kdkppn).trigger('chosen:updated').prop("disabled", "disabled");
+				jQuery('#kdlokasi').val(result.kdlokasi).trigger('chosen:updated').prop("disabled", "disabled");
+				jQuery.get('dropdown/kabkota/'+result.kdlokasi+'/'+result.kdkabkota, function(result){
+					if(result){
+						jQuery('#kdkabkota').html(result).trigger('chosen:updated');
+						jQuery('#kdkabkota').prop("disabled", "disabled");
+					}
+				});
+				jQuery('#kdsatker').val(result.kdsatker).prop("readonly", true);
+				jQuery('#nmsatker').val(result.nmsatker);
+			});
+		}
+		
+		form_default();
+		
+		jQuery('#btn-tambah').click(function(){
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+			jQuery('#kdsatker,#nmsatker,#kddept,#kdunit,#kdkppn,#kdlokasi,#kdkabkota').val('');
+			
+		});
+		
+		jQuery('#kddept').change(function(){
+			var kddept = jQuery('#kddept').val();
+			jQuery.get('dropdown/unit/'+kddept, function(result){
+				if(result){
+					jQuery('#kdunit').html(result).trigger('chosen:updated');
+				}
+			});
+		});
+		
+		jQuery('#kdlokasi').change(function(){
+			var kdlokasi = jQuery('#kdlokasi').val();
+			jQuery.get('dropdown/kabkota/'+kdlokasi, function(result){
+				if(result){
+					jQuery('#kdkabkota').html(result).trigger('chosen:updated');
+				}
+			});
+		});
+		
+		jQuery('#btn-simpan').click(function(){
+			var data = jQuery('#form-ruh').serialize();
+			if(validasi_form('kddept,kdunit,kdsatker,nmsatker,kdkppn,kdlokasi,kdkabkota') == true) {
+				jQuery.ajax({
+					url: 'ref/satker-simpan',
+					method: 'POST',
+					data: data,
+					success: function(result){
+						if(result == 'success'){
+							alertify.log('Berhasil disimpan');
+							form_default();
+							table.ajax.reload('ref/satker');
+						} else {
+							alertify.log(result);
+						} 
+					}
+				});
+			}
+		});
+		
+		jQuery('#btn-batal').click(function(){
+			form_default();
+		});
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var kdsatker = this.id;
+			cari_data(kdsatker);
+		});
+		
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var kdsatker = this.id;
+			var token = jQuery('#_token').val();
+			jQuery.ajax({
+				url: 'ref/satker-hapus',
+				method: 'POST',
+				data: {kdsatker : kdsatker, _token : token},
+				success: function(result){
+					if(result == 'success'){
+						alertify.log("Berhasil dihapus");
+						form_default();
+						table.ajax.reload('ref/satker');
+					} else {
+						alertify.log(result);
+					} 
+				}
+			});
+		});
+	});
+
+</script>
+

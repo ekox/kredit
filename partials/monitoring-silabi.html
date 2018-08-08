@@ -1,0 +1,1673 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1><i class="fa fa-desktop"></i> Monitoring SILABI</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"><a href="javascript:;" id="refresh" class="btn btn-info"><i class="fa fa-refresh"></i></a> Data Upload</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive" style="overflow-x:scroll;">
+                    <table id="tabel-mon-silabi" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Bulan</th>
+                                <th>Tahun</th>
+                                <th>Jenis</th>
+                                <th>Nama File</th>
+                                <th>Tanggal Upload</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+        </div>
+    </div>
+
+
+</section>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+            LPJ Pengeluaran
+        </div>
+        <div class="panel-body">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" role="tab" id="lpj-tab" onclick="show_tab(0)" >LPJ </a></li>
+            
+            <li><a data-toggle="tab"  role="tab" id="rekening-tab" onclick="show_tab(1)">Rekening</a></li>
+                      
+          </ul>
+            <div class="tab-content">
+                <div id="lpj" class="tab-pane fade in active">
+                    <table class="table table-condensed">
+                <thead class="col-sm-16">
+                    <th  class="col-sm-3"><center>FORM LPJ <br>PENGELUARAN</center></th>
+                    <th class="col-sm-6"><center>LAPORAN PERTANGGUNGJAWABAN BENDAHARA PENGELUARAN <br><div id="lpjk_bulan"></div></center></th>
+                    <th class="col-sm-3"><center>TAHUN ANGGARAN <div id="lpjk_thang1"></div><br></center></th>
+                </thead>
+            
+            <tbody class="col-sm-16" style="font-size:12px">
+                <tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left">Kementerian Negara Lembaga</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_kddept" align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+					
+                    <th colspan="3" align="left">
+                        <div class="col-sm-3"  align="left">Unit Organisasi</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_kdunit" align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3" align="left">
+                        <div class="col-sm-3" align="left">Provinsi/Kab/Kota</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_kdkabkota" align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+					
+                     <th colspan="3" >
+                        <div class="col-sm-3"  align="left">Satuan Kerja</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_kdsatker"  align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left">Alamat dan Telp</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_alamat"  align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left">No Krws & Kewenangan</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_karwas"  align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left">Dokumen</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_kdjendok"  align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left">Nomor Dokumen</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_nodok"  align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                     <th colspan="3">
+                        <div class="col-sm-3"  align="left">Tanggal Dokumen</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_tgdok"  align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                      <th colspan="3">
+                        <div class="col-sm-3"  align="left">Tahun Anggaran</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_thang2"  align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left" >KPPN</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjk_kdkppn"  align="left" ></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3">
+                        <div class="col-sm-12" id="lpjk_sakhir_bku" align="left">
+                           
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <table class="table table-bordered" style="font-size: 12px;align:left">
+                        <thead> 
+                            <tr>
+                               <th class="col-sm-1">
+                                NO
+                               </th>
+                               <th class="col-sm-3">
+                                JENIS BUKU PEMBANTU
+                               </th>
+                                <th class="col-sm-2">
+                                SALDO AWAL
+                               </th>
+                                 <th class="col-sm-2">
+                                PENAMBAHAN
+                               </th>
+                                  <th class="col-sm-2">
+                                PENGURANGAN
+                               </th>
+                                   <th class="col-sm-2">
+                                SALDO AKHIR
+                               </th>
+                            </tr>
+                            <tr>
+                               <th class="col-sm-1">
+                                (1)
+                               </th>
+                               <th class="col-sm-3">
+                              (2)
+                               </th>
+                                <th class="col-sm-2">
+                                (3)
+                               </th>
+                                 <th class="col-sm-2">
+                                (4)
+                               </th>
+                                  <th class="col-sm-2">
+                                (5)
+                               </th>
+                                   <th class="col-sm-2">
+                                (6)
+                               </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr>
+                               <td style="align:left" class="col-sm-1">
+                                <span style="font-weight: bold">A</span>
+                               </td>
+                               <td style="align:left" class="col-sm-3" >
+                              <span style="font-weight: bold">BP Kas, BPP, dan UM Perjadin</span>
+                               </td>
+                                <td class="col-sm-2">
+                                
+                               </td>
+                                 <td class="col-sm-2">
+                                
+                               </td>
+                                  <td class="col-sm-2">
+                                
+                               </td>
+                                   <td class="col-sm-2">
+                                
+                               </td>
+                            </tr>
+                             <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" style="align:left">
+                                1. BP Kas (tunai dan bank)
+                               </td>
+                                <td class="col-sm-2" id="lpjk_sawal_bpkas" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjk_debet_bpkas" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjk_kredit_bpkas" align="right">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjk_sakhir_bpkas" align="right">
+                                
+                               </td>
+                            </tr>
+                            <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" >
+                                2. BP Uang Muka/Voucher
+                               </td>
+                                <td class="col-sm-2" id="lpjk_sawal_um" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjk_debet_um" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjk_kredit_um" align="right">
+                                
+                               </td>
+                                <td class="col-sm-2" id="lpjk_sakhir_um" align="right">
+                                
+                               </td>
+                            </tr>
+                            <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" >
+                                3. BP BPP (Kas pada BPP)
+                               </td>
+                                <td class="col-sm-2" id="lpjk_sawal_bpp" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjk_debet_bpp" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjk_kredit_bpp" align="right">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjk_sakhir_bpp" align="right">
+                                
+                               </td>
+                            </tr>
+                             <tr>
+                               <td class="col-sm-1">
+                                <span style="font-weight: bold">B</span>
+                               </td>
+                               <td class="col-sm-3" >
+                              <span style="font-weight: bold">BP selain Kas, BPP, dan UM Perjadin</span>
+                               </td>
+                                <td class="col-sm-2">
+                                
+                               </td>
+                                <td class="col-sm-2">
+                                
+                               </td>
+                                  <td class="col-sm-2">
+                                
+                               </td>
+                                   <td class="col-sm-2">
+                                
+                               </td>
+                            </tr>
+                             <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" >
+                                1. BP UP *)
+                               </td>
+                                <td class="col-sm-2" id="lpjk_sawal_bpup" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjk_debet_bpup" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjk_kredit_bpup" align="right">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjk_sakhir_bpup" align="right">
+                                
+                               </td>
+                            </tr>
+                             <tr style="align:left">
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" >
+                                2. BP LS-Bendahara
+                               </td>
+                                <td class="col-sm-2" id="lpjk_sawal_lsbend" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjk_debet_lsbend" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjk_kredit_lsbend" align="right">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjk_sakhir_lsbend" align="right">
+                                
+                               </td>
+                            </tr>
+                             <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" >
+                                3. BP Pajak
+                               </td>
+                                <td class="col-sm-2" id="lpjk_sawal_pajak" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjk_debet_pajak" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjk_kredit_pajak" align="right">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjk_sakhir_pajak" align="right">
+                                
+                               </td>
+                            </tr>
+                             <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" >
+                                4. BP Lain-lain
+                               </td>
+                                <td class="col-sm-2" id="lpjk_sawal_lain">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjk_debet_lain">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjk_kredit_lain">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjk_sakhir_lain">
+                                
+                               </td>
+                            </tr>
+                             
+                        </tbody>
+                    </table> <!-- table kedua -->
+                </tr>          
+                <tr colspan="3" style="font-size: 12px">
+                    <th class="col-sm-12" > <div id="lpjk_kuitansi_up" align="left" >A</div>                         
+                    </th>
+                </tr>
+                <tr colspan="3" style="font-size: 12px">
+                     <th>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">II. Keadaan kas pada akhir bulan pelaporan</span>
+                        </div>
+                    </th>
+                </tr>
+                <tr colspan="3" style="font-size: 12px">
+                     <td>
+                        <div class="col-sm-6">
+                           1. Uang Tunai di brankas
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_brankas" align="right"></div>
+                    </td>
+                </tr>
+                 <tr colspan="3" >
+                     <td>
+                        <div class="col-sm-6" style="font-size:12px">2. Uang di rekening bank (terlampir Daftar Rincian Kas di Rekening)
+                          
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_rekening_bank" align="right"></div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          3. Jumlah kas
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_jumlah_kas" align="right"></div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">III. Selisih Kas</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                           1. Saldo Akhir BP Kas (I.A 1 kolom (6))
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_sakhir_bpkas1" align="right"></div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          2. Jumlah Kas (II.3)
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_jumlah_kas1" align="right"></div>
+                    </td>
+                </tr>                 
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          3. Selisih Kas
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_selisih_kas" align="right"></div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">IV. Hasil Rekonsiliasi Internal dengan UAKPA</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          1. Saldo UP
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_sakhir_bpup1" align="right"></div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          2. Kuitansi UP
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_kuitansi_up1" align="right"></div>
+                    </td>
+                </tr>
+                <hr>
+                  <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          3. Jumlah UP
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_jumlah_up" align="right"></div>
+                    </td>
+                </tr>
+                  <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          4. Saldo UP menurut UAKPA
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_saldo_up_uakpa" align="right"></div>
+                    </td>
+                </tr>
+                  <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6">
+                          5. Selisih Pembukuan UP
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjk_selisih_up" align="right"></div>
+                    </th>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">V. Penjelasan selisih kas dan/atau selisih pembukuan (apabila ada):</span>
+                        </div>
+                    </td>
+                </tr>
+                    <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12" >
+                           <span  id="lpjk_ket_selisih_kas" >1.</span>
+                        </div>
+                    </td>
+                </tr>
+                   <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12" >
+                           <span  id="lpjk_ket_selisih_up">2.</span>
+                        </div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span >Mengetahui</span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >...</span>
+                        </div>
+                    </th>
+                </tr>
+                  <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span >Kuasa Pengguna Anggaran /
+PPK atas nama KPA</span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >Bendahara Pengeluaran</span>
+                        </div>
+                    </th>
+                </tr>
+                <tr  colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span >     </span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >     </span>
+                        </div>
+                    </th>
+                </tr>
+                <tr  colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span > &nbsp;    </span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >  &nbsp;   </span>
+                        </div>
+                    </th>
+                </tr>
+                <tr  colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span >   &nbsp;  </span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >   &nbsp;  </span>
+                        </div>
+                    </th>
+                </tr>
+                <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span id="lpjk_nm_kpa"></span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span id="lpjk_nm_bend"></span>
+                        </div>
+                    </th>
+                </tr>
+                <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span id="lpjk_nip_kpa"></span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span id="lpjk_nip_bend"></span>
+                        </div>
+                    </th>
+                </tr>
+            </tbody>
+			</table>
+                     </div>
+    <div  id="data-rekening" >
+      <table  class="table table-condensed" id="isi-data-rekening">
+          <thead>
+              <th>
+                <div class="col-sm-1">
+                  No
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-3">
+                  Nomor Rekening
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-3">
+                  Nama Rekening
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-4">
+                  Nama Bank
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-1">
+                  Kode Rek
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-2">
+                  Nomor Surat
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-2">
+                  Tanggal Surat
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-2">
+                  saldo
+                </div>
+              </th>
+          
+          </thead>
+          <tbody>
+            <tr>
+                <td>
+                    <div id= "no_count" class="col-sm-1">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "no_rekening" class="col-sm-3">
+                  
+                    </div>
+                </td> 
+                <td>
+                    <div id= "nm_rekening" class="col-sm-3">
+                  
+                    </div>
+                </td>
+                <td>
+                    <div id= "nm_bank" class="col-sm-4">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "kd_rekening" class="col-sm-1">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "no_surat" class="col-sm-2">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "tgl_surat" class="col-sm-2">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "saldo" class="col-sm-2">
+                  
+                    </div>
+                </td> 
+            </tr>
+          </tbody>
+          
+        </table>
+    </div>
+            </div>
+        </div> <!-- end of panel body-->
+    </div>
+    </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalP" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+            LPJ PENERIMAAN
+        </div>
+        <div class="panel-body">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" role="tab" id="lpj-tab" onclick="show_tabp(0)" >LPJ </a></li>
+            
+            <li><a data-toggle="tab"  role="tab" id="rekening-tab" onclick="show_tabp(1)">Rekening</a></li>
+                      
+          </ul>
+            <div class="tab-content">
+                <div id="lpjP" class="tab-pane fade in active">
+                    <table class="table table-condensed">
+                <thead class="col-sm-16">
+                    <th  class="col-sm-3"><center>FORM LPJ <br>PENERIMAAN</center></th>
+                    <th class="col-sm-6"><center>LAPORAN PERTANGGUNGJAWABAN BENDAHARA PENGELUARAN <br><div id="lpjp_bulan"></div></center></th>
+                    <th class="col-sm-3"><center>TAHUN ANGGARAN <div id="lpjp_thang1"></div><br></center></th>
+                </thead>
+            
+            <tbody class="col-sm-16" style="font-size:12px">
+                <tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left">Kementerian Negara Lembaga</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjp_kddept" align="left"></div>
+                    </th>
+				</tr>
+				<tr>
+					
+                    <th colspan="3" align="left">
+                        <div class="col-sm-3"  align="left">Unit Organisasi</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjp_kdunit" align="left"></div>
+                    </th>
+				</tr>
+				<tr>
+                    <th colspan="3" align="left">
+                        <div class="col-sm-3" align="left">Provinsi/Kab/Kota</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjp_kdkabkota" align="left"></div>
+                    </th>
+				</tr>
+				<tr>					
+                     <th colspan="3" >
+                        <div class="col-sm-3"  align="left">Satuan Kerja</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjp_kdsatker"  align="left"></div>
+                    </th>
+				</tr>
+				<tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left">Alamat dan Telp</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjp_alamat"  align="left"></div>
+                    </th>
+				</tr>
+					
+					
+					<tr>
+                      <th colspan="3">
+                        <div class="col-sm-3"  align="left">Tahun Anggaran</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjp_thang2"  align="left"></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3">
+                        <div class="col-sm-3"  align="left" >KPPN</div>
+                        <div class="col-sm-1"> : </div>
+                        <div class="col-sm-8" id="lpjp_kdkppn"  align="left" ></div>
+                    </th>
+					</tr>
+					<tr>
+                    <th colspan="3">
+                        <div class="col-sm-12" id="lpjp_sakhir_bku" align="left">
+                           
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <table class="table table-bordered" style="font-size: 12px">
+                        <thead> 
+                            <tr>
+                               <th class="col-sm-1">
+                                NO
+                               </th>
+                               <th class="col-sm-3">
+                                JENIS BUKU PEMBANTU
+                               </th>
+                                <th class="col-sm-2">
+                                SALDO AWAL
+                               </th>
+                                 <th class="col-sm-2">
+                                PENAMBAHAN
+                               </th>
+                                  <th class="col-sm-2">
+                                PENGURANGAN
+                               </th>
+                                   <th class="col-sm-2">
+                                SALDO AKHIR
+                               </th>
+                            </tr>
+                            <tr>
+                               <th class="col-sm-1">
+                                (1)
+                               </th>
+                               <th class="col-sm-3">
+                              (2)
+                               </th>
+                                <th class="col-sm-2">
+                                (3)
+                               </th>
+                                 <th class="col-sm-2">
+                                (4)
+                               </th>
+                                  <th class="col-sm-2">
+                                (5)
+                               </th>
+                                   <th class="col-sm-2">
+                                (6)
+                               </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr>
+                               <td class="col-sm-1">
+                                <span style="font-weight: bold">A</span>
+                               </td>
+                               <td class="col-sm-3" align="left">
+                              <span style="font-weight: bold">BP Kas</span>
+                               </td>
+                                <td class="col-sm-2">
+                                
+                               </td>
+                                 <td class="col-sm-2">
+                                
+                               </td>
+                                  <td class="col-sm-2">
+                                
+                               </td>
+                                   <td class="col-sm-2">
+                                
+                               </td>
+                            </tr>
+                             <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" align="left">
+                                1. BP Kas (tunai dan bank)
+                               </td>
+                                <td class="col-sm-2" id="lpjp_sawal_bpkas" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjp_debet_bpkas" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjp_kredit_bpkas" align="right">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjp_sakhir_bpkas" align="right">
+                                
+                               </td>
+                            </tr>
+                           
+                             <tr>
+                               <td class="col-sm-1">
+                                <span style="font-weight: bold">B</span>
+                               </td>
+                               <td class="col-sm-3" align="left">
+                              <span style="font-weight: bold">Buku Pembantu</span>
+                               </td>
+                                <td class="col-sm-2">
+                                
+                               </td>
+                                 <td class="col-sm-2">
+                                
+                               </td>
+                                  <td class="col-sm-2">
+                                
+                               </td>
+                                   <td class="col-sm-2">
+                                
+                               </td>
+                            </tr>
+                             <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" align="left">
+                                1. Buku Pembantu PNBP
+                               </td>
+                                <td class="col-sm-2" id="lpjp_sawal_pnbp" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjp_debet_pnbp" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjp_kredit_pnbp" align="right">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjp_sakhir_pnbp" align="right">
+                                
+                               </td>
+                            </tr>
+                             
+                             
+                             <tr>
+                               <td class="col-sm-1">                                
+                               </td>
+                               <td class="col-sm-3" align="left">
+                                4. BP Lain-lain
+                               </td>
+                                <td class="col-sm-2" id="lpjp_sawal_lain" align="right">
+                                
+                               </td>
+                                 <td class="col-sm-2" id="lpjp_debet_lain" align="right">
+                                
+                               </td>
+                                  <td class="col-sm-2" id="lpjp_kredit_lain" align="right">
+                                
+                               </td>
+                                   <td class="col-sm-2" id="lpjp_sakhir_lain" align="right">
+                                
+                               </td>
+                            </tr>
+                             
+                        </tbody>
+                    </table> <!-- table kedua -->
+                </tr>          
+                <tr colspan="3" style="font-size: 12px">
+                    <td class="col-sm-12" > <div id="lpjp_kuitansi_up" align="left" >A</div>                         
+                    </td>
+                </tr>
+                <tr colspan="3" style="font-size: 12px">
+                     <td>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">II. Keadaan kas pada akhir bulan pelaporan</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr colspan="3" style="font-size: 12px">
+                     <td>
+                        <div class="col-sm-6">
+                           1. Uang Tunai di brankas
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_brankas" align="right"></div>
+                    </td>
+                </tr>
+                 <tr colspan="3" >
+                     <td>
+                        <div class="col-sm-6" style="font-size:12px">2. Uang di rekening bank (terlampir Daftar Rincian Kas di Rekening)
+                          
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_rekening_bank" align="right"></div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          3. Jumlah kas
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_jumlah_kas" align="right"></div>
+                    </td>
+                </tr>
+                 
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">III. Selisih Kas</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                           1. Saldo Akhir BP Kas (I.A 1 kolom (6))
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_sakhir_bpkas1" align="right"></div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          2. Jumlah Kas (II.3)
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_jumlah_kas1" align="right"></div>
+                    </td>
+                </tr>                 
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          3. Selisih Kas
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_selisih_kas" align="right"></div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">IV. Saldo Uang Yang Sudah Menjadi Hak Negara</span>
+                        </div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          1. Saldo Awal
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_hak_saldo_awal" align="right"></div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          2. Penerimaan Yang Sudah Menjadi Hak Negara Bulan ini
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_hak_terima" align="right"></div>
+                    </td>
+                </tr>
+                <hr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          3. Jumlah Penerimaan Negara
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_hak_jumlah" align="right"></div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          4. Setoran  yang sudah menjadi hak negara bulan ini
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_hak_setor" align="right"></div>
+                    </td>
+                </tr>
+                <hr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          5. Saldo Akhir
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_hak_akhir" align="right"></div>
+                    </td>
+                </tr>
+                <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">V. Hasil Rekonsiliasi Internal dengan UAKPA</span>
+                        </div>
+                    </td>
+                </tr>
+                
+                  <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          1. Penyetoran menurut Pembukuan bendahara
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_setor" align="right"></div>
+                    </td>
+                </tr>
+                  <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          4. Penyetoran Menurut UAKPA
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_uakpa" align="right"></div>
+                    </td>
+                </tr>
+                  <tr colspan="3">
+                     <td>
+                        <div class="col-sm-6">
+                          5. Selisih Pembukuan UP
+                        </div>
+                        <div class="col-sm-1">Rp</div>
+                        <div class="col-sm-5" id="lpjp_selisih_uakpa" align="right"></div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12">
+                           <span style="font-weight: bold">V. Penjelasan selisih kas dan/atau selisih pembukuan (apabila ada):</span>
+                        </div>
+                    </td>
+                </tr>
+                    <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12" >
+                           <span  id="lpjp_ket_selisih_kas" >1.</span>
+                        </div>
+                    </td>
+                </tr>
+                   <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12" >
+                           <span  id="lpjp_ket_selisih_uakpa">2.</span>
+                        </div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <td>
+                        <div class="col-sm-12" >
+                           <span  ></span>
+                        </div>
+                    </td>
+                </tr>
+                 <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span >Mengetahui</span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >...</span>
+                        </div>
+                    </th>
+                </tr>
+                  <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span >Kuasa Pengguna Anggaran /
+PPK atas nama KPA</span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >Bendahara Pengeluaran</span>
+                        </div>
+                    </th>
+                </tr>
+                <tr  colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span >     </span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >     </span>
+                        </div>
+                    </th>
+                </tr>
+                <tr  colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span > &nbsp;    </span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >  &nbsp;   </span>
+                        </div>
+                    </th>
+                </tr>
+                <tr  colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span >   &nbsp;  </span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span >   &nbsp;  </span>
+                        </div>
+                    </th>
+                </tr>
+                <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span id="lpjp_nm_kpa"></span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span id="lpjp_nm_bend"></span>
+                        </div>
+                    </th>
+                </tr>
+                <tr colspan="3">
+                     <th>
+                        <div class="col-sm-6" >
+                           <span id="lpjp_nip_kpa"></span>
+                        </div>
+                         <div class="col-sm-6" >
+                           <span id="lpjp_nip_bend"></span>
+                        </div>
+                    </th>
+                </tr>
+            </tbody>
+			</table>
+                     </div>
+    <div  id="data-rekeningP" >
+      <table  class="table table-condensed" id="isi-data-rekeningP">
+          <thead>
+              <th>
+                <div class="col-sm-1">
+                  No
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-3">
+                  Nomor Rekening
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-3">
+                  Nama Rekening
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-4">
+                  Nama Bank
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-1">
+                  Kode Rek
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-2">
+                  Nomor Surat
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-2">
+                  Tanggal Surat
+                </div>
+              </th>
+              <th>
+                <div class="col-sm-2">
+                  saldo
+                </div>
+              </th>
+          
+          </thead>
+          <tbody>
+            <tr>
+                <td>
+                    <div id= "no_countp" class="col-sm-1">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "no_rekeningp" class="col-sm-3">
+                  
+                    </div>
+                </td> 
+                <td>
+                    <div id= "nm_rekeningp" class="col-sm-3">
+                  
+                    </div>
+                </td>
+                <td>
+                    <div id= "nm_bankp" class="col-sm-4">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "kd_rekeningp" class="col-sm-1">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "no_suratp" class="col-sm-2">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "tgl_suratp" class="col-sm-2">
+                  
+                    </div>
+                </td> 
+                 <td>
+                    <div id= "saldop" class="col-sm-2">
+                  
+                    </div>
+                </td> 
+            </tr>
+          </tbody>
+          
+        </table>
+    </div>
+            </div>
+        </div> <!-- end of panel body-->
+    </div>
+    </div>
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function(){
+
+        jQuery.fn.dataTable.ext.errMode = 'none';
+
+        var table=jQuery('#tabel-mon-silabi').DataTable({
+
+            bProcessing:true,
+            oLanguage:{
+                "sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+                "sLengthMenu":   "Tampilan _MENU_ entri",
+                "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+                "sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+                "sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+                "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                "sInfoPostFix":  "",
+                "sSearch":       "Cari:",
+                "sUrl":          "",
+                "oPaginate": {
+                  "sFirst":    "Awal",
+                  "sPrevious": "Sebelum",
+                  "sNext":     "Sesudah",
+                  "sLast":     "Akhir"
+                }
+            },
+            aaSorting: [],
+            bServerSide: true,
+            sAjaxSource: "monitoring/silabi"
+
+        });
+
+        jQuery('#refresh').click(function(){
+            table.ajax.url("monitoring/silabi").load();
+        });
+       
+        $("#myModal").hide();
+        $("#myModalP").hide();
+        jQuery.extend({
+    getValues: function(url) {
+        var result = null;
+        $.ajax({
+            url: url,
+            type: 'get',
+            async: false,
+            success: function(data) {
+                result = data;
+            }
+        });
+       return result;
+    }
+});
+
+
+    });
+    function pad (str, max) {
+  str = str.toString();
+  return str.length < max ? pad("0" + str, max) : str;
+}
+    function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+    function kosong_lpjk() {
+        $("#lpjk_kdsatker").empty();
+                    $("#lpjk_kddept").empty();
+                    $("#lpjk_kdunit").empty();
+                    $("#lpjk_kdkabkota").empty();
+                    $("#lpjk_karwas").empty();
+                    $("#lpjk_kdjendok").empty();
+                    $("#lpjk_nodok").empty();
+                    $("#lpjk_tgdok").empty();
+                    $("#lpjk_kdkppn").empty();
+                    $("#lpjk_thang1").empty();
+                    $("#lpjk_thang2").empty();                   
+                    $("#lpjk_sakhir_bku").empty();
+                    $("#lpjk_sawal_bpkas").empty();
+                    $("#lpjk_debet_bpkas").empty();
+                    $("#lpjk_kredit_bpkas").empty();
+                    $("#lpjk_sakhir_bpkas").empty();
+          $("#lpjk_sakhir_bpkas1").empty();
+        $("#lpjk_sawal_um").empty();
+                    $("#lpjk_debet_um").empty();
+                    $("#lpjk_kredit_um").empty();
+                    $("#lpjk_sakhir_um").empty();
+          $("#lpjk_sawal_bpp").empty();
+                    $("#lpjk_debet_bpp").empty();
+                    $("#lpjk_kredit_bpp").empty();
+                    $("#lpjk_sakhir_bpp").empty();
+          $("#lpjk_sawal_bpup").empty();
+                    $("#lpjk_debet_bpup").empty();
+                    $("#lpjk_kredit_bpup").empty();
+                    $("#lpjk_sakhir_bpup").empty();
+        $("#lpjk_sakhir_bpup1").empty();
+          $("#lpjk_sawal_lsbend").empty();
+                    $("#lpjk_debet_lsbend").empty();
+                    $("#lpjk_kredit_lsbend").empty();
+                    $("#lpjk_sakhir_lsbend").empty();
+          $("#lpjk_sawal_pajak").empty();
+                    $("#lpjk_debet_pajak").empty();
+                    $("#lpjk_kredit_pajak").empty();
+                    $("#lpjk_sakhir_pajak").empty();
+          $("#lpjk_sawal_lain").empty();
+                    $("#lpjk_debet_lain").empty();
+                    $("#lpjk_kredit_lain").empty();
+                    $("#lpjk_sakhir_lain").empty();
+         $("#lpjk_kuitansi_up").empty();
+         $("#lpjk_kuitansi_up1").empty();
+        $("#lpjk_brankas").empty();
+        $("#lpjk_rekening_bank").empty();
+        $("#lpjk_jumlah_kas").empty();
+        $("#lpjk_jumlah_kas1").empty();
+        $("#lpjk_selisih_kas").empty();
+        $("#lpjk_jumlah_up").empty();
+        $("#lpjk_saldo_up_uakpa").empty();
+         $("#lpjk_selisih_up").empty();
+         $("#lpjk_ket_selisih_up").empty();
+         $("#lpjk_ket_selisih_kas").empty();
+            $("#lpjk_nm_kpa").empty();
+        $("#lpjk_nm_bend").empty();
+        $("#lpjk_nip_bend").empty();
+        $("#lpjk_nip_kpa").empty();
+        $("#lpjk_bulan").empty();
+        // untuk data rekening
+         $("#no_count").empty();
+         $("#no_rekening").empty();
+         $("#nm_rekening").empty();
+         $("#nm_bank").empty();
+         $("#kd_rekening").empty();
+         $("#no_surat").empty();
+         $("#tgl_surat").empty();
+         $("#saldo").empty();
+        
+    }
+    
+    function show_lpj(id,type_adk,kdkppn,token_api) {
+        var token= token_api;
+        var kodekppn=pad(kdkppn,3);
+        var data ={ token : token,
+                    kdkppn : kodekppn};
+        var url="api/v1/silabi/adk/"+id;
+        if (type_adk == '1') {
+            $.getJSON(url,data,
+                function(data, textStatus, jqXHR)
+                {
+                    var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+  "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+];
+                    var hasil=data;
+                    kosong_lpjk();
+                    show_tab(0);
+                if (hasil.error == false) {
+                     $("#lpjk_kdsatker").append(hasil.lpj.kdsatker+" "+hasil.lpj.nmsatker);
+                    $("#lpjk_kddept").append(hasil.lpj.kddept+" "+hasil.lpj.nmdept);
+                    $("#lpjk_kdunit").append(hasil.lpj.kdunit+" "+hasil.lpj.nmunit);
+                    $("#lpjk_kdkabkota").append(hasil.lpj.kdlokasi+"."+hasil.lpj.kdkabkota+" "+hasil.lpj.nmlokasi+". "+hasil.lpj.nmkabkota);
+                    $("#lpjk_karwas").append(hasil.lpj.nokarwas+"."+hasil.lpj.kddekon);
+                    $("#lpjk_kdjendok").append(hasil.lpj.kdjendok);
+                    $("#lpjk_nodok").append(hasil.lpj.nodok);
+                    $("#lpjk_tgdok").append(hasil.lpj.tgdok);
+                    $("#lpjk_kdkppn").append(hasil.lpj.kdkppn+" ("+hasil.lpj.nmkppn+")");
+                    $("#lpjk_thang1").append(hasil.lpj.tahun);
+                    $("#lpjk_thang2").append(hasil.lpj.tahun);
+                    $("#lpjk_sakhir_bku").append("I. Keadaan Pembukuan bulan pelaporan dengan saldo akhir pada BKU sebesar Rp."+numberWithCommas(hasil.lpj.sakhir_bku)+" dan Nomor Bukti terakhir Nomor:"+hasil.lpj.no_bukti);
+                    $("#lpjk_sawal_bpkas").append(numberWithCommas(parseInt(hasil.lpj.sawal_bank) + parseInt(hasil.lpj.sawal_tunai)));
+                    $("#lpjk_debet_bpkas").append(numberWithCommas(parseInt(hasil.lpj.debet_bank) + parseInt(hasil.lpj.debet_tunai)));
+                    $("#lpjk_kredit_bpkas").append(numberWithCommas(parseInt(hasil.lpj.kredit_bank) + parseInt(hasil.lpj.kredit_tunai)));
+                    $("#lpjk_sakhir_bpkas").append(numberWithCommas(parseInt(hasil.lpj.sakhir_bank) + parseInt(hasil.lpj.sakhir_tunai)));
+                $("#lpjk_sakhir_bpkas1").append(numberWithCommas(parseInt(hasil.lpj.sakhir_bank) + parseInt(hasil.lpj.sakhir_tunai)));
+                $("#lpjk_sawal_um").append(numberWithCommas(parseInt(hasil.lpj.sawal_um) ));
+                    $("#lpjk_debet_um").append(numberWithCommas(parseInt(hasil.lpj.debet_um)));
+                    $("#lpjk_kredit_um").append(numberWithCommas(parseInt(hasil.lpj.kredit_um) ));
+                    $("#lpjk_sakhir_um").append(numberWithCommas(parseInt(hasil.lpj.sakhir_um) ));
+                 $("#lpjk_sawal_bpp").append(numberWithCommas(parseInt(hasil.lpj.sawal_bpp) ));
+                    $("#lpjk_debet_bpp").append(numberWithCommas(parseInt(hasil.lpj.debet_bpp)));
+                    $("#lpjk_kredit_bpp").append(numberWithCommas(parseInt(hasil.lpj.kredit_bpp) ));
+                    $("#lpjk_sakhir_bpp").append(numberWithCommas(parseInt(hasil.lpj.sakhir_bpp) ));
+                 $("#lpjk_sawal_bpup").append(numberWithCommas(parseInt(hasil.lpj.sawal_up) ));
+                    $("#lpjk_debet_bpup").append(numberWithCommas(parseInt(hasil.lpj.debet_up)));
+                    $("#lpjk_kredit_bpup").append(numberWithCommas(parseInt(hasil.lpj.kredit_up) ));
+                    $("#lpjk_sakhir_bpup").append(numberWithCommas(parseInt(hasil.lpj.sakhir_up) ));
+                $("#lpjk_sakhir_bpup1").append(numberWithCommas(parseInt(hasil.lpj.sakhir_up) ));
+                 $("#lpjk_sawal_lsbend").append(numberWithCommas(parseInt(hasil.lpj.sawal_lsbend) ));
+                    $("#lpjk_debet_lsbend").append(numberWithCommas(parseInt(hasil.lpj.debet_lsbend)));
+                    $("#lpjk_kredit_lsbend").append(numberWithCommas(parseInt(hasil.lpj.kredit_lsbend) ));
+                    $("#lpjk_sakhir_lsbend").append(numberWithCommas(parseInt(hasil.lpj.sakhir_lsbend) ));
+                 $("#lpjk_sawal_pajak").append(numberWithCommas(parseInt(hasil.lpj.sawal_pajak) ));
+                    $("#lpjk_debet_pajak").append(numberWithCommas(parseInt(hasil.lpj.debet_pajak)));
+                    $("#lpjk_kredit_pajak").append(numberWithCommas(parseInt(hasil.lpj.kredit_pajak) ));
+                    $("#lpjk_sakhir_pajak").append(numberWithCommas(parseInt(hasil.lpj.sakhir_pajak) ));
+                 $("#lpjk_sawal_lain").append(numberWithCommas(parseInt(hasil.lpj.sawal_lain) ));
+                    $("#lpjk_debet_lain").append(numberWithCommas(parseInt(hasil.lpj.debet_lain)));
+                    $("#lpjk_kredit_lain").append(numberWithCommas(parseInt(hasil.lpj.kredit_lain) ));
+                    $("#lpjk_sakhir_lain").append(numberWithCommas(parseInt(hasil.lpj.sakhir_lain) ));
+                $("#lpjk_kuitansi_up").append("jumlah pengurangan pada BP UP sudah termasuk kuitansi UP yang belum di-SPM-GU-kan sebesar Rp "+numberWithCommas(hasil.lpj.kuitansi_up));
+                  $("#lpjk_kuitansi_up1").append(numberWithCommas(hasil.lpj.kuitansi_up));
+                $("#lpjk_brankas").append(numberWithCommas(hasil.lpj.brankas));
+        $("#lpjk_rekening_bank").append(numberWithCommas(hasil.lpj.rekening_bank));
+        $("#lpjk_jumlah_kas").append(numberWithCommas(parseInt(hasil.lpj.brankas)+parseInt(hasil.lpj.rekening_bank)));
+                $("#lpjk_jumlah_kas1").append(numberWithCommas(parseInt(hasil.lpj.brankas)+parseInt(hasil.lpj.rekening_bank)));
+                $("#lpjk_selisih_kas").append(numberWithCommas((parseInt(hasil.lpj.sakhir_bank)+parseInt(hasil.lpj.sakhir_tunai))-(parseInt(hasil.lpj.brankas)+parseInt(hasil.lpj.rekening_bank))));
+                $("#lpjk_jumlah_up").append(numberWithCommas(parseInt(hasil.lpj.sakhir_up)+parseInt(hasil.lpj.kuitansi_up)));
+                $("#lpjk_saldo_up_uakpa").append(numberWithCommas(hasil.lpj.saldo_up_uakpa));
+                $("#lpjk_selisih_up").append(numberWithCommas(parseInt(hasil.lpj.saldo_up_uakpa)-(parseInt(hasil.lpj.sakhir_up)+parseInt(hasil.lpj.kuitansi_up))));
+         $("#lpjk_ket_selisih_up").append("2. "+hasil.lpj.ket_selisih_up);
+         $("#lpjk_ket_selisih_kas").append("1. "+hasil.lpj.ket_selisih_kas);
+                  $("#lpjk_nm_kpa").append(hasil.lpj.nm_kpa);
+        $("#lpjk_nm_bend").append(hasil.lpj.nm_bend);
+        $("#lpjk_nip_bend").append(hasil.lpj.nip_bend);
+        $("#lpjk_nip_kpa").append(hasil.lpj.nip_kpa);
+                $("#lpjk_bulan").append('Bulan :'+monthNames[parseInt(hasil.lpj.bulan)-1]);
+                    // untuk data rekening
+                    if (hasil.jumlah_rekening > 0) {
+                        var index;
+                        for (index = 0; index < hasil.jumlah_rekening; ++index) {
+                                
+                            $("#no_count").append(parseInt(index+1));
+                            $("#no_rekening").append(hasil.rekening[index].no_rekening);
+                            $("#nm_rekening").append(hasil.rekening[index].nm_rekening);
+                            $("#nm_bank").append(hasil.rekening[index].nm_bank);
+                            $("#kd_rekening").append(hasil.rekening[index].kd_rekening);
+                            $("#no_surat").append(hasil.rekening[index].no_surat);
+                            $("#tgl_surat").append(hasil.rekening[index].tgl_surat);
+                            $("#saldo").append(hasil.rekening[index].saldo);
+                            }
+                         
+                    }
+                    
+                } // akhir if hasil.error
+                   
+                    $('#myModal').modal('show');
+                    
+                }).fail(function(jqXHR, textStatus, errorThrown) 
+            {
+              alertify.alert(textStatus+" : "+errorThrown);
+            });
+            
+        } else {
+            // LPJ Penerimaan
+            $.getJSON(url,data,
+                function(data, textStatus, jqXHR)
+                {
+                    var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                                          "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+                                        ];
+                    var hasil=data;                    
+                    show_tabp(0);
+                if (hasil.error == false) {
+                    
+                    if (hasil.jumlah_lpj > 0 ) {
+                        var index;
+                        for (index = 0;index < hasil.jumlah_lpj;++index) {
+                            $("#lpjp_bulan").empty();
+                            $("#lpjp_bulan").append('Bulan :'+monthNames[parseInt(hasil.lpj[index].bulan)-1]);
+                            $("#lpjp_thang1").empty();
+                            $("#lpjp_thang1").append(hasil.lpj[index].tahun);
+                            $("#lpjp_kddept").empty();
+                            $("#lpjp_kddept").append(hasil.lpj[index].kddept+" "+hasil.lpj[index].nmdept);
+                            $("#lpjp_kdunit").empty();
+                             $("#lpjp_kdunit").append(hasil.lpj[index].kdunit+" "+hasil.lpj[index].nmunit);
+                            $("#lpjp_kdkabkota").empty();
+                            $("#lpjp_kdkabkota").append(hasil.lpj[index].kdlokasi+"."+hasil.lpj[index].kdkabkota+" "+hasil.lpj[index].nmlokasi+". "+hasil.lpj[index].nmkabkota);
+                            $("#lpjp_kdsatker").empty();
+                             $("#lpjp_kdsatker").append(hasil.lpj[index].kdsatker+" "+hasil.lpj[index].nmsatker);
+                            $("#lpjp_kdkppn").empty();
+                            $("#lpjp_kdkppn").append(hasil.lpj[index].kdkppn+" ("+hasil.lpj[index].nmkppn+")");
+                            $("#lpjp_thang2").empty();
+                            $("#lpjp_thang2").append(hasil.lpj[index].tahun);
+                            if (hasil.lpj[index].kd_buku  == '01') {
+                               
+                                $("#lpjp_sakhir_bku").html("I. Keadaan Pembukuan bulan pelaporan dengan saldo akhir pada BKU sebesar Rp."+numberWithCommas(hasil.lpj[index].sakhir_bku)+" dan Nomor Bukti terakhir Nomor:"+hasil.lpj[index].no_bukti);
+                                $("#lpjp_hak_saldo_awal").html(numberWithCommas(parseInt(hasil.lpj[index].hak_saldo_awal)));
+                                $("#lpjp_hak_terima").html(numberWithCommas(parseInt(hasil.lpj[index].hak_terima)));
+                                var hak_jumlah=parseInt(hasil.lpj[index].hak_saldo_awal)+parseInt(hasil.lpj[index].hak_terima);
+                                 $("#lpjp_hak_jumlah").html(numberWithCommas(hak_jumlah));
+                                $("#lpjp_hak_setor").html(numberWithCommas(parseInt(hasil.lpj[index].setor)));
+                                var hak_akhir=hak_jumlah-parseInt(hasil.lpj[index].setor);
+                                $("#lpjp_hak_akhir").html(numberWithCommas(hak_akhir));
+                                $("#lpjp_setor").html(numberWithCommas(parseInt(hasil.lpj[index].setor)));
+                                $("#lpjp_uakpa").html(numberWithCommas(parseInt(hasil.lpj[index].uakpa)));
+                                var selisih_uakpa=parseInt(hasil.lpj[index].setor)-parseInt(hasil.lpj[index].uakpa);
+                                 $("#lpjp_selisih_uakpa").html(numberWithCommas(selisih_uakpa));
+                                $("#lpjp_ket_selisih_kas").html(hasil.lpj[index].ket_selisih_kas);
+                                 $("#lpjp_ket_selisih_uakpa").html(hasil.lpj[index].ket_selisih_uakpa);
+                                 $("#lpjp_nm_kpa").html(hasil.lpj[index].nm_kpa);
+                                $("#lpjp_nm_bend").html(hasil.lpj[index].nm_bend);
+                                $("#lpjp_nip_kpa").html(hasil.lpj[index].nip_kpa);
+                                $("#lpjp_nip_bend").html(hasil.lpj[index].nip_bend);
+                            }
+                            if ( hasil.lpj[index].kd_buku == '02') {
+                                $("#lpjp_sawal_bpkas").html(numberWithCommas(parseInt(hasil.lpj[index].sawal)));
+                                $("#lpjp_debet_bpkas").html(numberWithCommas(parseInt(hasil.lpj[index].debet)));
+                                $("#lpjp_kredit_bpkas").html(numberWithCommas(parseInt(hasil.lpj[index].kredit)));
+                                $("#lpjp_sakhir_bpkas").html(numberWithCommas(parseInt(hasil.lpj[index].sakhir)));
+                                 $("#lpjp_sakhir_bpkas1").html(numberWithCommas(parseInt(hasil.lpj[index].sakhir)));
+                                $("#lpjp_brankas").html(numberWithCommas(parseInt(hasil.lpj[index].brankas)));
+                                $("#lpjp_rekening_bank").html(numberWithCommas(parseInt(hasil.lpj[index].rekening_bank)));
+                                var jumlah_kas=parseInt(hasil.lpj[index].brankas)+parseInt(hasil.lpj[index].rekening_bank);
+                                $("#lpjp_jumlah_kas").html(numberWithCommas(jumlah_kas));
+                                $("#lpjp_jumlah_kas1").html(numberWithCommas(jumlah_kas));
+                                var selisih_kas=parseInt(hasil.lpj[index].sakhir)-jumlah_kas;                                
+                                $("#lpjp_selisih_kas").html(numberWithCommas(selisih_kas));
+                                
+                            }
+                              if ( hasil.lpj[index].kd_buku == '03') {
+                                $("#lpjp_sawal_pnbp").html(numberWithCommas(parseInt(hasil.lpj[index].sawal)));
+                                $("#lpjp_debet_pnbp").html(numberWithCommas(parseInt(hasil.lpj[index].debet)));
+                                $("#lpjp_kredit_pnbp").html(numberWithCommas(parseInt(hasil.lpj[index].kredit)));
+                                $("#lpjp_sakhir_pnbp").html(numberWithCommas(parseInt(hasil.lpj[index].sakhir)));
+                                
+                            }
+                             if ( hasil.lpj[index].kd_buku == '07') {
+                                $("#lpjp_sawal_lain").html(numberWithCommas(parseInt(hasil.lpj[index].sawal)));
+                                $("#lpjp_debet_lain").html(numberWithCommas(parseInt(hasil.lpj[index].debet)));
+                                $("#lpjp_kredit_lain").html(numberWithCommas(parseInt(hasil.lpj[index].kredit)));
+                                $("#lpjp_sakhir_lain").html(numberWithCommas(parseInt(hasil.lpj[index].sakhir)));
+                                
+                            }
+                        }
+                    }
+                     if (hasil.jumlah_rekening > 0) {
+                        var index;
+                        for (index = 0; index < hasil.jumlah_rekening; ++index) {
+                                
+                            $("#no_countp").append(parseInt(index+1));
+                            $("#no_rekeningp").append(hasil.rekening[index].no_rekening);
+                            $("#nm_rekeningp").append(hasil.rekening[index].nm_rekening);
+                            $("#nm_bankp").append(hasil.rekening[index].nm_bank);
+                            $("#kd_rekeningp").append(hasil.rekening[index].kd_rekening);
+                            $("#no_suratp").append(hasil.rekening[index].no_surat);
+                            $("#tgl_suratp").append(hasil.rekening[index].tgl_surat);
+                            $("#saldop").append(hasil.rekening[index].saldo);
+                            }
+                         
+                    }
+                   $('#myModalP').modal('show');
+                    
+                } else {
+                    alertify.alert(hasil.message);
+                    
+                }
+                   
+                    
+                    
+                }).fail(function(jqXHR, textStatus, errorThrown) 
+            {
+              alertify.alert(textStatus+" : "+errorThrown);
+            });
+            
+        }
+        
+    }
+    function show_tab(id) {
+       
+        if (id == 1) {
+            $("#lpj").hide();
+            $("#data-rekening").show();
+         
+        } else {
+            $("#lpj").show();
+            $("#data-rekening").hide();
+        }
+    }
+    function show_tabp(id) {
+       
+        if (id == 1) {
+            $("#lpjP").hide();
+            $("#data-rekeningP").show();
+         
+        } else {
+            $("#lpjP").show();
+            $("#data-rekeningP").hide();
+        }
+    }
+</script>

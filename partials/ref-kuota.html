@@ -1,0 +1,487 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Referensi Kuota</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form" style="min-height:700px;">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+
+							<div class="form-group">
+								<label class="control-label col-lg-3">Petugas</label>
+								<div class="col-lg-3">
+									<select id="kdpetugas" name="kdpetugas" class="form-control chosen" data-placeholder="Pilih Petugas"></select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-kdpetugas" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Tahun</label>
+								<div class="col-lg-3">
+									<select id="tahun" name="tahun" class="form-control chosen" data-placeholder="Pilih Tahun">
+										<option value="" style="display:none;"></option>
+										<option value="2018">2018</option>
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-kdpetugas" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Total Kuota</label>
+								<div class="col-lg-3">
+									<input type="text" class="form-control val_num" id="kuota" name="kuota" style="text-align:right" maxlength="9">
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-kuota" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Terpakai</label>
+								<div class="col-lg-3">
+									<input type="text" class="form-control val_num" id="terpakai" name="terpakai" style="text-align:right" maxlength="9" readonly>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-terpakai" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Sisa</label>
+								<div class="col-lg-3">
+									<input type="text" class="form-control val_num" id="sisa" name="sisa" style="text-align:right" maxlength="9" readonly>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-sisa" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							</br>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button title="Simpan Data Ini?" id="simpan" type="button" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+									<button title="Batal"  id="batal" type="button" class="btn btn-danger"><i class="fa fa-refresh"></i> Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-primary" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Kode</th>
+								<th>Uraian</th>
+								<th>Tahun</th>
+								<th>Kuota</th>
+								<th>Terpakai</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		//aktivasi chosen
+		jQuery('.chosen').chosen();
+				
+		//ref level user
+		jQuery.get('ref/petugas/dropdown', function(result){
+			jQuery('#kdpetugas').html(result).trigger('chosen:updated');
+		});
+		
+		jQuery('#kdpetugas,#tahun').change(function(){
+			if(jQuery('#kdpetugas').val()!=='' && jQuery('#tahun').val()!==''){
+				cari_kuota(jQuery('#kdpetugas').val(),jQuery('#tahun').val());
+			}
+		});
+		
+		//cari data yang akan di edit berdasarkan id
+		function cari_kuota(param1,param2){
+			jQuery.getJSON('ref/kuota/cari/'+param1+'/'+param2, function(result){
+				if(result) {
+					jQuery('#kuota').val(result.kuota);
+					jQuery('#terpakai').val(result.realisasi);
+					jQuery('#sisa').val(result.sisa);
+				}
+			});
+		}
+		
+		//tampilan default
+		function form_default() {
+			jQuery('.warning, #div-form').hide();
+			jQuery('#div-ppk').hide();
+			jQuery('#div-tabel').show();
+			jQuery('#simpan').prop('disabled', false);
+		}
+		
+		//aktivasi tampilan default
+		form_default();
+		
+		//klik tambah
+		jQuery('#tambah').click(function(){
+			jQuery('#username').prop('disabled',false);
+			jQuery('#inp-rekambaru').val('1');
+			jQuery('#div-form').show();
+			jQuery('#div-tabel').hide();
+		});
+		
+		//data tabel
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "ref/kuota"
+		});
+		
+		//validasi isian form
+		function form_valid(str_id){
+			var arr_id = str_id.split(',');
+			var next = true;
+			for(x = 0; x < arr_id.length; x++){
+				if(jQuery('#'+arr_id[x]).val()==''){
+					jQuery('#warning-'+arr_id[x]).show();
+					next = false;
+				}
+			}
+			return next;
+		}
+		
+		//cari data user yang akan di edit berdasarkan id user
+		function cari_data(id){
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery.getJSON('ref/user/'+id, function(result){
+				if(result) {
+				
+					jQuery('#inp-id').val(id);
+					jQuery('#inp-rekambaru').val('0');
+					jQuery('#username').val(result.username);
+					jQuery('#nama').val(result.nama);
+					jQuery('#nip').val(result.nip);
+					jQuery('#telp').val(result.telp);
+					jQuery('#alamat').val(result.alamat);
+					jQuery('#email').val(result.email);
+					jQuery('#kdlevel').val(result.kdlevel);
+					jQuery('#kdppk').val(result.kdppk);
+					
+					console.log(result.kdppk);
+					
+					jQuery('.chosen').trigger('chosen:updated');
+					jQuery('#username').prop('disabled', true);
+					jQuery('#div-form').show();
+					
+					if(result.kdlevel=='06'){
+						jQuery('#div-ppk').show();
+					}
+					else{
+						jQuery('#div-ppk').hide();
+					}
+				}
+			});
+		}
+		
+		//klik ubah
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var id = this.id;
+			cari_data(id);
+			jQuery('#div-tabel').hide();
+			jQuery('#inp-id').val(id);
+			jQuery('#inp-rekambaru').val('0');
+		});
+		
+		//filter berdasarkan kewenangan
+		jQuery('#kdlevel').change(function(){
+			var level = jQuery(this).val();
+			if(level=='06'){
+				jQuery('#div-ppk').show();
+			}
+			else{
+				jQuery('#div-ppk').hide();
+			}
+		});
+		
+		//klik batal
+		jQuery('#batal').click(function(){
+			jQuery('#div-form, #div-deputi, #div-asdeputi').hide();
+			jQuery('#div-tabel').show();
+			jQuery('input').val('');
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery('#simpan').html('<span class=""><i class="fa fa-save"></i> Simpan</span>');
+			jQuery('#simpan').prop('disabled',false);
+		});
+		
+		//klik simpan
+		jQuery('#simpan').click(function(){
+			jQuery(this).html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+			jQuery(this).prop('disabled',true);
+			var next = form_valid('kdpetugas,tahun,kuota,terpakai,sisa');
+			if(next==true){
+				jQuery.get('token', function(token){
+					if(token){
+						jQuery('#_token').val(token);
+						var data = jQuery('#form-ruh').serialize();
+						jQuery.ajax({
+							url: 'ref/kuota',
+							method: 'POST',
+							data: data,
+							success: function(result){
+								if(result=='success') {
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log('Proses simpan berhasil');
+									form_default();
+									table.ajax.reload();
+								} else {
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log(result);
+								} 
+							},
+							error: function(result){
+								jQuery('#simpan').html('Simpan');
+								jQuery('#simpan').prop('disabled',false);
+								alertify.log('Data tidak dapat disimpan. Koneksi pada aplikasi/database terputus atau data sudah pernah direkam atau format data salah. Hubungi Administrator.');
+							}
+						});
+					} 
+					else{
+						jQuery('#simpan').html('Simpan');
+						jQuery('#simpan').prop('disabled',false);
+						alertify.log('Sesi telah habis, silahkan refresh browser Anda!');
+					}
+				});
+			}
+			else{
+				jQuery('#simpan').html('Simpan');
+				jQuery('#simpan').prop('disabled',false);
+				alertify.log('Data tidak dapat dikosongkan!');
+			}
+		});
+		
+		//hapus
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var id = this.id;
+			alertify.confirm('Hapus data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'ref/user',
+								method:'DELETE',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses hapus berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+								}
+							});
+						} else {
+							alertify.log('Proses hapus gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+		
+		//reset
+		jQuery('body').off('click', '.reset').on('click', '.reset', function(){
+			var id = this.id;
+			alertify.confirm('Reset data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'ref/user/reset',
+								method:'PUT',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses reset berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+								}
+							});
+						} else {
+							alertify.log('Proses reset gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+		
+		jQuery('body').off('click', '.aktif').on('click', '.aktif', function(){
+			var id = this.id;
+			alertify.confirm('Aktifkan data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'ref/user/aktif',
+								method:'PUT',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses ubah berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+								}
+							});
+						} else {
+							alertify.log('Proses ubah gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+		
+		jQuery('body').off('click', '.non-aktif').on('click', '.non-aktif', function(){
+			var id = this.id;
+			alertify.confirm('Non-aktifkan data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'ref/user/non-aktif',
+								method:'PUT',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses ubah berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+								}
+							});
+						} else {
+							alertify.log('Proses ubah gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+		
+		jQuery('body').off('click', '.lihat').on('click', '.lihat', function(){
+			jQuery('#view-modal').modal();
+			var id = this.id;
+			jQuery.getJSON('view/user/'+id, function(response){
+				jQuery('.trcontent').remove();
+				jQuery.each(response, function(key, value){
+					jQuery('#content-view').append(
+						'<tr class="trcontent">'+
+							'<td class="col-md-3" style="text-align:right;">'+key+'</td>'+
+							'<td class="col-md-6">'+value+'</td>'+
+						'</tr>'
+					);
+				});
+			});
+		});
+		
+	});
+	
+</script>

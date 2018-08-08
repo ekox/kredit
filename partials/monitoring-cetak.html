@@ -1,0 +1,256 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1 data-toggle="collapse" data-target="#demo" ><i class="fa fa-list"></i > Laporan Lainnya</h1>
+	<i id="demo" class="collapse" > 
+		Referensi Satker adalah Referensi Yang berisi Data Satuan Kerja Kementerian / Lembaga Negara, 
+		Silahkan Gunakan Fitur Pencarian "Cari" berdasarkan Kode Satker Maupun Nama Satker
+	</i>
+</section>
+
+<!-- Main content -->
+<section class="content" style="color:blue" >
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-print"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jenis Laporan</label>
+								<div class="col-lg-6">
+									<select id="laporan" name="laporan" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-laporan" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group" id="div-periode">
+								<label class="control-label col-lg-3">Periode</label>
+								<div class="col-lg-6">
+									<select id="periode" name="periode" class="form-control chosen" placeholder="Pilih Data">
+										<option value="" style="display:none;">Pilih Periode</option>
+										<option value="01">JANUARI</option>
+										<option value="02">FEBRUARI</option>
+										<option value="03">MARET</option>
+										<option value="04">APRIL</option>
+										<option value="05">MEI</option>
+										<option value="06">JUNI</option>
+										<option value="07">JULI</option>
+										<option value="08">AGUSTUS</option>
+										<option value="09">SEPTEMBER</option>
+										<option value="10">OKTOBER</option>
+										<option value="11">NOPEMBER</option>
+										<option value="12">DESEMBER</option>
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-periode" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group" id="div-jnsspm">
+								<label class="control-label col-lg-3">Jenis SPM</label>
+								<div class="col-lg-6">
+									<select id="jnsspm" name="jnsspm" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-jnsspm" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group" id="div-nippk">
+								<label class="control-label col-lg-3">NIP PPK</label>
+								<div class="col-lg-6">
+									<select id="nippk" name="nippk" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-nippk" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group" id="div-tgl1">
+								<label class="control-label col-lg-3">Tgl.Surat Permohonan</label>
+								<div class="col-lg-2">
+									<input type="text" id="tgl1" name="tgl1" class="form-control dp">
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-tgl1" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group" id="div-tgl2">
+								<label class="control-label col-lg-3">Tgl.Surat Permohonan</label>
+								<div class="col-lg-2">
+									<input type="text" id="tgl2" name="tgl2" class="form-control dp">
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-tgl2" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button title="Cetak" id="btn-cetak" class="btn btn-primary"><i class="fa fa-print"></i>Cetak</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		var idlap = '';
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		jQuery.get('dropdown/jenis-laporan', function(result){
+			if(result){
+				jQuery('#laporan').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery('#tgl1').datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose:true
+		});
+		jQuery('#tgl2').datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose:true
+		});
+				
+		function form_default() {
+			jQuery('#inp-rekambaru').val(0);
+			jQuery.get('token', function(token){
+				jQuery('#_token').val(token)
+			});
+			jQuery('.warning, #div-periode, #div-jnsspm, #div-nippk,#div-tgl1, #div-tgl2 ').hide();
+			jQuery('#div-form').show();
+			jQuery('#kdsatker,#nmsatker').val('').prop('readonly', false);
+			jQuery('#kddept').removeAttr('disabled');
+			jQuery('#kdunit').removeAttr('disabled');
+			jQuery('#kdkppn').removeAttr('disabled');
+			jQuery('#kdlokasi').removeAttr('disabled');
+			jQuery('#kdkabkota').removeAttr('disabled');
+		}
+		
+		function validasi_form(arr_param) {
+			var lanjut = true;
+			var arr_id = arr_param.split(",");
+			for(i=0; i<arr_id.length; i++) {
+				if(jQuery('#'+arr_id[i]).val() == null || jQuery('#'+arr_id[i]).val() == '') {
+					jQuery('#warning-'+arr_id[i]).show();
+					lanjut = false;
+				} else {
+					jQuery('#warning-'+arr_id[i]).hide();
+					lanjut = true;
+				} 
+			}
+			return lanjut;
+		}
+		
+		form_default();
+		
+		
+		
+		jQuery('#laporan').change(function(){
+			form_default();
+			idlap = jQuery('#laporan').val();
+			if (idlap == '4' || idlap == '9'){
+				jQuery('#div-periode').show();
+				jQuery.get('dropdown/jenspm', function(result){
+					if(result){
+						jQuery('#jnsspm').html(result).trigger('chosen:updated');
+						jQuery('#div-jnsspm').show();
+					}
+				});
+			}else if(idlap == '5'){
+				jQuery('#div-periode').show();
+				jQuery.get('dropdown/ppk', function(result){
+					if(result){
+						jQuery('#nippk').html(result).trigger('chosen:updated');
+						jQuery('#div-nippk').show();
+					}
+				});
+			}else if(idlap == '6'){
+				jQuery.get('dropdown/ppk', function(result){
+					if(result){
+						jQuery('#nippk').html(result).trigger('chosen:updated');
+						jQuery('#div-nippk').show();
+					}
+				});
+				jQuery.get('dropdown/jenspm', function(result){
+					if(result){
+						jQuery('#jnsspm').html(result).trigger('chosen:updated');
+						jQuery('#div-jnsspm').show();
+					}
+				});
+			}else if(idlap == '7'){
+				jQuery('#div-tgl1, #div-tgl2').show();	
+			}else if(idlap == '10'){
+				jQuery('#div-periode').show();	
+			}			
+		});
+		
+		
+		jQuery('#btn-cetak').click(function(){
+			if(idlap=='1'){
+				window.open('laporan/jenis_belanja','_blank');
+			}else if(idlap=='2'){
+				window.open('laporan/rekap_pagu','_blank');
+			}else if(idlap=='3'){
+				window.open('laporan/realisasi_per_output_akun','_blank');
+			}else if(idlap=='4'){
+				var temp1=jQuery('#periode').val();
+				var temp2='0'+jQuery('#jnsspm').val();
+				window.open('laporan/daftar_spm_per_jenis/'+temp1+'/'+temp2,'_blank');
+			}else if(idlap=='5'){
+				var temp1=jQuery('#periode').val();
+				var temp2=jQuery('#nippk').val();
+				window.open('laporan/daftar_spm_per_ppk/'+temp1+'/'+temp2,'_blank');
+			}else if(idlap=='6'){
+				var temp1=jQuery('#jnsspm').val();
+				var temp2=jQuery('#nippk').val();
+				window.open('laporan/daftar_spm_per_jenis_ppk/'+temp1+'/'+temp2,'_blank');
+			}else if(idlap=='7'){
+				var temp1=jQuery('#tgl1').val().replace(/-/g, '');
+				var temp2=jQuery('#tgl2').val().replace(/-/g, '');
+				window.open('laporan/daftar_spm_per_tgl_range/'+temp1+'/'+temp2,'_blank');
+			}else if(idlap=='8'){
+				window.open('laporan/daftar_spm','_blank');
+			}else if(idlap=='9'){
+				var temp1=jQuery('#periode').val();
+				var temp2='0'+jQuery('#jnsspm').val();
+				window.open('laporan/daftar_gup_per_jenis/'+temp1+'/'+temp2,'_blank');
+			}else if(idlap=='10'){
+				var temp1=jQuery('#periode').val();
+				window.open('spp/laporan_verifikasi/'+temp1,'_blank');
+			}
+			
+		});
+		
+	});
+
+</script>
+

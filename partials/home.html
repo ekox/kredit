@@ -1,0 +1,129 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-home"></i> Beranda</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row">
+		
+		<div class="col-lg-3">
+			<!-- small box -->
+			<div class="small-box bg-primary">
+				<div class="inner">
+					<h3 id="div-kuitansi">
+						0
+					</h3>
+					<p>
+						SPP
+					</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-pencil"></i>
+				</div>
+				<a href="#" class="small-box-footer">
+					Pengajuan SPP dari PPK
+				</a>
+			</div>
+		</div><!-- ./col -->
+		
+		<div class="col-lg-3">
+			<!-- small box -->
+			<div class="small-box bg-red">
+				<div class="inner">
+					<h3 id="div-drpp">
+						0
+					</h3>
+					<p>
+						SPP Verifikasi
+					</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<a href="#" class="small-box-footer">
+					Verifikasi SPP oleh PPSPM
+				</a>
+			</div>
+		</div><!-- ./col -->
+		
+		<div class="col-lg-3">
+			<!-- small box -->
+			<div class="small-box bg-yellow">
+				<div class="inner">
+					<h3 id="div-spm">
+						0
+					</h3>
+					<p>
+						SPM
+					</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-upload"></i>
+				</div>
+				<a href="#" class="small-box-footer">
+					Proses SPM
+				</a>
+			</div>
+		</div><!-- ./col -->
+		
+		<div class="col-lg-3">
+			<!-- small box -->
+			<div class="small-box bg-green">
+				<div class="inner">
+					<h3 id="div-sp2d">
+						0
+					</h3>
+					<p>
+						SP2D
+					</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-download"></i>
+				</div>
+				<a href="#" class="small-box-footer">
+					SP2D
+				</a>
+			</div>
+		</div><!-- ./col -->
+		
+	</div>
+	
+	<div class="row">
+		
+		<div class="col-lg-12">
+			<div id="grafik1"></div>
+		</div>
+		
+	</div>
+	<br>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.get('home/realisasi1', function(result){
+			if(result){
+				jQuery('#grafik1').html(result);
+			}
+		});
+		
+		jQuery.getJSON('home/status', function(result){
+			if(result.jml1){
+				jQuery('#div-kuitansi').html(result.jml1);
+				jQuery('#div-drpp').html(result.jml2);
+				jQuery('#div-spm').html(result.jml3);
+				jQuery('#div-sp2d').html(result.jml4);
+			}
+		});
+		
+	});
+</script>

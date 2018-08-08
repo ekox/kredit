@@ -1,0 +1,404 @@
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-group"></i> Kegiatan/ SK Tim</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="inp-jmlpst" name="inp-jmlpst">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nomor SK</label>
+								<div class="col-lg-7">
+									<input type="text" id="nosk" name="nosk" class="form-control">
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-nosk" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Tanggal SK</label>
+								<div class="col-lg-7">
+									<input type="text" id="tgsk" name="tgsk" class="form-control">
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-tgsk" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Uraian</label>
+								<div class="col-lg-7">
+									<textarea id="ket" name="ket" class="form-control"></textarea>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-ket" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div id="container">
+								<div class="form-group">
+									<label class="control-label col-lg-3"></label>
+									<div class="col-lg-5">
+										<a  id="addRow" class="btn btn-info btn-sm">tambah peserta<i class="fa fa-plus"></i> </p></a>
+										<a  id="substractRow" class="btn btn-warning btn-sm">hapus peserta<i class="fa fa-minus"></i> </p></a>
+									</div>
+								</div>
+							</div>			
+							</br>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-5">
+									<button title="Simpan Data Ini?" id="simpan" type="button" class="btn btn-primary">Simpan</button>
+									<button title="Batal"  id="batal" type="button" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->						
+						
+					</form>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="display:none;">
+						<button title="Tambah Data" type="button" class="btn btn-primary" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead style="background-color:#99CCFF;">
+							<tr>
+								<th>No</th>
+								<th>No.SK</th>
+								<th>Tgl.SK</th>
+								<th>Ket</th>
+								<th>Jumlah</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel1">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right">
+						<button title="Batal Tambah" type="button" class="btn btn-primary" id="batal-tambah"><i class="fa fa-times"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<ul id="ul-xxx"></ul>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery('#div-tambah').show();
+		
+		jQuery('.chosen').chosen();
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		/* function tabel1(param){
+			jQuery.get('pagu/breakdown-split/'+param, function(result){
+				jQuery('#ul-'+param).html(result);
+			});			
+		} */
+		
+		jQuery.get('dropdown/ppk', function(result){
+			if(result){
+				jQuery('#nipppk').html(result).trigger('chosen:updated');
+			}
+		});
+		
+		//init datepicker
+		jQuery('#tgsk').datepicker({
+			format: 'yyyy-mm-dd',
+			autoclose:true
+		});
+		
+		var rowx=0;
+		
+		var table = jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "kegiatan/sk"
+		});
+		
+		
+		function form_valid(str_id){
+			var arr_id=str_id.split(',');
+			var lanjut=true;
+			for(x=0;x<arr_id.length;x++){
+			jQuery('#warning-'+arr_id[x]).hide();
+				if(jQuery('#'+arr_id[x]).val()==''){
+					jQuery('#warning-'+arr_id[x]).show();
+					lanjut=false;
+				}
+			}
+			return lanjut;
+		} 
+		
+		function form_default(){
+			jQuery('input,textarea').val('');
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery('.chosen').prop('disabled',false).trigger('chosen:updated');
+			jQuery('#div-form,.warning,#div-tabel1').hide();
+			jQuery('#div-tabel').show();
+			jQuery('#username').prop('disabled', false);
+			jQuery('#div-bank,#div-pemda,#div-kanwil,#div-penjamin,#div-kl').hide();
+			rowx=0;
+			jQuery('#inp-jmlpst').val('');
+			jQuery('#nosk').prop('readonly',false);
+			jQuery('#tgsk').prop('readonly',false);
+			var n=$('.peserta').length;
+			if(n>0){
+				for(i=1; i<=n;i++){
+					jQuery('#peserta-'+i).remove();
+				}
+			}
+		}
+		
+		form_default();
+		
+		jQuery('#tambah').click(function(){
+			jQuery('#inp-rekambaru').val('1');
+			jQuery('#div-tabel,#div-tabel1').hide();
+			jQuery('#div-form').fadeIn();
+		});
+		
+		jQuery('#batal,#batal-tambah').click(function(){
+			form_default();
+		});
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var id=this.id;
+			cari_sk(id);
+			jQuery('#div-tabel,#div-tabel1').hide();
+			jQuery('#div-form').fadeIn();
+			jQuery('#inp-rekambaru').val('0');
+			jQuery('#inp-id').val(id);
+		});
+		
+		jQuery('#simpan').click(function(){
+			jQuery('#simpan').html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+			jQuery('#simpan').prop('disabled',true);
+			var lanjut = form_valid('nosk,tgsk,ket');
+		
+			if(lanjut==true) {
+				jQuery.get('token', function(token) {
+					if(token) {
+						jQuery('#_token').val(token);
+						var data = jQuery('#form-ruh').serialize();
+						if(jQuery('#inp-rekambaru').val()=='1') {
+							jQuery.ajax({
+								url:'kegiatan/sk/rekam',
+								method:'POST',
+								data:data,
+								success:function(result){
+									if(result=='success') {
+										jQuery('#simpan').html('Simpan');
+										jQuery('#simpan').prop('disabled',false);
+										alertify.log('Proses simpan berhasil');
+										form_default();
+										table.ajax.reload();
+									} else {
+										jQuery('#simpan').html('Simpan');
+										jQuery('#simpan').prop('disabled',false);
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log('Data tidak dapat disimpan. Koneksi pada aplikasi/database terputus atau data sudah pernah direkam atau format data salah. Hubungi Administrator.');
+								}
+							})
+						} else {
+							jQuery.ajax({
+								url:'kegiatan/sk/ubah',
+								method:'PUT',
+								data:data,
+								success:function(result){
+									if(result=='success') {
+										jQuery('#simpan').html('Simpan');
+										jQuery('#simpan').prop('disabled',false);
+										alertify.log('Proses simpan berhasil.');
+										form_default();
+										table.ajax.reload();
+									} else {
+										jQuery('#simpan').html('Simpan');
+										jQuery('#simpan').prop('disabled',false);
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log('Data tidak dapat disimpan. Koneksi pada aplikasi/database terputus atau data sudah pernah direkam atau format data salah. Hubungi Administrator.');
+								}
+							})
+						} 
+					} else {
+						jQuery('#simpan').html('Simpan');
+						jQuery('#simpan').prop('disabled',false);
+						alertify.log('Proses simpan gagal. Silahkan refresh halaman browser anda.');
+					} 
+				});
+			} else {
+				jQuery('#simpan').html('Simpan');
+				jQuery('#simpan').prop('disabled',false);
+				alertify.log('Kolom tidak boleh dikosongkan!');
+			} 
+		});
+		
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var id = this.id;
+			alertify.confirm('Hapus data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'kegiatan/sk/hapus',
+								method:'DELETE',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses hapus berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+								}
+							});
+						} else {
+							alertify.log('Proses hapus gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+		
+		jQuery('body').off('click', '.breakdown').on('click', '.breakdown', function(){
+			var param=this.id;
+			tabel1(param);
+		});
+		
+		function getHtml(i)
+		{
+			var html='<div class="form-group" id="peserta-'+i+'">'+
+						'<label class="control-label col-lg-3">Peserta-'+i+'</label>'+
+						'<div class="col-lg-9"><div class=row"><div class="col-lg-4" ><input type="text" id="nip-'+i+'" name="nip-'+i+'" placeholder="NIP">'+
+						'<input type="number" id="honor-'+i+'" name="honor-'+i+'" placeholder="Honor"></div><div class="col-lg-4" ><input type="text" id="jabatan-'+i+'" name="jabatan-'+i+'" placeholder="Jabatan"></div>'+
+						'<div class="col-lg-4 peserta" ><input type="text" id="ket-'+i+'" name="ket-'+i+'" placeholder="Keterangan"></div></div></div></div>';
+			return html;	
+		}
+		
+		
+		jQuery('#addRow').click(function(){
+			if(rowx>=0){
+				rowx++;
+				jQuery('#inp-jmlpst').val(rowx);				
+				$(getHtml(rowx)).appendTo('#container');
+			}
+		});
+		
+		jQuery('#substractRow').click(function(){
+			if(rowx>0){
+				jQuery('#peserta-'+rowx).remove();
+				rowx--;
+				jQuery('#inp-jmlpst').val(rowx);
+			}
+		});
+		
+		function cari_sk(id){
+			jQuery.getJSON('kegiatan/sk/'+id, function(result){
+				if(result) {
+					jQuery('#nosk').val(result[0].nosk);
+					jQuery('#nosk').prop('readonly',true);
+					jQuery('#tgsk').val(result[0].tgsk);
+					jQuery('#tgsk').prop('readonly',true);
+					jQuery('#ket').val(result[0].ket);
+					if(result.length==0)jQuery('#inp-jmlpst').val('');
+					else jQuery('#inp-jmlpst').val(result.length);
+					rowx=1;
+					result.forEach(function(item){
+						$(getHtml(rowx)).appendTo('#container');
+						jQuery('#nip-'+rowx).val(item.nip);
+						jQuery('#jabatan-'+rowx).val(item.jabatan);
+						jQuery('#honor-'+rowx).val(item.honor);
+						jQuery('#ket-'+rowx).val(item.ket_detil);
+						rowx++;
+					});
+				}
+			});
+		}
+		
+	});
+</script>

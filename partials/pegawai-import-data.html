@@ -1,0 +1,170 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Import Data Pegawai</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Upload File</label>
+								<div class="col-lg-3">
+									<input type="file" class="form-control" id="uploadfile" name="uploadfile" />
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Import data pegawai?" type="button" class="btn btn-warning" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Nama File</th>
+								<th>Status</th>
+								<th>Tgl. Upload</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		var table = jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			//~ aoColumnDefs: [{ "bSortable": false, "aTargets": [ 7, 8 ] }],
+			bServerSide: true,
+			sAjaxSource: "pegawai/tabel-file"
+		});
+		
+		function form_default() {
+			jQuery('#div-form').hide();
+			jQuery('#div-tabel').show();
+			//~ table.ajax.url('pegawai/tabel-file').load();
+		}
+		
+		function uploading() {
+			jQuery('#div-form').show();
+			jQuery('#div-tabel').hide();
+			jQuery.get('token', function(result){
+				jQuery('#_token').val(result);
+				var token = jQuery('#_token').val();
+				jQuery("#uploadfile").pekeUpload({
+					theme:'bootstrap',
+					//~ allowedExtensions:"TXT",
+					url : 'pegawai/import-data?_token='+token,
+					multi : 'false',
+					showErrorAlerts:'true',
+					onFileError:function(file,error){
+						alertify.log(error);
+					},
+					onFileSuccess:function(file,data){
+						table.ajax.url('pegawai/tabel-file').load();
+						form_default();
+						alertify.log("file "+file.name+" : berhasil di upload");
+					}
+				});
+			});
+		}
+		
+		form_default();
+		
+		jQuery('#tambah').click(function(){
+			jQuery('#div-form').show();
+			jQuery('#div-tabel').hide();
+			uploading();
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.hapus').on('click', '.hapus', function(){
+			var id = this.id;
+			alertify.confirm('Hapus file ini?', function(c) {
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token){
+							jQuery.ajax({
+								url: 'pegawai/delete-file',
+								method: 'DELETE',
+								data: {
+									_token:token, id:id
+								},
+								success: function(result){
+									alertify.log('File sudah dihapus dari database');
+									form_default();
+									table.ajax.reload();
+								}
+							});
+						} 
+					});
+				}
+			});
+		});
+		
+	});
+
+</script>

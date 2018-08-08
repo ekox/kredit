@@ -1,0 +1,171 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-money"></i> Pagu Updated</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+						
+							<div id="div-kode"></div>
+
+							<div class="form-group" id="div-kanwil">
+								<label class="control-label col-lg-3">Kanwil</label>
+								<div class="col-lg-5">
+									<select id="kdkanwil" name="kdkanwil" class="form-control chosen" data-placeholder="Pilih Kanwil"></select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-kdkanwil" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+
+							<div class="form-group" id="div-satker">
+								<label class="control-label col-lg-3">Kode Satker</label>
+								<div class="col-lg-6">
+									<select id="kdsatker" name="kdsatker" class="form-control chosen" data-placeholder="Pilih Satker"></select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-kdsatker" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							</br>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button title="Simpan Data Ini?" id="simpan" type="button" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+									<button title="Batal"  id="batal" type="button" class="btn btn-danger"><i class="fa fa-refresh"></i> Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<ul id="ul-xxx"></ul>
+					<!--<table id="tabel-ruh" class="table table-hover table-bordered">
+						<thead>
+							<tr>
+								<th>Kode</th>
+								<th>Uraian</th>
+								<th>Jumlah</th>
+							</tr>
+						</thead>
+						<tbody id="tabel-ruh-body">
+						</tbody>
+					</table>-->
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		//tampilan default
+		function form_default() {
+			jQuery('#div-tabel').show();
+		}
+		
+		//aktivasi tampilan default
+		form_default();
+		
+		//tabel generator
+		/*function tabel(param){
+			jQuery.get('pagu/breakdown/'+param, function(result){
+				jQuery('#tabel-ruh-body').html(result);
+			});
+		}*/
+		
+		function tabel(param){
+			jQuery.get('pagu/breakdown/'+param, function(result){
+				jQuery('#ul-'+param).html(result);
+			});
+			/*jQuery.getJSON('pagu/breakdown/'+param, function(result){
+				if(param=='xxx'){
+					jQuery.each(result, function(i, field){
+						jQuery('#tabel-ruh-body').append(
+							'<tr>'+
+								'<td id="td-kode-'+field.kode+'" style="text-align:right;">'+field.kode+'</td>'+
+								'<td id="td-uraian-'+field.kode+'"><a id="'+field.kode+'" href="javascript:;" class="breakdown">'+field.uraian+'</a></td>'+
+								'<td id="td-jumlah-'+field.kode+'" style="text-align:right;">'+field.jumlah+'</td>'+
+							'</tr>'
+						);
+					});
+				}
+				else{
+					var param1=param.split('-');
+					jQuery.each(result, function(i, field){
+						var arr_kode=field.kode.split('-');
+						var kode1=arr_kode[arr_kode.length-1];
+						jQuery('#td-kode-'+param1[0]).append('<br>'+kode1);
+						jQuery('#td-uraian-'+param1[0]).append('<br><a id="'+field.kode+'" href="javascript:;" class="breakdown">'+field.uraian+'</a>');
+						jQuery('#td-jumlah-'+param1[0]).append('<br>'+field.jumlah);
+					});
+				}
+			});*/
+		}
+		
+		//panggil tabel
+		tabel('xxx');
+		
+		jQuery('body').off('click', '.breakdown').on('click', '.breakdown', function(){
+			var param=this.id;
+			tabel(param);
+		});
+		
+		jQuery('body').off('click', '.pilih').on('click', '.pilih', function(){
+			var param=this.id;
+			var arr_data=param.split('-');
+			var form  = '<div class="form-group">'+
+							'<label class="control-label col-lg-3">Kode</label>';
+			
+			for(i=0;i<arr_data.length;i++){
+				form += '<div class="col-lg-1"><input type="text" class="form-control" value="'+arr_data[i]+'" disabled/></div>';
+			}
+			
+			form += '<div>';
+			
+			jQuery('#div-kode').html(form);
+		
+		});
+		
+	});
+</script>

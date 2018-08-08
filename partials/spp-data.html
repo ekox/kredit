@@ -1,0 +1,1079 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-table"></i> Data SPP</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">No.SPP</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="nospp" name="nospp" readonly>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-nospp" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Tanggal</label>
+								<div class="col-lg-3">
+									<input id="tanggal" name="tanggal" class="form-control datepicker">
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-tanggal" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Status</label>
+								<div class="col-lg-5">
+									<select id="status" name="status" class="form-control chosen"></select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-status" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Keterangan</label>
+								<div class="col-lg-5">
+									<textarea class="form-control" id="ket" name="ket"></textarea>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-ket" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button type="button" id="simpan" class="btn btn-primary">Simpan</button>
+									<button type="button" id="batal" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<div class="row" id="div-form1">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form Tanda Terima</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh1" name="form-ruh1" class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama PPK</label>
+								<div class="col-lg-5">
+									<input class="form-control" id="nmppk1" name="nmppk1" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">No.SPP</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="nospp1" name="nospp1" readonly>
+								</div>
+								<div class="col-lg-2">
+									<input class="form-control" id="tgspp1" name="tgspp1" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nilai SPP</label>
+								<div class="col-lg-3">
+									<input class="form-control" id="totnilmak" name="totnilmak" readonly style="text-align:right;">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jenis SPP</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="kdjenspm" name="kdjenspm" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jenis SPP (Detil)</label>
+								<div class="col-lg-3">
+									<select id="kdspp" name="kdspp" class="form-control chosen" data-placeholder="Pilih Jenis SPP"></select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kdspp" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Uraian SPP</label>
+								<div class="col-lg-6">
+									<textarea class="form-control" id="urspp" name="urspp" readonly></textarea>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-urspp" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Penerimaan Ke</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="uploadke" name="uploadke" readonly>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-uploadke" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nomor Terima</label>
+								<div class="col-lg-5">
+									<input class="form-control" id="noterima" name="noterima">
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-noterima" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Tanggal Terima</label>
+								<div class="col-lg-3">
+									<input id="tgterima" name="tgterima" class="form-control datepicker">
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-tgterima" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Keterangan</label>
+								<div class="col-lg-5">
+									<textarea class="form-control" id="ket1" name="ket1"></textarea>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-ket1" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kelengkapan</label>
+								<div class="col-lg-7" id="div-kelengkapan">
+									
+								</div>
+							</div>
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-6">
+									<button type="button" id="terima" class="btn btn-primary">Terima</button>
+									<!--<button type="button" id="tolak" class="btn btn-warning">Tolak</button>-->
+									<button type="button" id="batal1" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<div class="row" id="div-form2">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form Verifikasi</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh2" name="form-ruh2" class="form-horizontal">
+						<input type="hidden" id="x" name="x">
+						<input type="hidden" id="inp-akun" name="inp-akun">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama PPK</label>
+								<div class="col-lg-5">
+									<input class="form-control" id="nmppk2" name="nmppk2" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">No.SPP</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="nospp2" name="nospp2" readonly>
+								</div>
+								<div class="col-lg-2">
+									<input class="form-control" id="tgspp2" name="tgspp2" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jenis SPP</label>
+								<div class="col-lg-3">
+									<input class="form-control" id="nmspp" name="nmspp" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nilai SPP</label>
+								<div class="col-lg-3">
+									<input class="form-control" id="totnilmak1" name="totnilmak1" readonly style="text-align:right;">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Uraian SPP</label>
+								<div class="col-lg-6">
+									<textarea class="form-control" id="urspp2" name="urspp2" readonly></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Verifikasi Ke</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="uploadke2" name="uploadke2" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kelengkapan</label>
+								<div class="col-lg-7" id="div-kelengkapan1">
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Hasil Verifikasi</label>
+								<div class="col-lg-9">
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th>Jenis</th>
+												<th>Akun</th>
+												<th>Catatan</th>
+												<th>Aksi</th>
+											</tr>
+										</thead>
+										<tbody id="tabel-verifikasi">
+											
+										</tbody>
+									</table><br>
+									<div class="pull-right"><a href="javascript:;" id="tambah-detil" class="btn btn-success">Tambah</a></div>
+								</div>
+							</div>
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-6">
+									<button type="button" id="terima2" class="btn btn-primary">Terima</button>
+									<!--<button type="button" id="tolak2" class="btn btn-warning">Tolak</button>-->
+									<button type="button" id="batal2" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<div class="row" id="div-form3">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form Verifikasi (Lanjutan)</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh3" name="form-ruh3" class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama PPK</label>
+								<div class="col-lg-5">
+									<input class="form-control" id="nmppk3" name="nmppk3" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">No.SPP</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="nospp3" name="nospp3" readonly>
+								</div>
+								<div class="col-lg-2">
+									<input class="form-control" id="tgspp3" name="tgspp3" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jenis SPP</label>
+								<div class="col-lg-3">
+									<input class="form-control" id="nmspp3" name="nmspp3" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nilai SPP</label>
+								<div class="col-lg-3">
+									<input class="form-control" id="totnilmak2" name="totnilmak2" readonly style="text-align:right;">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Uraian SPP</label>
+								<div class="col-lg-6">
+									<textarea class="form-control" id="urspp3" name="urspp3" readonly></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Upload Ke</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="uploadke3" name="uploadke3" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kelengkapan</label>
+								<div class="col-lg-7" id="div-kelengkapan3">
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Hasil Verifikasi</label>
+								<div class="col-lg-9" id="div-verifikasi">
+									
+								</div>
+							</div>
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-6">
+									<button type="button" id="simpan3" class="btn btn-primary">Ajukan Kembali</button>
+									<button type="button" id="batal3" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<div class="row" id="div-form4">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form Persetujuan</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh4" name="form-ruh4" class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama PPK</label>
+								<div class="col-lg-5">
+									<input class="form-control" id="nmppk4" name="nmppk4" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">No.SPP</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="nospp4" name="nospp4" readonly>
+								</div>
+								<div class="col-lg-2">
+									<input class="form-control" id="tgspp4" name="tgspp4" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jenis SPP</label>
+								<div class="col-lg-3">
+									<input class="form-control" id="nmspp4" name="nmspp4" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nilai SPP</label>
+								<div class="col-lg-3">
+									<input class="form-control" id="totnilmak3" name="totnilmak3" readonly style="text-align:right;">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Uraian SPP</label>
+								<div class="col-lg-6">
+									<textarea class="form-control" id="urspp4" name="urspp4" readonly></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Persetujuan Ke</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="uploadke4" name="uploadke4" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kelengkapan</label>
+								<div class="col-lg-7" id="div-kelengkapan4">
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Hasil Verifikasi</label>
+								<div class="col-lg-7" id="div-verifikasi4">
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Keterangan</label>
+								<div class="col-lg-5">
+									<textarea class="form-control" id="ket4" name="ket4"></textarea>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-ket4" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-6">
+									<button type="button" id="terima4" class="btn btn-primary">Terima</button>
+									<button type="button" id="tolak4" class="btn btn-warning">Tolak</button>
+									<button type="button" id="batal4" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Nama PPK</th>
+								<th>Jenis</th>
+								<th>Nilai</th>
+								<th>SPP</th>
+								<th>SPM</th>
+								<th>SP2D</th>
+								<th>Status</th>
+								<th>Ket</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+</section>
+<script>
+	jQuery(document).ready(function(){
+	
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		jQuery('.chosen').chosen();
+		
+		jQuery('#tanggal,#tgterima').datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose:true
+		});
+		
+		jQuery.get('spp/status', function(result){
+			jQuery('#status').html(result).trigger('chosen:updated');
+		});
+		
+		jQuery.get('dropdown/jenspp', function(result){
+			jQuery('#kdspp').html(result).trigger('chosen:updated');
+		});
+		
+		jQuery('#kdspp').change(function(){
+			var kdspp = jQuery(this).val();
+			jQuery.getJSON('spp/kelengkapan/'+kdspp, function(result){
+				if(result.kelengkapan){
+					jQuery('#div-kelengkapan').html(result.kelengkapan);
+				}
+				else{
+					alertify.log(result.error);
+				}
+			});
+		});
+		
+		jQuery('.warning').hide();
+		
+		function form_valid(str_id){
+			var arr_id = str_id.split(',');
+			var next = true;
+			for(x = 0; x < arr_id.length; x++){
+				if(jQuery('#'+arr_id[x]).val()==''){
+					jQuery('#warning-'+arr_id[x]).show();
+					next = false;
+				}
+			}
+			return next;
+		}
+		
+		//data tabel
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [0],
+			bServerSide: true,
+			sAjaxSource: "spp/data/xxx"
+		});
+		
+		function form_default(){
+			jQuery('#div-form, #div-form1, #div-form2, #div-form3, #div-form4, .warning').hide();
+			jQuery('#div-tabel').show();
+			jQuery('input,textarea,select').val('');
+			jQuery('.chosen').trigger('chosen:updated');
+		}
+		
+		form_default();
+		
+		var tampung = '';
+		
+		jQuery('body').off('click', '.ubah-status').on('click', '.ubah-status', function(){
+			var id = this.id;
+			jQuery('#nospp').val(id);
+			jQuery('#ket').val('-');
+			jQuery('#div-tabel, #div-form1, #div-form2, #div-form3').hide();
+			jQuery('#div-form').show();
+		});
+		
+		jQuery('body').off('click', '.tanda-terima').on('click', '.tanda-terima', function(){
+			var id = this.id;
+			jQuery.getJSON('spp/tanda-terima/'+id, function(result){
+				if(result.spp){
+					jQuery('#nmppk1').val(result.spp.nmppk);
+					jQuery('#nospp1').val(result.spp.nospp);
+					jQuery('#tgspp1').val(result.spp.tgspp);
+					jQuery('#urspp').val(result.spp.urspp);
+					jQuery('#kdjenspm').val(result.spp.kdjenspm);
+					jQuery('#kdspp').val(result.spp.kdspp).trigger('chosen:updated');
+					jQuery('#totnilmak').val(result.spp.totnilmak);
+					jQuery('#uploadke').val(result.spp.uploadke);
+					jQuery('#div-tabel, #div-form, #div-form2, #div-form3').hide();
+					jQuery.getJSON('spp/kelengkapan/'+result.spp.kdspp, function(result){
+						if(result.kelengkapan){
+							jQuery('#div-kelengkapan').html(result.kelengkapan);
+						}
+						else{
+							alertify.log(result.error);
+						}
+					});
+					jQuery('#div-form1').show();
+				}
+				else{
+					alertify.log(result.error);
+				}
+			});
+		});
+		
+		jQuery('body').off('click', '.verifikasi').on('click', '.verifikasi', function(){
+			var id = this.id;
+			jQuery.getJSON('spp/verifikasi/'+id, function(result){
+				if(result.kdakun){
+					jQuery('#inp-akun').val(result.kdakun);
+					jQuery('#x').val(1);
+					jQuery('#nmppk2').val(result.spp.nmppk);
+					jQuery('#nospp2').val(result.spp.nospp);
+					jQuery('#nmspp').val(result.spp.nmspp);
+					jQuery('#totnilmak1').val(result.spp.totnilmak);
+					jQuery('#tgspp2').val(result.spp.tgspp);
+					jQuery('#urspp2').val(result.spp.urspp);
+					jQuery('#uploadke2').val(result.spp.uploadke);
+					jQuery('#div-tabel, #div-form, #div-form1, #div-form3').hide();
+					jQuery('#tabel-verifikasi').html(
+						'<tr id="tr-1">'+
+							'<td>'+
+								'<select class="form-control chosen" id="jenis-1" name="rincian[1][\'jenis\']">'+
+									'<option value="1">Umum</option>'+
+									'<option value="2">Spesifik Akun</option>'+
+								'</select>'+
+							'</td>'+
+							'<td>'+
+								'<select class="form-control chosen" id="kdakun-1" name="rincian[1][\'kdakun\']">'+
+									jQuery('#inp-akun').val()+
+								'</select>'+
+							'</td>'+
+							'<td><textarea class="form-control" name="rincian[1][\'uraian1\']" maxlength="4000"></textarea></td>'+
+							'<td>'+
+								'<center><a href="javascript:;" id="1" class="btn btn-xs btn-danger hapus-detil"><i class="fa fa-minus"></i></a></center>'+
+							'</td>'+
+						'</tr>'
+					);
+					jQuery('#div-kelengkapan1').html(result.kelengkapan);
+					jQuery('#div-form2').show();
+				}
+				else{
+					alertify.log(result.error);
+				}
+			});
+		});
+		
+		jQuery('body').off('click', '.verifikasi1').on('click', '.verifikasi1', function(){
+			var id = this.id;
+			jQuery.getJSON('spp/verifikasi1/'+id, function(result){
+				if(result.verifikasi){
+					jQuery('#nmppk3').val(result.spp.nmppk);
+					jQuery('#nospp3').val(result.spp.nospp);
+					jQuery('#tgspp3').val(result.spp.tgspp);
+					jQuery('#urspp3').val(result.spp.urspp);
+					jQuery('#nmspp3').val(result.spp.nmspp);
+					jQuery('#totnilmak2').val(result.spp.totnilmak);
+					jQuery('#uploadke3').val(result.spp.uploadke);
+					jQuery('#div-tabel, #div-form, #div-form1, #div-form2').hide();
+					jQuery('#div-kelengkapan3').html(result.kelengkapan);
+					jQuery('#div-verifikasi').html(result.verifikasi);
+					jQuery('#div-form3').show();
+				}
+				else{
+					alertify.log(result.error);
+				}
+			});
+		});
+		
+		jQuery('body').off('click', '.persetujuan').on('click', '.persetujuan', function(){
+			var id = this.id;
+			jQuery.getJSON('spp/persetujuan/'+id, function(result){
+				if(result.verifikasi){
+					jQuery('#nmppk4').val(result.spp.nmppk);
+					jQuery('#nospp4').val(result.spp.nospp);
+					jQuery('#nmspp4').val(result.spp.nmspp);
+					jQuery('#tgspp4').val(result.spp.tgspp);
+					jQuery('#urspp4').val(result.spp.urspp);
+					jQuery('#totnilmak3').val(result.spp.totnilmak);
+					jQuery('#uploadke4').val(result.spp.uploadke);
+					jQuery('#div-tabel, #div-form, #div-form1, #div-form2, #div-form3').hide();
+					jQuery('#div-kelengkapan4').html(result.kelengkapan);
+					jQuery('#div-verifikasi4').html(result.verifikasi);
+					jQuery('#div-form4').show();
+				}
+				else{
+					alertify.log(result.error);
+				}
+			});
+		});
+		
+		jQuery('#tambah-detil').click(function(){
+			var x=parseInt(jQuery('#x').val())+1;
+			jQuery('#tabel-verifikasi').append(
+				'<tr id="tr-'+x+'">'+
+					'<td>'+
+						'<select class="form-control chosen" id="jenis-'+x+'" name="rincian['+x+'][\'jenis\']">'+
+							'<option value="1">Umum</option>'+
+							'<option value="2">Spesifik Akun</option>'+
+						'</select>'+
+					'</td>'+
+					'<td>'+
+						'<select class="form-control chosen" id="kdakun-'+x+'" name="rincian['+x+'][\'kdakun\']">'+
+							jQuery('#inp-akun').val()+
+						'</select>'+
+					'</td>'+
+					'<td><textarea class="form-control" name="rincian['+x+'][\'uraian1\']" maxlength="4000"></textarea></td>'+
+					'<td>'+
+						'<center><a href="javascript:;" id="'+x+'" class="btn btn-xs btn-danger hapus-detil"><i class="fa fa-minus"></i></a></center>'+
+					'</td>'+
+				'</tr>'
+			);
+			jQuery('#chosen'+x).chosen({width:'100%'});
+			jQuery('#dk-'+x).chosen({width:'100%'});
+			jQuery('#x').val(x);
+		});
+		
+		jQuery('body').off('click', '.hapus-detil').on('click', '.hapus-detil', function(){
+			var id=this.id;
+			jQuery('#tr-'+id).remove();
+		});
+		
+		jQuery('#batal,#batal1,#batal2,#batal3,#batal4').click(function(){
+			form_default();
+		});
+		
+		jQuery('#simpan').click(function(){
+			var lanjut = form_valid('nospp,tanggal,status,ket');
+			if(lanjut){
+				jQuery('#simpan').html('Loading.....');
+				jQuery('#simpan').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh').serialize();
+					//~ alertify.log(data);
+					jQuery.ajax({
+						url: 'spp/status?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#simpan').html('Simpan');
+								jQuery('#simpan').prop('disabled', false);
+								alertify.log("Proses ubah status SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#simpan').html('Simpan');
+								jQuery('#simpan').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#simpan').html('Simpan');
+							jQuery('#simpan').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+		jQuery('#terima').click(function(){
+			var lanjut = form_valid('kdspp,noterima,tgterima');
+			if(lanjut){
+				jQuery('#terima').html('Loading.....');
+				jQuery('#terima').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh1').serialize();
+					jQuery.ajax({
+						url: 'spp/tanda-terima/terima?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#terima').html('Terima');
+								jQuery('#terima').prop('disabled', false);
+								alertify.log("Proses terima SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#terima').html('Terima');
+								jQuery('#terima').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#terima').html('Terima');
+							jQuery('#terima').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+		jQuery('#tolak').click(function(){
+			var lanjut = form_valid('noterima,tgterima');
+			if(lanjut){
+				jQuery('#tolak').html('Loading.....');
+				jQuery('#tolak').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh1').serialize();
+					jQuery.ajax({
+						url: 'spp/tanda-terima/tolak?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#tolak').html('Tolak');
+								jQuery('#tolak').prop('disabled', false);
+								alertify.log("Proses tolak SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#tolak').html('Tolak');
+								jQuery('#tolak').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#tolak').html('Tolak');
+							jQuery('#tolak').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+		jQuery('#terima2').click(function(){
+			var lanjut = form_valid('');
+			if(lanjut){
+				jQuery('#terima2').html('Loading.....');
+				jQuery('#terima2').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh2').serialize();
+					jQuery.ajax({
+						url: 'spp/verifikasi/terima?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#terima2').html('Terima');
+								jQuery('#terima2').prop('disabled', false);
+								alertify.log("Proses terima SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#terima2').html('Terima');
+								jQuery('#terima2').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#terima2').html('Terima');
+							jQuery('#terima2').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+		jQuery('#tolak2').click(function(){
+			var lanjut = form_valid('');
+			if(lanjut){
+				jQuery('#tolak2').html('Loading.....');
+				jQuery('#tolak2').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh2').serialize();
+					jQuery.ajax({
+						url: 'spp/verifikasi/tolak?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#tolak2').html('Tolak');
+								jQuery('#tolak2').prop('disabled', false);
+								alertify.log("Proses tolak SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#tolak2').html('Tolak');
+								jQuery('#tolak2').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#tolak2').html('Tolak');
+							jQuery('#tolak2').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+		jQuery('#simpan3').click(function(){
+			var lanjut = form_valid('');
+			if(lanjut){
+				jQuery('#simpan3').html('Loading.....');
+				jQuery('#simpan3').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh3').serialize();
+					jQuery.ajax({
+						url: 'spp/verifikasi1?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#simpan3').html('Ajukan Kembali');
+								jQuery('#simpan3').prop('disabled', false);
+								alertify.log("Proses pengajuan ulang SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#simpan3').html('Ajukan Kembali');
+								jQuery('#simpan3').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#simpan3').html('Ajukan Kembali');
+							jQuery('#simpan3').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+		jQuery('#terima4').click(function(){
+			var lanjut = form_valid('');
+			if(lanjut){
+				jQuery('#simpan4').html('Loading.....');
+				jQuery('#simpan4').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh4').serialize();
+					jQuery.ajax({
+						url: 'spp/persetujuan/terima?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#simpan4').html('Simpan');
+								jQuery('#simpan4').prop('disabled', false);
+								alertify.log("Proses persetujuan SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#simpan4').html('Simpan');
+								jQuery('#simpan4').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#simpan4').html('Simpan');
+							jQuery('#simpan4').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+		jQuery('#tolak4').click(function(){
+			var lanjut = form_valid('');
+			if(lanjut){
+				jQuery('#tolak4').html('Loading.....');
+				jQuery('#tolak4').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh4').serialize();
+					jQuery.ajax({
+						url: 'spp/persetujuan/tolak?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#tolak4').html('Simpan');
+								jQuery('#tolak4').prop('disabled', false);
+								alertify.log("Proses penolakan SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#tolak4').html('Simpan');
+								jQuery('#tolak4').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#tolak4').html('Simpan');
+							jQuery('#tolak4').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+	});
+
+</script>

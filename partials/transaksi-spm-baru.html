@@ -1,0 +1,698 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-upload"></i> Upload/ SPM (Antrian)</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="pad margin no-print">
+		<div class="alert alert-info" style="margin-bottom: 0!important;">
+			<i class="fa fa-info"></i>
+			<b>Catatan:</b> Untuk SPM LS Pihak Ketiga, silahkan pilih tanggal antrian SPM. Antrian tidak dapat disimpan jika Anda belum mengupload ADK dan PDF SPM serta memasukan token yang terkirim pada email terdaftar.
+		</div>
+	</div>
+	
+	<div class="row" id="div-form-cari">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-search"></i> Form SPM</h3>
+				</div><!-- /.box-header -->
+				
+				<div class="box-body table-responsive"> <!--style="overflow-x:scroll;"-->
+					<form id="form-cari" name="form-cari" class="form-horizontal">
+						<br/>
+						
+						<div class="form-group">
+							<label class="control-label col-lg-3">Jenis SPM</label>
+
+							<div class="col-lg-8">
+								<input type="radio" id="jnsspm1" name="jnsspm" value="1" checked> SPM dengan penerima Bendahara/Pegawai<br>
+								<input type="radio" id="jnsspm2" name="jnsspm" value="2"> SPM dengan penerima Pihak Ketiga/Rekanan/Bansos
+							</div>
+							<div class="col-lg-1">
+								<span id="warning-jnsspm" class="label label-danger warning">Required!</span>
+							</div>
+						</div>
+						
+						<div id="div-non-ls">
+							<div class="form-group">
+								<hr/>
+								<label class="control-label col-lg-3">Jumlah SPM</label>
+								<div class="col-lg-1">
+									<input type="text" id="jml_spm1" name="jml_spm1" class="form-control val_num" maxlength="2" style="text-align:right;">
+								</div>
+							</div>
+						<!-- <form id="form-non-ls" name="form" class="form"> -->
+							<div class="form-group">
+								<label class="control-label col-lg-3">Upload ADK SPM Non LS (*.spm/Max 1MB)</label>
+								<div class="col-lg-7" id="div-upload1">
+									
+								</div>
+								
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-lg-3">Upload Softcopy SPM (*.rar/Max 1MB)</label>
+								<div class="col-lg-7" id="div-upload3">
+									
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Token</label>
+								<div class="col-lg-2">
+									<input type="password" id="token1" name="token1" class="form-control val_num" maxlength="6">
+								</div>
+								<div class="col-lg-5">
+									<a id="refresh-token1" href="javascript:;" title="Refresh Token" class="btn btn-danger"><i class="fa fa-refresh"></i></a>
+									(Kirimkan token sebelum menekan tombol simpan)
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<hr/>
+								<label class="control-label col-lg-3"> </label>
+								<div class="col-lg-8">
+									<!--<button title="Tampilkan antrian default?" id="cari1" type="button" class="btn btn-success"><i class="fa fa-search"></i> Default</button>-->
+									<button  id="submit-non-ls" type="button" class="btn btn-success"><i class="fa "></i> Simpan</button>
+								</div>
+							</div>
+							<!-- </form> -->
+						</div>
+						
+						<div id="div-ls">
+							<hr/>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jumlah SPM</label>
+								<div class="col-lg-1">
+									<input type="text" id="jmlspm" name="jmlspm" class="form-control val_num" maxlength="2" style="text-align:right;">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Tanggal Antrian</label>
+								<div class="col-lg-2">
+									<input type="text" id="tgl_antrian" name="tgl_antrian" class="form-control dp">
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-tgl_antrian" class="label label-danger warning">Required!</span>
+								</div>
+							</div>
+							<!--<div class="form-group">
+								<label class="control-label col-lg-3">Jam Antrian</label>
+								<div class="col-lg-1">
+									<input type="text" id="jam_antrian" name="jam_antrian" placeholder="Jam Antrian" class="form-control timepicker"/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-jam_antrian" class="label label-danger warning">Required!</span>
+								</div>
+							</div>-->
+							<!--button-->
+							<div class="form-group">
+								<hr/>
+								<label class="control-label col-lg-3"> </label>
+								<div class="col-lg-8">
+									<!--<button title="Tampilkan antrian default?" id="cari1" type="button" class="btn btn-success"><i class="fa fa-search"></i> Default</button>-->
+									<button title="Tampilkan antrian manual?" id="cari" type="button" class="btn btn-danger"><i class="fa fa-search"></i> Cari Antrian</button>
+								</div>
+							</div>
+						</div>
+						
+					</form>
+				</div><!-- /.box-body -->
+				
+			</div><!-- /.box -->
+		
+			<!--<input class="form-control" type="file" id="upload" name="upload"/>-->
+		</div>
+	</div>
+	
+	<div class="row" id="div-form-proses">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-print"></i> Form SPM LS</h3>
+				</div><!-- /.box-header -->
+				
+				<div class="box-body table-responsive"> <!--style="overflow-x:scroll;"-->
+					Keterangan : 
+					<label class="label label-default">Tersedia</label>
+					<label class="label label-primary">Dipilih</label>
+					<label class="label label-danger">Dipesan</label>
+					<!--<label class="label label-warning">Diproses</label>
+					<label class="label label-success">Selesai</label>-->
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="_token" name="_token">
+						<input type="hidden" id="jnsspm_" name="jnsspm_">
+						<input type="hidden" id="jmlspm_" name="jmlspm_">
+						<input type="hidden" id="maxspm_" name="maxspm_">
+						<input type="hidden" id="tgl_antrian_" name="tgl_antrian_">
+						<input type="hidden" id="tampung" name="tampung">
+						<br/>
+						
+						<div class="form-group">
+							<label class="col-lg-3">Upload ADK (*.spm/ Max 1MB)</label>
+							<div class="col-lg-9" id="div-upload">
+								
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3">Upload Lampiran (*.rar/ Max 1MB)</label>
+							<div class="col-lg-9" id="div-upload-rar">
+								
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3">Token</label>
+							<div class="col-lg-2">
+								<input class="form-control val_num" type="password" id="token" name="token" maxlength="6">
+							</div>
+							<div class="col-lg-1">
+								<a id="refresh-token" href="javascript:;" title="Refresh Token" class="btn btn-danger"><i class="fa fa-refresh"></i></a>
+							</div>
+							<label class="col-lg-6">(Masukan token yang ada pada email terdaftar.)</label>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-11">
+								<div id="div-noantrian" style="overflow-x:scroll;"></div>
+							</div>
+						</div>
+					
+						<!--button-->
+						<div class="form-group">
+							<hr/>
+							<div class="col-lg-12">
+								<button title="Simpan antrian ini?" id="simpan" type="button" class="btn btn-primary">Simpan Antrian</button>
+								<button title="Batal antrian ini?" id="batal" type="button" class="btn btn-danger">Batal Antrian</button>
+							</div>
+						</div>
+						
+					</form>
+				</div><!-- /.box-body -->
+				
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+
+</section>
+
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.extend({
+			getValues: function(url) {
+				var result = null;
+				jQuery.ajax({
+					url: url,
+					type: 'get',
+					async: false,
+					success: function(data) {
+						result = data;
+					}
+				});
+			   return result;
+			}
+		});
+		
+		var token= jQuery.getValues("token");
+		
+		//list keranjang antrian
+		var list_keranjang=new Array();
+		
+		//init chosen
+		jQuery('.chosen').chosen();
+		
+		//untuk membatasi past date
+		var nowDate = new Date();
+		var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+		
+		//init datepicker
+		jQuery('#tgl_antrian').datepicker({
+			startDate: today,
+			format: 'dd-mm-yyyy',
+			autoclose:true
+		});
+		
+		//init timepicker
+		jQuery('.timepicker').timepicker({
+			'step': 1,
+			'timeFormat': 'H:i:s'
+		});
+		
+		jQuery('#jnsspm1').click(function(){
+			jQuery('#div-ls,#div-form-proses').hide();
+			jQuery('#div-non-ls').show();
+			upload1();
+			upload2();
+		});
+		
+		jQuery('#jnsspm2').click(function(){
+			jQuery('#div-ls').show();
+			jQuery('#div-non-ls').hide();
+			jQuery('input,textarea').val('');
+			jQuery('.chosen').val('').trigger('chosen:updated');
+		});
+		
+		//tampungan temporari
+		function createTampung(){
+			jQuery('#tabel-keranjang').html('');
+			
+			var total=0;
+			for(i=0;i<list_keranjang.length;i++){
+				var no=i+1;
+				var total=total+parseInt(list_keranjang[i][5]);
+				jQuery('#tabel-keranjang').append(
+					'<tr>'+
+						'<td>'+no+'</td>'+
+						'<td>'+list_keranjang[i][2]+'</td>'+
+						'<td>'+list_keranjang[i][4]+'</td>'+
+						'<td>'+list_keranjang[i][5]+'</td>'+
+						'<td><center><a href="#" id="'+i+'" class="hapus-detil-keranjang"><i class="fa fa-times"></i></a></center></td>'+
+					'</tr>'
+				);
+			}
+			jQuery('#total-keranjang').html('Total : '+total+' paket');
+			jQuery('#tampung').val(JSON.stringify(list_keranjang));
+			
+		}
+		
+		//function upload non ls
+		 function upload1(){
+			jQuery('#div-upload1').html('<input type="file" id="file_spm1" name="file_spm1" class="form-control">');
+ 			jQuery("#file_spm1").pekeUpload({
+				url:'antrian/upload-non-ls?_token='+token,
+				theme:'bootstrap',
+				multi:'false',
+				maxSize:0,
+				showErrorAlerts:'false',
+				onFileError:function(file,error){
+					//validasi gagal upload
+					alertify.log(error);
+				},
+				onFileSuccess:function(file,data){
+					alertify.log('Upload file '+file.name+' berhasil');
+				}
+			});
+		
+		} 
+		
+		//function upload rar non ls
+		function upload2(){
+			jQuery('#div-upload3').html('<input type="file" id="file_softcopy" name="file_softcopy" class="form-control">');
+			jQuery("#file_softcopy").pekeUpload({
+				url:'antrian/upload-softcopy?_token='+token,
+				theme:'bootstrap',
+				multi:'false',
+				maxSize:0,
+				showErrorAlerts:'false',
+				onFileError:function(file,error){
+					//validasi gagal upload
+					alertify.log(error);
+				},
+				onFileSuccess:function(file,data){
+					alertify.log('Upload file '+file.name+' berhasil');
+				}
+			});
+		
+		} 
+		
+		//function upload  ls
+		function upload(jnsspm,tgl_antrian,token){
+			jQuery('#div-upload').html('<input type="file" id="file_spm" name="file_spm" class="form-control">');
+			jQuery("#file_spm").pekeUpload({
+				url:'antrian/upload?_token='+token,
+				theme:'bootstrap',
+				multi:'false',
+				maxSize:0,
+				data:jnsspm+'-'+tgl_antrian,
+				showErrorAlerts:'false',
+				onFileError:function(file,error){
+					//validasi gagal upload
+					alertify.log(error);
+				},
+				onFileSuccess:function(file,data){
+					alertify.log('Upload file '+file.name+' berhasil');
+					//window.location.href="#/input/monitoring";
+				}
+			});
+		} 
+		
+		//function upload rar non ls
+		function upload_rar(jnsspm,tgl_antrian,token){
+			jQuery('#div-upload-rar').html('<input type="file" id="file_spm2" name="file_spm2" class="form-control">');
+			jQuery("#file_spm2").pekeUpload({
+				url:'antrian/upload-rar?_token='+token,
+				theme:'bootstrap',
+				multi:'false',
+				maxSize:0,
+				data:jnsspm+'-'+tgl_antrian,
+				showErrorAlerts:'false',
+				onFileError:function(file,error){
+					//validasi gagal upload
+					alertify.log(error);
+				},
+				onFileSuccess:function(file,data){
+					alertify.log('Upload file '+file.name+' berhasil');
+					//window.location.href="#/input/monitoring";
+				}
+			});
+		}
+		
+		//function default
+		function form_default(){
+			jQuery('input,textarea').val('');
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery('.warning').hide();
+			jQuery('#div-form-proses,#div-ls').hide();
+			jQuery('#cari').html('<i class="fa fa-search"></i> Cari Antrian');
+			jQuery('#cari').prop('disabled',false);
+			jQuery('#cari1').html('<i class="fa fa-search"></i> Default');
+			jQuery('#cari1').prop('disabled',false);
+			jQuery('#div-ls,#div-form-proses').hide();
+			jQuery('#div-non-ls').show();
+			upload1();
+			jQuery('#jnsspm1').trigger('click');
+		}
+		
+		//init default
+		form_default();
+		
+		//cari antrian manual
+		jQuery('#cari').click(function(){
+			if(jQuery('#jmlspm').val()!='' && jQuery('#tgl_antrian').val()!=''){
+				
+				jQuery('#div-form-proses').hide();
+				
+				jQuery('#cari').html('Loading.....');
+				jQuery('#cari,#cari1').prop('disabled',true);
+				
+				var jnsspm=jQuery('#jnsspm').val();
+				var jmlspm=jQuery('#jmlspm').val();
+				var tgl_antrian=jQuery('#tgl_antrian').val().replace(/-/g,'');
+				
+				jQuery.ajax({
+					url:'antrian/alokasi',
+					method:'POST',
+					data:{
+						_token:token,
+						jmlspm:jmlspm,
+						tgl_antrian:tgl_antrian
+					},
+					success:function(result){
+						if(result.antrian){
+							list_keranjang=[];
+							upload(jnsspm,tgl_antrian,result.token);
+							upload_rar(jnsspm,tgl_antrian,result.token);
+							jQuery('#cari').html('<i class="fa fa-search"></i> Cari Antrian');
+							jQuery('#cari,#cari1').prop('disabled',false);
+							jQuery('#jnsspm_').val(jnsspm);
+							jQuery('#jmlspm_').val(jmlspm);
+							jQuery('#tgl_antrian_').val(tgl_antrian);
+							jQuery('#maxspm_').val(result.maxspm);
+							jQuery('#_token').val(result.token);
+							jQuery('#div-noantrian').html(result.antrian);
+							jQuery('#div-form-proses').show();
+							
+							jQuery.post('spm/token', {_token:token,jnsspm:'LS Pihak Ketiga',jmlspm:jmlspm,tanggal:tgl_antrian}, function(result){
+								if(result=='success'){
+									alertify.log('Token berhasil dikirim!');
+								}
+								else{
+									alertify.log('Token gagal dikirim!');
+								}
+							});
+							
+						}
+						else{
+							jQuery('#cari').html('<i class="fa fa-search"></i> Cari Antrian');
+							jQuery('#cari,#cari1').prop('disabled',false);
+							alertify.log(result);
+						} 
+					},
+					error:function(result){
+						jQuery('#cari').html('<i class="fa fa-search"></i> Cari Antrian');
+						jQuery('#cari,#cari1').prop('disabled',false);
+						alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+					}
+				});
+				
+			}
+			else{
+				alertify.log('Kolom tidak dapat dikosongkan!');
+			}
+		});
+		
+		//submit antrian
+		jQuery('#simpan').click(function(){
+			if(list_keranjang.length>0){
+				if(list_keranjang.length==jQuery('#jmlspm_').val()){
+					
+					jQuery('#simpan').html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+					jQuery('#simpan').prop('disabled',true);
+					jQuery('#tampung').val(JSON.stringify(list_keranjang));
+					jQuery.ajax({
+						url:'antrian/proses',
+						method:'POST',
+						data:jQuery('#form-ruh').serializeArray(),
+						success:function(result){
+							if(result.id_antrian) {
+								jQuery('#simpan').html('Simpan Antrian');
+								jQuery('#simpan').prop('disabled',false);
+								alertify.log('Proses simpan berhasil');
+								form_default();
+								window.open('download/kode-booking/'+result.id_antrian, '_blank');
+							} else {
+								jQuery('#simpan').html('Simpan Antrian');
+								jQuery('#simpan').prop('disabled',false);
+								alertify.log(result);
+							} 
+						},
+						error:function(result){
+							jQuery('#simpan').html('Simpan Antrian');
+							jQuery('#simpan').prop('disabled',false);
+							alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+						}
+					});
+					
+				}
+				else{
+					alertify.log('Maaf, Antrian Anda tidak sama dengan jumlah SPM pada form.');
+				}
+				
+			}
+			else{
+				alertify.log('Maaf, Anda belum memilih antrian. Silahkan pilih jadwal antrian yang tersedia.');
+			}
+		});
+		
+		//batal pilih all
+		jQuery('#batal').click(function(){
+			
+			list_keranjang=[];
+			jQuery('.antrian-dipilih').addClass('btn-default');
+			jQuery('.antrian-dipilih').removeClass('btn-primary antrian-dipilih');
+			
+		});
+		
+		//pilih antrian
+		jQuery('body').off('click','.pilih-antrian').on('click','.pilih-antrian', function(){
+			var id=this.id;
+			var arr_id=id.split('-');
+			var maxspm=parseInt(jQuery('#maxspm_').val());
+			var jmlspm=parseInt(jQuery('#jmlspm_').val());
+			var id_waktu=arr_id[3];
+			var parent=jQuery(this).parent();
+			
+			if(jQuery(this).hasClass('btn-default')){ //jika dipilih
+				
+				//apakah antrian melebihi jumlah yang dibawa atau melebihi jumlah max yang ditetapkan?
+				if(list_keranjang.length<maxspm){
+				
+					//cek apakah antrian berada dalam satu baris
+					if(list_keranjang.length>0){
+						
+						var max=list_keranjang.length-1;
+						
+						var id_waktu_lama=list_keranjang[max].split("-");
+						var waktu_awal=parseInt(id_waktu_lama[3]);
+						var waktu_ini=parseInt(id_waktu);
+						
+						//jika waktu yang dipilih lebih besar dari waktu yang lama
+						if(waktu_ini>waktu_awal){
+							
+							var index=max+1; //taruh di index terakhir
+							
+							//cek apakah memilih jam dengan jarak sebelumnya
+							if(parent.prev().children().hasClass('btn-primary')){
+								list_keranjang.splice(index, 0, id);
+								jQuery(this).removeClass('btn-default');
+								jQuery(this).addClass('btn-primary antrian-dipilih');
+							}
+							else{
+								alertify.log('Maaf, antrian Anda harus berada dalam satu baris rentang waktu pada loket yang sama.');
+							}
+							
+						}
+						else{
+							
+							var index=0; //taruh di index paling awal
+							
+							//cek apakah memilih ruangan dengan jarak 1jam sesudahnya
+							if(parent.next().children().hasClass('btn-primary')){
+								list_keranjang.splice(index, 0, id);
+								jQuery(this).removeClass('btn-default');
+								jQuery(this).addClass('btn-primary antrian-dipilih');
+							}
+							else{
+								alertify.log('Maaf, antrian Anda harus berada dalam satu baris rentang waktu pada loket yang sama.');
+							}
+							
+						}
+						
+					}
+					else{					
+						list_keranjang.push(id);
+						jQuery(this).removeClass('btn-default');
+						jQuery(this).addClass('btn-primary antrian-dipilih');
+					}
+					
+					//tambahkan ke tabel temporari
+					/*list_keranjang.push(id);
+					jQuery(this).removeClass('btn-default');
+					jQuery(this).addClass('btn-primary antrian-dipilih');
+					console.log(list_keranjang);*/
+					
+				}
+				else{
+					alertify.log('Maaf, antrian Anda melebihi jumlah SPM yang diajukan atau melebihi batas maksimal SPM yang ditetapkan.');
+				}
+				
+			}
+			else{
+				var max=list_keranjang.length-1;
+				
+				//cek apakah yang dibatalkan min
+				if(id==list_keranjang[0]){
+					
+					//hapus dari tabel temporari
+					list_keranjang.splice(0,1);
+					jQuery(this).removeClass('btn-primary'); //jika dibatalkan
+					jQuery(this).addClass('btn-default');
+					
+				}
+				else{ //jika max
+					if(id==list_keranjang[max]){
+						
+						//hapus dari tabel temporari
+						list_keranjang.splice(max,1);
+						jQuery(this).removeClass('btn-primary'); //jika dibatalkan
+						jQuery(this).addClass('btn-default');
+						
+					}
+					else{
+						alertify.log('Tidak dapat membatalkan pilihan ini.');
+					}
+				}
+				
+				/*
+			
+				//hapus dari tabel temporari
+				list_keranjang.splice(id,1);
+				jQuery(this).removeClass('btn-primary'); //jika dibatalkan
+				jQuery(this).addClass('btn-default');
+				console.log(list_keranjang);*/
+				
+			}
+			
+		});
+		//submit spm non ls
+		jQuery('#submit-non-ls').click(function(){
+			if(jQuery('#jml_spm1').val()!=''){
+				jQuery('#submit-non-ls').html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+				jQuery('#submit-non-ls').prop('disabled',true);
+				var jmlspm1=jQuery('#jml_spm1').val();
+				var token1=jQuery('#token1').val();
+				jQuery.ajax({
+					url:'antrian/upload-non-ls2',
+					data:{
+						_token:token,
+						jmlspm1:jmlspm1,
+						token:token1
+					},
+					type: 'POST',
+					success:function(data){
+						if(data.error==null){
+							alertify.log(data.status);
+							jQuery('#submit-non-ls').html('Simpan');
+							jQuery('#submit-non-ls').prop('disabled',false);
+							form_default();
+						}else{
+							alertify.error(data.error);
+							jQuery('#submit-non-ls').html('Simpan');
+							jQuery('#submit-non-ls').prop('disabled',false);
+						}
+					},
+					error:function(data){
+						alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+						jQuery('#submit-non-ls').html('Simpan');
+						jQuery('#submit-non-ls').prop('disabled',false);
+					}
+				});
+			}else{
+				alertify.log('Kolom tidak dapat dikosongkan.');
+			}
+ 		});
+		
+		jQuery('#refresh-token').click(function(){
+			jQuery('#refresh-token').prop('disabled',true);
+			jQuery.post('spm/token',
+				{
+					_token:token,
+					jnsspm:'LS Pihak Ketiga',
+					jmlspm:jQuery('#jmlspm_').val(),
+					tanggal:jQuery('#tgl_antrian_').val()
+				},
+				function(result){
+				if(result=='success'){
+					alertify.log('Token berhasil dikirim!');
+				}
+				else{
+					alertify.log('Token gagal dikirim!');
+				}
+				jQuery('#refresh-token').prop('disabled',false);
+			});
+		});
+		
+		jQuery('#refresh-token1').click(function(){
+			jQuery('#refresh-token1').prop('disabled',true);
+			jQuery.post('spm/token',
+				{
+					_token:token,
+					jnsspm:'LS Bendahara/Pegawai',
+					jmlspm:jQuery('#jml_spm1').val(),
+					tanggal:'-'
+				},
+				function(result){
+				if(result=='success'){
+					alertify.log('Token berhasil dikirim!');
+				}
+				else{
+					alertify.log('Token gagal dikirim!');
+				}
+				jQuery('#refresh-token1').prop('disabled',false);
+			});
+		});
+		
+	});
+</script>

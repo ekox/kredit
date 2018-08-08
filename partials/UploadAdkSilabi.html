@@ -1,0 +1,256 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-desktop"></i> Upload ADK SILABI</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- Small boxes (Stat box) -->
+	<!-- <div class="row"> -->
+		<!-- <div class="col-lg-12">	-->
+			
+			<!-- <div class="box"> -->
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading" >
+					ADK SILABI
+				</div>
+				<div class="panel-body" >
+					<div class="form-group">
+						<table id="example" class="table table-bordered table-striped">
+							<tbody>
+								
+								<tr>
+									<td>
+										<label for="dropdownBulan" >Bulan</label>
+									</td>
+									<td>
+											 <div class="dropdown" id="dropdownBulan">
+												<button class="btn btn-default"
+														data-toggle="dropdown">
+													<span id="dropdown_bulantitle2">Select</span>
+													<input type="hidden" name="bulan" id="bulan">
+													<span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" >
+													<li><a tabindex="-1" href="#">Januari</a></li>
+													<li><a tabindex="-1" href="#">Pebruari</a></li>
+													<li><a tabindex="-1" href="#">Maret</a></li>
+													<li><a tabindex="-1" href="#">April</a></li>
+													<li><a tabindex="-1" href="#">Mei</a></li>
+													<li><a tabindex="-1" href="#">Juni</a></li>
+													<li><a tabindex="-1" href="#">Juli</a></li>
+													<li><a tabindex="-1" href="#">Agustus</a></li>
+													<li><a tabindex="-1" href="#">September</a></li>
+													<li><a tabindex="-1" href="#">Oktober</a></li>
+													<li><a tabindex="-1" href="#">Nopember</a></li>
+													<li><a tabindex="-1" href="#">Desember</a></li>
+												</ul>
+											</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="tahun">Tahun</label>
+									</td>
+									<td>
+										
+										<button class="btn btn-default"
+														data-toggle="dropdown">
+													<span id="tahun">2016</span>
+                                            </td>
+								</tr>
+								<tr>
+									<td>
+										<label for="IdAdkSilabi">ADK LPJ</label>
+									</td>
+									<td>
+										<div id="tempat_file">											
+											<input type="file" id="IdAdkSilabi" name="IdAdkSilabi" >
+										</div>
+										
+									</td>
+								</tr>
+                                <tr>
+									<td>
+										<label for="IdPDFSilabi">PDF LPJ</label>
+									</td>
+									<td>
+										<div id="PDF_file">											
+											<input type="file" id="IdPDFSilabi" name="IdPDFSilabi" >
+											
+										</div>
+										
+									</td>
+								</tr>
+							
+							</tbody>
+						</table>					
+							
+					
+					</div>
+					
+					
+				</div>
+				
+			</div>
+					
+				
+			<!-- </div>-->
+		
+			
+		<!-- </div> -->
+	<!-- </div> -->
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+
+jQuery.extend({
+    getValues: function(url) {
+        var result = null;
+        $.ajax({
+            url: url,
+            type: 'get',
+            async: false,
+            success: function(data) {
+                result = data;
+            }
+        });
+       return result;
+    }
+});
+function nilaiBulan(namabulan) {
+	switch(namabulan){
+		case "Januari":
+			nilai="01"
+			break;
+		case "Pebruari":
+			nilai="02"
+			break;
+		case "Maret":
+			nilai="03"
+			break;
+		case "April":
+			nilai="04"
+			break;
+		case "Mei":
+			nilai="05"
+			break;
+		case "Juni":
+			nilai="06"
+			break;
+		case "Juli":
+			nilai="07"
+			break;
+		case "Agustus":
+			nilai="08"
+			break;
+		case "September":
+			nilai="09"
+			break;
+		case "Oktober":
+			nilai="10"
+			break;
+		case "Nopember":
+			nilai="11"
+			break;
+		default :
+			nilai="12";
+	}
+	return nilai;
+}
+var token= $.getValues("token");
+ $("#dropdownBulan").on("click", "li a", function() {
+    var platform = $(this).text();
+	 $("#dropdown_bulantitle2").html(platform);
+	 $("input[name=bulan]").val(platform);
+	 var nilaibulan=nilaiBulan($("input[name=bulan]").val());	 
+	 var idbaru ='<input type="file" id="IdAdkSilabi" name="IdAdkSilabi" >';
+	 $("#tempat_file").empty().html(idbaru);
+	$("#IdAdkSilabi").pekeUpload(
+								{
+								theme:'bootstrap',
+								allowedExtensions:"lpj|zip",
+								url : "Upload/AdkSilabi/?_token="+token+"&bulan="+nilaibulan,
+								multi : 'false',
+								onFileSuccess:      function(file,data){
+									alertify.success("file "+file.name+" : berhasil di upload");
+//                                    var hasil=data;
+//                                    var idbaru2 ='<input type="file" id="IdPDFSilabi" name="IdPDFSilabi" >';
+//                                     $("#PDF_file").empty().html(idbaru2);
+//                                    $("#IdPDFSilabi").pekeUpload(
+//                                                                {
+//                                                                theme:'bootstrap',
+//                                                                allowedExtensions:"pdf",
+//                                                                url : "Upload/PDFSilabi/?_token="+token+"&id_adk="+hasil,
+//                                                                multi : 'false',
+//                                                                onFileSuccess:      function(file,data){
+//                                                                    alertify.success("file "+file.name+" : berhasil di upload");
+//                                                                    },
+//                                                                onFileError:function(file,error)
+//                                                                {
+//
+//                                                                   var hasil=error;
+//                                                                    if (hasil.error == 'false') {
+//                                                                        alertify.success(hasil.message);
+//                                                                    } else {
+//                                                                        
+//                                                                    }
+//
+//                                                                    }
+//                                                                });
+									},
+								onFileError:function(file,error)
+								{
+									
+									var hasil = error;
+                                    if (hasil.error ='false') {                                        
+                                    var idbaru2 ='<input type="file" id="IdPDFSilabi" name="IdPDFSilabi" >';
+                                     $("#PDF_file").empty().html(idbaru2);                                        
+                                    $("#IdPDFSilabi").pekeUpload(
+                                                                {
+                                                                theme:'bootstrap',
+                                                                allowedExtensions:"pdf",
+                                                                url : "Upload/PDFSilabi/?_token="+token+"&id_adk="+hasil.id_adk,
+                                                                multi : 'false',
+                                                                onFileSuccess:      function(file,data){
+                                                                    alertify.success("file "+file.name+" : berhasil di upload");
+                                                                    },
+                                                                onFileError:function(file,error)
+                                                                {
+
+                                                                   var hasil=error;
+                                                                    if (hasil.error ='false') {
+                                                                        alertify.success(hasil.message);
+                                                                    } else {
+                                                                        alertify.success(hasil.message);
+                                                                    }
+
+                                                                    }
+                                                                });
+                                        
+                                        alertify.success(hasil.message); 
+                                    } else {
+                                         alertify.success(hasil.message);   
+                                        
+                                    }
+									
+									}
+								});
+      
+   
+});   
+
+		
+		
+	});
+</script>

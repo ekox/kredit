@@ -1,0 +1,104 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-desktop"></i> Upload ADK RPD Harian</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- Small boxes (Stat box) -->
+	<!-- <div class="row"> -->
+		<!-- <div class="col-lg-12">	-->
+			
+			<!-- <div class="box"> -->
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading" >
+					ADK RPD Harian
+				</div>
+				<div class="panel-body" >
+					<div class="form-group">
+						<table id="example" class="table table-bordered table-striped">
+							<tbody>
+								<tr>
+									<td>
+										<label for="IdAdkRenkas">ADK RPD Harian</label>
+									</td>
+									<td>
+										<div id="tempat_file">											
+											<input type="file" id="IdAdkRenkas" name="IdAdkRenkas" >
+										</div>	
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>	
+			</div>
+			<!-- </div>-->
+		<!-- </div> -->
+	<!-- </div> -->
+</section>
+
+<script>
+jQuery(document).ready(function(){
+	jQuery.extend({
+	    getValues: function(url) {
+	        var result = null;
+	        $.ajax({
+	            url: url,
+	            type: 'get',
+	            async: false,
+	            success: function(data) {
+	                result = data;
+	            }
+	        });
+	       return result;
+	    }
+	});
+
+	var token= $.getValues("token");
+
+	/*function upload(token){
+		jQuery('#div-upload').html('<input type="file" id="file_spm" name="file_spm" class="form-control">');
+		jQuery("#file_spm").pekeUpload({
+			url:'antrian/upload?_token='+token,
+			allowedExtensions:"APS",
+			theme:'bootstrap',
+			multi:'false',
+			maxSize:0,
+			showErrorAlerts:'false',
+			onFileError:function(file,error){
+				//validasi gagal upload
+				alertify.log(error);
+			},
+			onFileSuccess:function(file,data){
+				alertify.log('Upload file '+file.name+' berhasil');
+				//window.location.href="#/input/monitoring";
+			}
+		});
+	}
+	*/
+
+	$("#IdAdkRenkas").pekeUpload({
+		theme:'bootstrap',
+		//allowedExtensions:"APS",
+		url : "upload/AdkRPDHarian?_token="+token,
+		multi : 'false',
+		showErrorAlerts:'true',
+		onFileError:function(file,error){
+			alertify.log(error);
+		},
+		onFileSuccess:function(file,data){
+			alertify.log("file "+file.name+" : berhasil di upload");
+		}
+	});
+});
+</script>

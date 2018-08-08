@@ -1,0 +1,565 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Revisi Internal</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">No. Revisi Internal</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="norevint" name="norevint" readonly/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-norevint" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Komponen</label>
+								<div class="col-lg-9">
+									<select class="form-control chosen" id="komponen" name="komponen">
+										<option value="" style="display:none;">Pilih Komponen</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Subkomponen</label>
+								<div class="col-lg-9">
+									<select class="form-control chosen" id="subkomponen" name="subkomponen">
+										<option value="" style="display:none;">Pilih Subkomponen</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Akun</label>
+								<div class="col-lg-6">
+									<select class="form-control chosen" id="akun" name="akun">
+										<option value="" style="display:none;">Pilih Akun</option>
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-akun" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">No. Item</label>
+								<div class="col-lg-1">
+									<input type="text" class="form-control" id="noitem" name="noitem" />
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-noitem" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama Item</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" id="nmitem" name="nmitem" />
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-nmitem" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Volume Kegiatan</label>
+								<div class="col-lg-1">
+									<input type="text" class="form-control val_num" id="volkeg" name="volkeg" style="text-align:right;"/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-volkeg" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Harga Satuan</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control val_num" id="hargasat" name="hargasat" style="text-align:right;"/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-hargasat" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jumlah</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control val_num" id="jumlah" name="jumlah" style="text-align:right;" readonly/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-jumlah" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Satuan</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="satuan" name="satuan"/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-satuan" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button title="Simpan Data" id="btn-proses" class="btn btn-primary" type="button" ><i class="fa fa-save"></i> Simpan</button>
+									<button title="Batal Proses" id="btn-batal" class="btn btn-default" type="button" ><i class="fa fa-arrow-left"></i> Batal</button>
+								</div>
+							</div>
+							
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-usulan">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Revisi Internal</h3>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">
+					<form class="form-horizontal" id="form-usul" name="form-usul">
+						<input type="hidden" class="form-control" id="_tkn" name="_tkn" />
+						<div class="form-group">
+							<label class="control-label col-lg-3">No. Revisi Internal</label>
+							<div class="col-lg-1">
+								<input type="text" class="form-control" id="norevus" name="norevus" maxlength="2" style="text-align:right;" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-lg-3"></label>
+							<div class="col-lg-2">
+								<button class="btn btn-primary" id="btn-proses-usul" title="Proses usulan revisi"><i class="fa fa-refresh"></i> Proses</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) --><!--
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data Awal</h3>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Kmpn.</th>
+								<th>Skmpn.</th>
+								<th>Akun</th>
+								<th>No. Item</th>
+								<th>Nama Item</th>
+								<th>Volume</th>
+								<th>Harga Satuan</th>
+								<th>Jumlah</th>
+								<th>Satuan</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	-->
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel-baru">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data Usulan Revisi</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-usulan" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Komponen</th>
+								<th>Subkomponen</th>
+								<th>Akun</th>
+								<th>No Item</th>
+								<th>Nama Item</th>
+								<th>Vol. Keg.</th>
+								<th>Hrg. Sat.</th>
+								<th>Jumlah</th>
+								<th>Satuan</th>
+								<th>Status</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+
+</section>
+<script>
+	jQuery(document).ready(function(){
+		jQuery('#div-usulan').hide();
+		jQuery.get('pagu/cek-level', function(result){
+			if(result=='01'){
+				jQuery('#div-usulan').show();
+			} 
+		});
+		
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		}
+		
+		jQuery('.val_num').mask('000,000,000,000,000', {reverse: true});
+		
+		jQuery.get('pagu/revisi-internal-status', function(result){
+			jQuery('#div-tambah').html(result);
+		});
+	
+		jQuery('.chosen').chosen();
+		
+		jQuery.get('token', function(token){
+			jQuery('#_token,#_tkn').val(token)
+		});
+		
+		jQuery.get('dref/komponen', function(result){
+			jQuery('#komponen').html(result).trigger('chosen:updated');
+		});
+		
+		jQuery('#komponen').change(function(){
+			var kdkmpnen=jQuery(this).val();
+			jQuery.get('dref/subkomponen/'+kdkmpnen, function(result){
+				jQuery('#subkomponen').html(result).trigger('chosen:updated');
+			});
+		});
+	
+		jQuery.get('dref/subkomponen/xx', function(result){
+			jQuery('#subkomponen').html(result).trigger('chosen:updated');
+		});
+	
+		jQuery('#subkomponen').change(function(){
+			var kdkmpnen = jQuery('#komponen').val();
+			var kdskmpnen = jQuery(this).val();
+			var param = kdkmpnen+'-'+kdskmpnen;
+			jQuery.get('dref/akun/'+param, function(result){
+				jQuery('#akun').html(result).trigger('chosen:updated');
+			});
+		});
+		
+		jQuery.get('dref/akun/xxx-y', function(result){
+			jQuery('#akun').html(result).trigger('chosen:updated');
+		});
+		
+		function getTambah(){
+			var volkeg=jQuery('#volkeg').val();
+			volkeg=volkeg.replace(/,/g,"");
+			var hargasat=jQuery('#hargasat').val();
+			hargasat=hargasat.replace(/,/g,"");
+			if(volkeg!='' && hargasat!=''){
+				volkeg=parseInt(volkeg);
+				hargasat=parseInt(hargasat);
+				var total=volkeg*hargasat;
+				total=numberWithCommas(total);
+				jQuery('#jumlah').val(total);
+			}
+		}
+		
+		jQuery('#volkeg,#hargasat').keyup(function(){
+			getTambah();
+		});
+		
+		function form_default() {
+			jQuery('#div-form').hide();
+			
+			jQuery('.warning').hide();
+		}
+		
+		form_default();
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		/*function datatabel() {
+			jQuery('#tabel-ruh').dataTable().fnDestroy();
+			jQuery('#tabel-ruh').DataTable({
+				bProcessing:true,
+				oLanguage:{
+					"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+					"sLengthMenu":   "Tampilan _MENU_ entri",
+					"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+					"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+					"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+					"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Cari:",
+					"sUrl":          "",
+					"oPaginate": {
+					  "sFirst":    "Awal",
+					  "sPrevious": "Sebelum",
+					  "sNext":     "Sesudah",
+					  "sLast":     "Akhir"
+					}
+				},
+				aaSorting: [],
+				//~ aoColumnDefs: [{ "bSortable": false, "aTargets": [ 7, 8 ] }],
+				bServerSide: true,
+				sAjaxSource: "pagu/revisi-internal"
+			});
+		}
+		
+		datatabel(); */
+		
+		function datatabelUsulan() {
+			jQuery('#tabel-usulan').dataTable().fnDestroy();
+			jQuery('#tabel-usulan').DataTable({
+				bProcessing:true,
+				oLanguage:{
+					"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+					"sLengthMenu":   "Tampilan _MENU_ entri",
+					"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+					"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+					"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+					"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Cari:",
+					"sUrl":          "",
+					"oPaginate": {
+					  "sFirst":    "Awal",
+					  "sPrevious": "Sebelum",
+					  "sNext":     "Sesudah",
+					  "sLast":     "Akhir"
+					}
+				},
+				aaSorting: [],
+				// aoColumnDefs: [{ "bSortable": false, "aTargets": [ 7, 8 ] }],
+				bServerSide: true,
+				sAjaxSource: "pagu/usulan-revisi"
+			});
+		}
+		
+		datatabelUsulan();
+		
+		function validasi_form(arr_param){
+			var lanjut = true;
+			var arr_id = arr_param.split(",");
+			for(i=0; i<arr_id.length; i++) {
+				if(jQuery('#'+arr_id[i]).val() == null || jQuery('#'+arr_id[i]).val() == '') {
+					jQuery('#warning-'+arr_id[i]).show();
+					lanjut = false;
+				} else {
+					jQuery('#warning-'+arr_id[i]).hide();
+					lanjut = true;
+				} 
+			}
+			return lanjut;
+		}
+		
+		function cari_data(id){
+			jQuery.getJSON('pagu/cari-revisi/'+id, function(result){
+				
+				jQuery('#norevint').val(result.norevint);
+				
+				jQuery.get('dref/akun/'+result.jnsbelanja, function(akun){
+					jQuery('#akun').html(akun).promise().done(function(){
+						jQuery('#akun').val(result.kdakun).trigger('chosen:updated');
+					});
+				});
+				
+				jQuery('#inp-id').val(id);
+				jQuery('#komponen').val(result.kdkmpnen).trigger('chosen:updated');
+				jQuery('#subkomponen').val(result.kdskmpnen).trigger('chosen:updated');
+				jQuery('#noitem').val(result.noitem);
+				jQuery('#nmitem').val(result.nmitem);
+				jQuery('#volkeg').val(result.volkeg);
+				jQuery('#hargasat').val(result.hargasat);
+				jQuery('#jumlah').val(result.jumlah);
+				jQuery('#satuan').val(result.satkeg);
+				
+			});
+		}
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var id = this.id;
+			jQuery('#div-form').show();
+			jQuery('#inp-rekambaru').val(1);
+			cari_data(id);
+		});
+		
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var id = this.id;
+			alertify.confirm('Hapus data ini?', function(e){
+				if(e){
+					jQuery.get('token', function(token) {
+						if(token) {
+							jQuery.post('pagu/revisi-internal-hapus?_token='+token, {id:id}, function(result){
+								if(result=='success'){
+									//~ datatabel();
+									datatabelUsulan();
+									alertify.log('Proses hapus berhasil!');
+								}
+								else{
+									alertify.log(result);
+								}
+							});
+						}
+						else{
+							alertify.log('Sesi Anda habis, refresh browser.');
+						}
+					});
+				}
+			});
+		});
+		
+		jQuery('body').off('click', '.kirim').on('click', '.kirim', function(){
+			alertify.confirm('Kirim data ke perencanaan?', function(e){
+				if(e){
+					jQuery.get('token', function(token) {
+						if(token) {
+							jQuery.post('pagu/revisi-internal-kirim?_token='+token, function(result){
+								if(result=='success'){
+									datatabelUsulan();
+									alertify.log('Proses hapus berhasil!');
+								}
+								else{
+									alertify.log(result);
+								}
+							});
+						}
+						else{
+							alertify.log('Sesi Anda habis, refresh browser.');
+						}
+					});
+				}
+			});
+		});
+		
+		jQuery('#btn-proses').click(function(){
+			var next = validasi_form('komponen,subkomponen,akun,noitem,nmitem,volkeg,hargasat,jumlah,satuan');
+			if(next==true){
+				var data = jQuery('#form-ruh').serialize();
+				jQuery.post('pagu/revisi-internal', data, function(resp){
+					if(resp=='success'){
+						alertify.log('usulan revisi berhasil disimpan');
+						form_default();
+						//~ datatabel();
+						datatabelUsulan();
+					} 
+					else{
+						alertify.log(resp);
+					}
+				});
+			} 
+		});
+		
+		jQuery('#btn-batal').click(function(){
+			form_default();
+		});
+		
+		jQuery('#btn-proses-usul').hide();
+		jQuery('#norevus').prop('readonly', true);
+		
+		jQuery.get('pagu/nomor-revint', function(result){
+			jQuery('#norevus').val(result);
+			jQuery('#btn-proses-usul').show();
+		});
+		
+		jQuery('body').on('click', '.tambah', function(){
+			jQuery('#div-form').show();
+		});
+		
+		jQuery('body').off('click', '.setujui').on('click', '.setujui', function(){
+			var id = this.id;
+			alertify.confirm('Setujui revisi internal untuk data ini?', function (c){
+				if(c){
+					jQuery.get('token', function(token) {
+						if(token){
+							jQuery.post('pagu/setuju-revisi?_token='+token, {id:id}, function(result){
+								if(result=='success'){
+									datatabelUsulan();
+									alertify.log('usulan revisi internal telah disetujui!');
+								} else {
+									alertify.log(result);
+								} 
+							});
+						} 
+					});
+				} 
+			});
+		});
+		
+		jQuery('body').off('click', '.tolak').on('click', '.tolak', function(){
+			var id = this.id;
+			alertify.confirm('Tolak revisi internal untuk data ini?', function (c){
+				if(c){
+					jQuery.get('token', function(token) {
+						if(token){
+							jQuery.post('pagu/tolak-revisi?_token='+token, {id:id}, function(result){
+								if(result=='success'){
+									datatabelUsulan();
+									alertify.log('usulan revisi internal ditolak');
+								} else {
+									alertify.log(result);
+								} 
+							});
+						} 
+					});
+				} 
+			});
+		});
+		
+		jQuery('#btn-proses-usul').click(function(){
+			var data = 'norevus='+jQuery('#norevus').val()+'&_token='+jQuery('#_tkn').val();
+			//~ console.log(data);
+			jQuery.post('pagu/cek-usulan-revisi', data, function(respone){
+				if(respone == 'success'){
+					console.log("bisa menambah usulan revisi");
+					//~ jQuery('#div-form').show();
+					//~ jQuery('#div-usulan').hide();
+					jQuery('#div-tabel-baru').show();
+					jQuery('#div-usulan').hide();
+					datatabelUsulan();
+				} else {
+					alertify.log(respone);
+				} 
+			});
+		});
+	});
+
+</script>
+

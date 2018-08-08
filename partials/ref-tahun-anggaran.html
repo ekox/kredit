@@ -1,0 +1,358 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Referensi Tahun Anggaran</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Tahun</label>
+								<div class="col-lg-3">
+									<input type="text" id="kdtahun" name="kdtahun" class="form-control val_num" maxlength="2">
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-kdtahun" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama Tahun</label>
+								<div class="col-lg-4">
+									<input id="nmtahun" name="nmtahun" class="form-control"></input>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-nmtahun" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							</br>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-5">
+									<button title="Simpan Data Ini?" id="simpan" type="button" class="btn btn-primary">Simpan</button>
+									<button title="Batal"  id="batal" type="button" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-calendar"></i> Data Tahun Anggaran</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-primary" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>Kode Tahun</th>
+								<th>Nama Tahun</th>
+								<th>Status</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+jQuery(document).ready(function() {
+	jQuery.fn.dataTable.ext.errMode = 'none';
+	//Cek level for RUH client
+	jQuery.getJSON('cek/level', function(result){
+		if (result.level && result.level == 'success') {
+			jQuery('#div-tambah').show();
+		}
+		else{
+			jQuery('#div-tambah').hide();
+		}
+	});
+
+	//Tabel RUH
+	var table = jQuery('#tabel-ruh').DataTable({
+		
+		bProcessing : true,
+		oLanguage : {
+			"sProcessing"	: "Sedang proses....",
+			"sLengthMenu"	: "Tampilan _MENU_ entri",
+			"sZeroRecords"	: "Tidak ditemukan data yang sesuai",
+			"sInfo"			: "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+			"sInfoEmpty"	: "Tampilan 0 hingga 0 dari 0 entri",
+			"sInfoFiltered"	: "(disaring dari _MAX_ entri keseluruhan)",
+			"sInfoPostFix"	: "",
+			"sSearch"		: "Cari:",
+			"sUrl"			: "",
+			"oPaginate"		: {
+								"sFirst":    "Awal",
+								"sPrevious": "Sebelum",
+								"sNext":     "Sesudah",
+								"sLast":     "Akhir"
+							}
+		},
+		aaSorting: [],
+		bServerSide: true,
+		sAjaxSource: "ref/tahun-anggaran"
+		
+	});
+	
+	function form_valid(str_id) {
+		var arr_id = str_id.split(',');
+		var lanjut = true;
+		for(x = 0; x < arr_id.length; x++) {
+			if (jQuery('#'+arr_id[x]).val() == '') {
+				jQuery('#warning-'+arr_id[x]).show();
+				lanjut = false;
+			}
+		}
+		return lanjut;
+	}
+	
+	function cari_data(id) {
+		jQuery('input,textarea').val('');
+		jQuery('.chosen').val('').trigger('chosen:updated');
+		jQuery.getJSON('ref/caritahun-anggaran/'+id, function(result) {
+			if (result) {
+				jQuery('#inp-id').val(id);
+				jQuery('#inp-rekambaru').val('0');
+				jQuery('#kdtahun').val(result.kdtahun);
+				jQuery('#nmtahun').val(result.nmtahun);
+				jQuery('#kdtahun').prop('disabled',true);
+				jQuery('#div-form').show();
+			}
+		});
+	}
+	
+	function form_default() {
+		jQuery('input,textarea').val('');
+		jQuery('.chosen').val('').trigger('chosen:updated');
+		jQuery('#div-form,.warning').hide();
+		jQuery('#div-tabel').show();
+		jQuery('#kdtahun').prop('disabled',false);
+	}
+	
+	form_default();
+	
+	jQuery('#tambah').click(function() {
+		jQuery('#inp-rekambaru').val('1');
+		jQuery('#div-tabel').hide();
+		jQuery('#div-form').fadeIn();
+	});
+	
+	jQuery('#batal').click(function() {
+		form_default();
+	});
+	
+	jQuery('body').off('click', '.ubah').on('click', '.ubah', function() {
+		var id = this.id;
+		cari_data(id);
+		jQuery('#div-tabel').hide();
+		jQuery('#inp-id').val(id);
+		jQuery('#inp-rekambaru').val('0');
+		//alert(id);
+	});
+	
+	jQuery('body').off('click', '.aktif').on('click', '.aktif', function(){
+			var id = this.id;
+			alertify.confirm('Aktifkan data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'ref/tahun-anggaran/aktif',
+								method:'PUT',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses ubah berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+								}
+							});
+						} else {
+							alertify.log('Proses ubah gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+		
+		jQuery('body').off('click', '.non-aktif').on('click', '.non-aktif', function(){
+			var id = this.id;
+			alertify.confirm('Non-aktifkan data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'ref/tahun-anggaran/non-aktif',
+								method:'PUT',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses ubah berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+								}
+							});
+						} else {
+							alertify.log('Proses ubah gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+	
+	jQuery('#simpan').click(function() {
+		jQuery('#simpan').html('<span class="loading"><i class="fa fa-refresh"></i> Sedang proses.....</span>');
+		jQuery('#simpan').prop('disabled',true);
+		var lanjut = form_valid('kdtahun,nmtahun');
+		if(lanjut == true) {
+			jQuery.get('token', function(token) {
+				if (token) {
+					jQuery('#_token').val(token);
+					var data = jQuery('#form-ruh').serialize();
+					if (jQuery('#inp-rekambaru').val() == '1') {
+						jQuery.ajax({
+							url    : 'ref/tahun-anggaran',
+							method : 'POST',
+							data   : data,
+							success:function(result) {
+								if (result == 'success') {
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log('Proses simpan berhasil');
+									form_default();
+									table.ajax.reload();
+								} else {
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log(result);
+								} 
+							},
+							error:function(result) {
+								jQuery('#simpan').html('Simpan');
+								jQuery('#simpan').prop('disabled',false);
+								alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+							}
+						})
+					} else {
+						jQuery.ajax({
+							url    : 'ref/tahun-anggaran',
+							method : 'PUT',
+							data   : data,
+							success:function(result) {
+								if (result=='success') {
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log('Proses simpan berhasil.');
+									form_default();
+									table.ajax.reload();
+								} else {
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log(result);
+								} 
+							},
+							error:function(result){
+								jQuery('#simpan').html('Simpan');
+								jQuery('#simpan').prop('disabled',false);
+								alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+							}
+						})
+					} 
+				} else {
+					jQuery('#simpan').html('Simpan');
+					jQuery('#simpan').prop('disabled',false);
+					alertify.log('Proses simpan gagal. Silahkan refresh halaman browser anda.');
+				} 
+			});
+		} else {
+			jQuery('#simpan').html('Simpan');
+			jQuery('#simpan').prop('disabled',false);
+			alertify.log('Kolom tidak boleh dikosongkan!');
+		} 
+	});
+	
+	jQuery('body').off('click', '.hapus').on('click', '.hapus', function() {
+		var id = this.id;
+		alertify.confirm('Hapus data ini?', function(c) {
+			if (c) {
+				jQuery.get('token', function(token) {
+					if (token) {
+						jQuery.ajax({
+							url    : 'ref/tahun-anggaran',
+							method : 'delete',
+							data   : {
+										_token:token, 
+										id:id
+									},
+							success:function(result) {
+								if (result=='success') {
+									alertify.log('Proses hapus berhasil.');
+									table.ajax.reload();
+								} else {
+									alertify.log(result);
+								} 
+							},
+							error:function(result) {
+								alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+							}
+						});
+					} else {
+						alertify.log('Proses hapus gagal. Silahkan refresh halaman browser anda.');
+					} 
+				});
+			} 
+		});
+	});
+	
+});
+</script>

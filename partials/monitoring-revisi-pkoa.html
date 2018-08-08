@@ -1,0 +1,203 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-desktop"></i> Monitoring/ Revisi DIPA (Program/Kegiatan/Output/Belanja)</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-2">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-search"></i> Parameter</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<div class="col-lg-12">
+									<input type="text" placeholder="Revisi ke" class="form-control val_num" id="param1" name="param1" style="text-align:right;" maxlength="2" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-12">
+									<input type="text" placeholder="Revisi ke" class="form-control val_num" id="param2" name="param2" style="text-align:right;" maxlength="2" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-12">
+									<button id="cari" class="btn btn-block btn-primary"><i class="fa fa-refresh"></i> Cari</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+		<div class="col-lg-5">
+			
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="widget1" style="height:300px;">Loading....</div>
+				</div>
+			</div><!-- /.box -->
+			
+		</div>
+		<div class="col-lg-5">
+			
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="widget2" style="height:300px;">Loading....</div>
+				</div>
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<div class="row">
+						<div class="col-lg-2" style="text-align:center;">Kode</div>
+						<div class="col-lg-4" style="text-align:center;">Uraian</div>
+						<div class="col-lg-2" style="text-align:center;" id="div-revisike-a">Revisi Ke-</div>
+						<div class="col-lg-2" style="text-align:center;" id="div-revisike-b">Revisi Ke-</div>
+						<div class="col-lg-2" style="text-align:center;" id="div-revisike">Selisih</div>
+					</div>
+					<hr>
+					<ul id="ul-xxx"></ul>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		//tampilan default
+		function form_default() {
+			jQuery('#div-tabel').show();
+		}
+		
+		//aktivasi tampilan default
+		form_default();
+		
+		//tabel cari
+		function tabel1(param1,param2) {
+			jQuery('#tabel-ruh').dataTable().fnDestroy();
+			jQuery('#tabel-ruh').DataTable({
+				bProcessing:true,
+				oLanguage:{
+					"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+					"sLengthMenu":   "Tampilan _MENU_ entri",
+					"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+					"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+					"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+					"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Cari:",
+					"sUrl":          "",
+					"oPaginate": {
+					  "sFirst":    "Awal",
+					  "sPrevious": "Sebelum",
+					  "sNext":     "Sesudah",
+					  "sLast":     "Akhir"
+					}
+				},
+				aaSorting: [],
+				bServerSide: true,
+				sAjaxSource: "pagu/cari/saiba/"+param1+"/"+param2
+			});
+		}
+		
+		//tabel init
+		function tabel(param,param1){
+			var revisike_a=jQuery('#param1').val();
+			var revisike_b=jQuery('#param2').val();
+			if(revisike_a=='' || revisike_b==''){
+				var param1='xxx';
+			}
+			else{
+				var param1=revisike_a+'-'+revisike_b;
+			}
+			jQuery('#widget1').html('Loading....');
+			jQuery('#widget2').html('Loading....');
+			jQuery('#ul-'+param).html('<center>Loading.....</center>');
+			jQuery.getJSON('monitoring/revisi/breakdown/'+param+'/'+param1, function(result){
+				if(result.data){
+					jQuery('#ul-'+param).html(result.data);
+					jQuery('#widget1').html(result.grafik1);
+					jQuery('#widget2').html(result.grafik2);
+					jQuery('#div-revisike-a').html(result.revisike_a);
+					jQuery('#div-revisike-b').html(result.revisike_b);
+					jQuery('#div-revisike').html(result.revisike);
+				}
+				else{
+					jQuery('#ul-'+param).html('<center>Data tidak ditemukan!</center>');
+					jQuery('#widget1').html('Koneksi terputus...');
+					jQuery('#widget2').html('Koneksi terputus...');
+				}
+				jQuery('#cari').html('<i class="fa fa-refresh"></i> Cari');
+			});
+		}
+		
+		//panggil tabel default
+		tabel('xxx','xxx');
+		
+		//breakdown
+		jQuery('body').off('click', '.breakdown').on('click', '.breakdown', function(){
+			var param=this.id;
+			tabel(param);
+		});
+		
+		//pilih data
+		jQuery('body').off('click', '.pilih').on('click', '.pilih', function(){
+			var param=this.id;
+			var arr_data=param.split('-');
+			var form  = '<div class="form-group">'+
+							'<label class="control-label col-lg-3">Kode</label>';
+			
+			for(i=0;i<arr_data.length;i++){
+				form += '<div class="col-lg-1"><input type="text" class="form-control" value="'+arr_data[i]+'" disabled/></div>';
+			}
+			
+			form += '<div>';
+			
+			jQuery('#div-kode').html(form);
+		
+		});
+		
+		//cari data
+		jQuery('#cari').click(function(){
+			jQuery('#cari').html('Loading...');
+			if(jQuery('#param1').val()!='' && jQuery('#param2').val()!=''){
+				tabel('xxx', jQuery('#param1').val()+'-'+jQuery('#param2').val());
+			}
+			else{
+				alertify.log('Kolom parameter tidak dapat dikosongkan!');
+				jQuery('#cari').html('<i class="fa fa-refresh"></i> Cari');
+			}
+		});
+		
+	});
+</script>

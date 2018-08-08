@@ -1,0 +1,280 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1 data-toggle="collapse" data-target="#demo" ><i class="fa fa-list"></i > Referensi Program</h1>
+	<i id="demo" class="collapse" > 
+		Referensi Program adalah Referensi Yang berisi Data Program Kementerian / Lembaga Negara, 
+		Silahkan Gunakan Fitur Pencarian "Cari" berdasarkan Kode Maupun Nama Program
+	</i>
+</section>
+
+<!-- Main content -->
+<section class="content" style="color:blue" >
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Kementerian / Lembaga Negara</label>
+								<div class="col-lg-6">
+									<select id="kddept" name="kddept" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kddept" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Unit</label>
+								<div class="col-lg-6">
+									<select id="kdunit" name="kdunit" class="form-control chosen" placeholder="Pilih Data">
+									</select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kdunit" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Program</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="kdprogram" name="kdprogram" />
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kdprogram" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama Program</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" id="nmprogram" name="nmprogram" />
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-nmprogram" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button title="Simpan" id="btn-simpan" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+									<button title="Batal" id="btn-batal" class="btn btn-default"><i class="fa fa-refresh"></i> Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-info" id="btn-tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Kode Kementerian / Lembaga Negara</th>
+								<th>Kode Unit</th>
+								<th>Kode Program</th>
+								<th>Nama Program</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		jQuery.get('dropdown/dept', function(result){
+			if(result){
+				jQuery('#kddept').html(result).trigger('chosen:updated');
+			}
+		});
+		
+			
+	
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "ref/program"
+		});
+		
+		jQuery('#refresh').click(function(){
+			table.ajax.url("ref/program").load();
+		});
+		
+		function form_default() {
+			jQuery('#inp-rekambaru').val(0);
+			jQuery.get('token', function(token){
+				jQuery('#_token').val(token)
+			});
+			jQuery('.warning, #div-form').hide();
+			jQuery('#div-tabel').show();
+			jQuery('#kdprogram,#nmprogram').val('').prop('readonly', false);
+			jQuery('#kddept').removeAttr('disabled');
+			jQuery('#kdunit').removeAttr('disabled');
+		}
+		
+		function validasi_form(arr_param) {
+			var lanjut = true;
+			var arr_id = arr_param.split(",");
+			for(i=0; i<arr_id.length; i++) {
+				if(jQuery('#'+arr_id[i]).val() == null || jQuery('#'+arr_id[i]).val() == '') {
+					jQuery('#warning-'+arr_id[i]).show();
+					lanjut = false;
+				} else {
+					jQuery('#warning-'+arr_id[i]).hide();
+					lanjut = true;
+				} 
+			}
+			return lanjut;
+		}
+		
+		function cari_data(param) {
+			jQuery('#inp-rekambaru').val(1);
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+			
+			jQuery.getJSON('ref/program-cari/'+param, function(result){
+				jQuery('#kddept').val(result.kddept).trigger('chosen:updated').prop("disabled", "disabled");
+				jQuery.get('dropdown/unit/'+result.kddept+'/'+result.kdunit, function(result){
+					if(result){
+						jQuery('#kdunit').html(result).trigger('chosen:updated');
+						jQuery('#kdunit').prop("disabled", "disabled");
+					}
+				});
+				jQuery('#kdprogram').val(result.kdprogram).prop("readonly", true);
+				jQuery('#nmprogram').val(result.nmprogram);
+			});
+		}
+		
+		form_default();
+		
+		jQuery('#btn-tambah').click(function(){
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+			jQuery('#kdprogram,#nmprogram,#kddept,#kdunit').val('');
+			
+		});
+		
+		jQuery('#kddept').change(function(){
+			var kddept = jQuery('#kddept').val();
+			jQuery.get('dropdown/unit/'+kddept, function(result){
+				if(result){
+					jQuery('#kdunit').html(result).trigger('chosen:updated');
+				}
+			});
+		});
+		
+		jQuery('#btn-simpan').click(function(){
+			jQuery('#kddept').removeAttr('disabled');
+			jQuery('#kdunit').removeAttr('disabled');
+			var data = jQuery('#form-ruh').serialize
+			var data = jQuery('#form-ruh').serialize();
+			if(validasi_form('kddept,kdunit,kdprogram,nmprogram') == true) {
+				jQuery.ajax({
+					url: 'ref/program-simpan',
+					method: 'POST',
+					data: data,
+					success: function(result){
+						if(result == 'success'){
+							alertify.log('Berhasil disimpan');
+							form_default();
+							table.ajax.reload('ref/program');
+						} else {
+							alertify.log(result);
+							if(jQuery('#inp-rekambaru').val()==1){
+								jQuery('#kddept').prop("disabled", "disabled");
+								jQuery('#kdunit').prop("disabled", "disabled");
+							}
+						} 
+					}
+				});
+			}
+		});
+		
+		jQuery('#btn-batal').click(function(){
+			form_default();
+		});
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var kdprogram = this.id;
+			cari_data(kdprogram);
+		});
+		
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var kdprogram = this.id;
+			var token = jQuery('#_token').val();
+			jQuery.ajax({
+				url: 'ref/program-hapus',
+				method: 'POST',
+				data: {kdprogram : kdprogram, _token : token},
+				success: function(result){
+					if(result == 'success'){
+						alertify.log("Berhasil dihapus");
+						form_default();
+						table.ajax.reload('ref/program');
+					} else {
+						alertify.log(result);
+					} 
+				}
+			});
+		});
+	});
+
+</script>
+

@@ -1,0 +1,289 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<style>
+	td.details-control {
+		background: url('template/img/details_open.png') no-repeat center center;
+		cursor: pointer;
+	}
+	tr.shown td.details-control {
+		background: url('template/img/details_close.png') no-repeat center center;
+	}
+</style>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-table"></i> Data Transaksi</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">No.SPP</label>
+								<div class="col-lg-2">
+									<input class="form-control" id="nospp" name="nospp" readonly>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-nospp" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Status</label>
+								<div class="col-lg-5">
+									<select id="status" name="status" class="form-control chosen"></select>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-status" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Keterangan</label>
+								<div class="col-lg-5">
+									<textarea class="form-control" id="ket" name="ket"></textarea>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-ket" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button type="button" id="simpan" class="btn btn-primary">Simpan</button>
+									<button type="button" id="batal" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th></th>
+								<th>#</th>
+								<th>PPK</th>
+								<th>No.SPP</th>
+								<th>Tgl.SPP</th>
+								<th>Jenis</th>
+								<th>Uraian</th>
+								<th>Nilai</th>
+								<th>Potongan</th>
+								<th>No.SPM</th>
+								<th>Tgl.SPM</th>
+								<th>No.SP2D</th>
+								<th>Tgl.SP2D</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery('.chosen').chosen();
+		
+		jQuery.get('spp/status', function(result){
+			jQuery('#status').html(result).trigger('chosen:updated');
+		});
+		
+		jQuery('.warning').hide();
+		
+		function form_valid(str_id){
+			var arr_id = str_id.split(',');
+			var next = true;
+			for(x = 0; x < arr_id.length; x++){
+				if(jQuery('#'+arr_id[x]).val()==''){
+					jQuery('#warning-'+arr_id[x]).show();
+					next = false;
+				}
+			}
+			return next;
+		}
+		
+		//data tabel
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			"columns": [
+				{
+					"className":      'details-control',
+					"orderable":      false,
+					"data":      null,
+					"defaultContent": ''
+				},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{}
+			],
+			aaSorting: [],
+			bServerSide: true,
+			ajax:{
+				url: "transaksi/data/xxx", // Change this URL to where your json data comes from
+				type: "GET", // This is the default value, could also be POST, or anything you want.
+				data: function(d) {
+					//d.id = jQuery("#inp-id").val()
+				}
+			},
+			fnCreatedRow: function( nRow, aData, iDataIndex ) {
+				jQuery(nRow).attr('id', aData[0]);
+			}
+		});
+		
+		jQuery('#tabel-ruh').off('click', 'td.details-control').on('click', 'td.details-control', function () {
+			var tr = jQuery(this).closest('tr');
+			var row = table.row( tr );
+	 
+			if ( row.child.isShown() ) {
+				row.child.hide();
+				tr.removeClass('shown');
+			}
+			else {
+				var id=jQuery(this).parent().attr('id');
+				
+				jQuery.getJSON('transaksi/data-detil/'+id, function(result){
+					if(result.tabel){
+						// Open this row
+						row.child( result.tabel ).show();
+						tr.addClass('shown');
+						
+					}
+					else{
+						alertify.log('Tidak ada data detil...');
+					}
+				});
+			}
+		});
+		
+		function form_default(){
+			jQuery('#div-form,.warning').hide();
+			jQuery('#div-tabel').show();
+			jQuery('input,textarea,select').val('');
+			jQuery('.chosen').trigger('chosen:updated');
+		}
+		
+		form_default();
+		
+		jQuery('body').off('click', '.ubah-status').on('click', '.ubah-status', function(){
+			var id = this.id;
+			jQuery('#nospp').val(id);
+			jQuery('#ket').val('-');
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+		});
+		
+		jQuery('#batal').click(function(){
+			form_default();
+		});
+		
+		jQuery('#simpan').click(function(){
+			var lanjut = form_valid('nospp,status,ket');
+			if(lanjut){
+				jQuery('#simpan').html('Loading.....');
+				jQuery('#simpan').prop('disabled', true);
+				
+				jQuery.get('token', function(token){
+					
+					var data = jQuery('#form-ruh').serialize();
+					//~ alertify.log(data);
+					jQuery.ajax({
+						url: 'spp/status?_token='+token,
+						method: 'POST',
+						data: data,
+						success: function(result){
+							if(result=='success'){
+								jQuery('#simpan').html('Simpan');
+								jQuery('#simpan').prop('disabled', false);
+								alertify.log("Proses ubah status SPP berhasil!");
+								table.ajax.reload();
+								form_default();
+							}
+							else{
+								jQuery('#simpan').html('Simpan');
+								jQuery('#simpan').prop('disabled', false);
+								alertify.log(result);
+							}
+						},
+						error: function(e){
+							jQuery('#simpan').html('Simpan');
+							jQuery('#simpan').prop('disabled', false);
+							alertify.log(e);
+						}
+					});
+					
+				});
+				
+			}
+			else{
+				alertify.log('Kolom wajib diisi!');
+			}
+		});
+		
+	});
+
+</script>

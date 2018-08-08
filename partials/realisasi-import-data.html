@@ -1,0 +1,159 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Realisasi/ Import Data</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+											
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Periode</label>
+								<div class="col-lg-3">
+									<select id="periode" name="periode" class="form-control chosen" data-placeholder="PIlih Data">
+										<option value="" style="display:none;">Pilih Data</option>
+										<option value="01">Januari</option><!-- /.col-lg-11 -->
+										<option value="02">Februari</option>
+										<option value="03">Maret</option>
+										<option value="04">April</option>
+										<option value="05">Mei</option>
+										<option value="06">Juni</option>
+										<option value="07">Juli</option>
+										<option value="08">Agustus</option>
+										<option value="09">September</option>
+										<option value="10">Oktober</option>
+										<option value="11">November</option>
+										<option value="12">Desember</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3" id="div-upload">
+									
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+						
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Nama File</th>
+								<th>Periode</th>
+								<th>Upload Ke</th>
+								<th>Tgl.Upload</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery('.chosen').chosen();
+		
+		jQuery('#periode').change(function(){
+			upload(jQuery(this).val());
+		});
+		
+		//Tabel RUH
+		var table = jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "realisasi/import-data"
+		});
+		
+		function upload(periode){
+			jQuery.get('token', function(token) {
+				if(token) {
+					jQuery('#div-upload').html('<input type="file" class="form-control" id="uploadfile" name="uploadfile" />');
+					jQuery("#uploadfile").pekeUpload({
+						theme:'bootstrap',
+						//allowedExtensions:"APS",
+						url : "realisasi/upload?_token="+token,
+						multi : 'false',
+						data : periode,
+						showErrorAlerts:'true',
+						onFileError:function(file,error){
+							alertify.log(error);
+						},
+						onFileSuccess:function(file,data){
+							alertify.log("file "+file.name+" : berhasil di upload");
+							table.ajax.reload();
+						}
+					});
+				}
+				else{
+					alertify.log('Sesi telah habis, silahkan refresh browser.');
+				}
+			});
+		}
+		
+	});
+</script>

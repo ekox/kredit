@@ -1,0 +1,221 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1 data-toggle="collapse" data-target="#demo" ><i class="fa fa-list"></i > Referensi Deputi</h1>
+	<i id="demo" class="collapse" > 
+		Referensi Unit adalah Referensi Yang berisi Data Departemen dan Eselon 1, 
+		Silahkan Gunakan Fitur Pencarian "Cari" berdasarkan Kode Departemen, Unit Maupun Nama Unit 
+	</i>
+</section>
+
+<!-- Main content -->
+<section class="content" style="color:blue" >
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Kode Deputi</label>
+								<div class="col-lg-1">
+									<input type="text" class="form-control val_num" id="kddeputi" name="kddeputi" value="" style="text-align:left;"/>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-kddeputi" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Nama Deputi</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" id="nmdeputi" name="nmdeputi" />
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-nmdeputi" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button title="Simpan" id="btn-simpan" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+									<button title="Batal" id="btn-batal" class="btn btn-default"><i class="fa fa-refresh"></i> Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-info" id="btn-tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Kode Deputi</th>
+								<th>Nama Deputi</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+	
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "ref/deputi"
+		});
+		
+		jQuery('#refresh').click(function(){
+			table.ajax.url("ref/deputi").load();
+		});
+		
+		function form_default() {
+			jQuery('#inp-rekambaru').val(0);
+			jQuery.get('token', function(token){
+				jQuery('#_token').val(token)
+			});
+			jQuery('.warning, #div-form').hide();
+			jQuery('#div-tabel').show();
+			jQuery('#kddeputi,#nmdeputi').val('').prop('readonly', false);
+		}
+		
+		function validasi_form(arr_param) {
+			var lanjut = true;
+			var arr_id = arr_param.split(",");
+			for(i=0; i<arr_id.length; i++) {
+				if(jQuery('#'+arr_id[i]).val() == null || jQuery('#'+arr_id[i]).val() == '') {
+					jQuery('#warning-'+arr_id[i]).show();
+					lanjut = false;
+				} else {
+					jQuery('#warning-'+arr_id[i]).hide();
+					lanjut = true;
+				} 
+			}
+			return lanjut;
+		}
+		
+		function cari_data(param) {
+			jQuery('#inp-rekambaru').val(1);
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+			
+			jQuery.getJSON('ref/deputi-cari/'+param, function(result){
+				jQuery('#kddeputi').val(result.kddeputi).prop("readonly", true);
+				jQuery('#nmdeputi').val(result.nmdeputi);
+			});
+		}
+		
+		form_default();
+		
+		jQuery('#btn-tambah').click(function(){
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+			jQuery('#kddeputi,#nmdeputi').val('');
+		});
+		
+		jQuery('#btn-simpan').click(function(){
+			var data = jQuery('#form-ruh').serialize();
+			if(validasi_form('kddeputi,nmdeputi') == true) {
+				jQuery.ajax({
+					url: 'ref/deputi-simpan',
+					method: 'POST',
+					data: data,
+					success: function(result){
+						if(result == 'success'){
+							alertify.log('Berhasil disimpan');
+							form_default();
+							table.ajax.reload('ref/deputi');
+						} else {
+							alertify.log(result)
+						} 
+					}
+				});
+			}
+		});
+		
+		jQuery('#btn-batal').click(function(){
+			form_default();
+		});
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var kddeputi = this.id;
+			cari_data(kddeputi);
+		});
+		
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var kddeputi = this.id;
+			var token = jQuery('#_token').val();
+			jQuery.ajax({
+				url: 'ref/deputi-hapus',
+				method: 'POST',
+				data: {kddeputi : kddeputi, _token : token},
+				success: function(result){
+					if(result == 'success'){
+						alertify.log("Berhasil dihapus");
+						form_default();
+						table.ajax.reload('ref/deputi');
+					} else {
+						alertify.log(result);
+					} 
+				}
+			});
+		});
+	});
+
+</script>
+

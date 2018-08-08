@@ -1,0 +1,270 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-upload"></i> Upload SPP</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title" id="status-form"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">No.SPP</label>
+								<div class="col-lg-5">
+									<textarea class="form-control" id="nospp" name="nospp" placeholder="00001,00002,00003,......"></textarea>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-nospp" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Upload File (*.spp)</label>
+								<div class="col-lg-3" id="div-upload">
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Upload File (*.rar)</label>
+								<div class="col-lg-3" id="div-upload1">
+									
+								</div>
+							</div>
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button id="btn-proses" class="btn btn-success">Simpan</button>
+									<button id="btn-batal" class="btn btn-danger">Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-warning" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Nama File</th>
+								<th>Nama Lamp</th>
+								<th>Tahun</th>
+								<th>Nama PPK</th>
+								<th>No.SPP/ Upload ke-</th>
+								<th>Tgl.Upload</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		jQuery('.warning').hide();
+		
+		jQuery.get('spp/cek-level', function(result){
+			if(result=='06'){
+				jQuery('#div-tambah').show();
+			}
+			else{
+				jQuery('#div-tambah').hide();
+			}
+		});
+		
+		function form_default(){
+			jQuery('#div-form').hide();
+			jQuery('#div-tabel').show();
+			jQuery('#nospp').prop('disabled', false);
+		}
+		
+		form_default();
+		
+		function validasi_form(arr_param){
+			var lanjut = true;
+			var arr_id = arr_param.split(",");
+			for(i=0; i<arr_id.length; i++) {
+				if(jQuery('#'+arr_id[i]).val() == null || jQuery('#'+arr_id[i]).val() == '') {
+					jQuery('#warning-'+arr_id[i]).show();
+					lanjut = false;
+				} else {
+					jQuery('#warning-'+arr_id[i]).hide();
+					lanjut = true;
+				} 
+			}
+			return lanjut;
+		}	
+
+		function uploading(status) {
+			jQuery('#div-upload').html('<input type="file" class="form-control" id="uploadfile" name="uploadfile" />');
+			jQuery.get('token', function(result){
+				jQuery('#_token').val(result);
+				var token = jQuery('#_token').val();
+				var revisike = jQuery('#_revisike').val();
+					jQuery("#uploadfile").pekeUpload({
+						theme:'bootstrap',
+						url : 'spp/upload/'+status+'?_token='+token,
+						multi : 'false',
+						showErrorAlerts:'true',
+						onFileError:function(file,error){
+							alertify.log(error);
+						},
+						onFileSuccess:function(file,data){
+							alertify.log("file "+file.name+" : berhasil di upload");
+						}
+					});
+
+			});
+		}
+		
+		jQuery('#tambah').click(function(){
+			jQuery('#inp-rekambaru').val('1');
+			jQuery('#status-form').html('<i class="fa fa-pencil"></i> Form Baru');
+			jQuery('#inp-id').val('');
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+			uploading('1');
+			uploading1('1');
+		});
+		
+		jQuery('#btn-batal').click(function(){
+			form_default();
+		});
+		
+		function uploading1(status) {
+			jQuery('#div-upload1').html('<input type="file" class="form-control" id="uploadfile1" name="uploadfile1" />');
+			jQuery.get('token', function(result){
+				jQuery('#_token').val(result);
+				var token = jQuery('#_token').val();
+				var revisike = jQuery('#_revisike').val();
+					jQuery("#uploadfile1").pekeUpload({
+						theme:'bootstrap',
+						url : 'spp/upload1/'+status+'?_token='+token,
+						multi : 'false',
+						showErrorAlerts:'true',
+						onFileError:function(file,error){
+							alertify.log(error);
+						},
+						onFileSuccess:function(file,data){
+							alertify.log("file "+file.name+" : berhasil di upload");
+						}
+					});
+
+			});
+		}
+		
+		//data tabel
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "spp/all/xxx"
+		});
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var id = this.id;
+			jQuery.getJSON('spp/upload/'+id, function(result){
+				if(result.nospp){
+					uploading('0');
+					uploading1('0');
+					jQuery('#nospp').val(result.nospp);
+					jQuery('#nospp').prop('disabled', true);
+					jQuery('#status-form').html('<i class="fa fa-pencil"></i> Form Ubah');
+					jQuery('#inp-rekambaru').val('0');
+					jQuery('#inp-id').val(id);
+					jQuery('#div-tabel').hide();
+					jQuery('#div-form').show();
+				}
+				else{
+					alertify.log(result.error);
+				}
+			});
+		});
+		
+		jQuery('#btn-proses').click(function(){
+			jQuery('#btn-proses').prop('disabled', true);
+			jQuery('#btn-proses').html('Sedang proses....');
+			var data = jQuery('#form-ruh').serialize();
+			//~ alertify.log(data);
+			jQuery.ajax({
+				url: 'spp',
+				method: 'POST',
+				data: data,
+				success: function(result){
+					jQuery('#btn-proses').prop('disabled', false);
+					jQuery('#btn-proses').html('<i class="fa fa-check"></i> Simpan');
+					if(result=='success'){
+						alertify.log("Proses simpan adk SPP berhasil!");
+						location.reload();
+					}
+					else{
+						alertify.log(result);
+					}
+				}
+			});
+		});
+		
+	});
+
+</script>

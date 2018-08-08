@@ -1,0 +1,54 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Monitoring Pagu</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<ul id="ul-xxx"></ul>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		function tabel(param){
+			jQuery.get('pagu/breakdown/'+param, function(result){
+				jQuery('#ul-'+param).html(result);
+			});
+		}
+		
+		//panggil tabel
+		tabel('xxx');
+		
+		jQuery('body').off('click', '.breakdown').on('click', '.breakdown', function(){
+			var param=this.id;
+			tabel(param);
+		});
+		
+	});
+
+</script>
+
+

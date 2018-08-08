@@ -1,0 +1,347 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Split Data Pagu</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<input type="hidden" id="kode" name="kode">
+						<div class="box-body">
+							<div class="form-group" id="div-kode1">
+								<label class="control-label col-lg-3">Kode Anggaran</label>
+								<div class="col-lg-9">
+									<label class="control-label">Prg.</label>
+									<input type="text" class="_pagu" id="prg" name="prg" size="1" disabled />
+									<label class="control-label">Keg.</label>
+									<input type="text" class="_pagu" id="keg" name="keg" size="2" disabled />
+									<label class="control-label">Outp.</label>
+									<input type="text" class="_pagu" id="outp" name="outp" size="2" disabled />
+									<label class="control-label">S.Outp.</label>
+									<input type="text" class="_pagu" id="soutp" name="soutp" size="2" disabled />
+									<label class="control-label">Kmpn.</label>
+									<input type="text" class="_pagu" id="kmpn" name="kmpn" size="2" disabled />
+									<label class="control-label">S.Kpmn.</label>
+									<input type="text" class="_pagu" id="skmpn" name="skmpn" size="1" disabled />
+									<label class="control-label">Akun.</label>
+									<input type="text" class="_pagu" id="akun" name="akun" size="4" disabled />
+									<label class="control-label">Rph.</label>
+									<input type="text" class="_pagu" id="rupiah" name="rupiah" size="6" disabled style="text-align:right;"/>
+								</div>
+							</div>
+							<div class="form-group" id="div-kode2">
+								<label class="control-label col-lg-3">Kode Anggaran</label>
+								<div class="col-lg-9" id="div-kode">
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Deputi</label>
+								<div class="col-lg-7">
+									<select class="form-control chosen" id="deputi" name="deputi">
+										<option value="" style="display:none;">Pilih Deputi</option>
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-deputi" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">Asisten Deputi</label>
+								<div class="col-lg-7">
+									<select class="form-control chosen" id="asdeputi" name="asdeputi">
+										<option value="" style="display:none;">Pilih Asisten Deputi</option>
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-asdeputi" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-3">&nbsp;</div>
+								<div class="col-lg-3">
+									<button class="btn btn-primary" id="btn-proses"><i class="fa fa-save"></i> Simpan</button>
+									<button class="btn btn-default" id="btn-batal"><i class="fa fa-arrow-left"></i> Batal</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="form-group">
+			<div class="col-lg-3">
+				<select class="form-control chosen" id="param" name="param">
+					<option value="0">Semua Data</option>
+					<option value="1">Sudah Split</option>
+					<option value="2">Belum Split</option>
+				</select>
+			</div>
+		</div><br>
+		
+		<div class="col-lg-12">
+				
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-primary" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive table-condensed" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Deputi</th>
+								<th>As.Deputi</th>
+								<th>Satker</th>
+								<th>Tahun</th>
+								<th>Kode Pagu</th>
+								<th>Uraian</th>
+								<th>Jumlah</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel1">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right">
+						<button title="Batal Tambah" type="button" class="btn btn-primary" id="batal-tambah"><i class="fa fa-times"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<div class="row">
+						<div class="col-lg-3" style="text-align:center;">Kode</div>
+						<div class="col-lg-6" style="text-align:center;">Uraian</div>
+						<div class="col-lg-2" style="text-align:center;">Jumlah</div>
+						<div class="col-lg-1" style="text-align:center;">Aksi</div>
+					</div>
+					<hr>
+					<ul id="ul-xxx"></ul>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+
+</section>
+<script>
+	jQuery(document).ready(function(){
+	
+		jQuery('.chosen').chosen();
+		
+		jQuery.get('dropdown/deputi', function(result){
+			if(result){
+				jQuery('#deputi').html(result).trigger('chosen:updated');
+			} 
+		});
+
+		jQuery.get('dropdown/sdeputi', function(result){
+			if(result){
+				jQuery('#asdeputi').html(result).trigger('chosen:updated');
+			} 
+		});
+		
+		//Tabel RUH
+		var table = jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "data/pagu/0"
+		});
+		
+		jQuery('#param').change(function(){
+			var param=jQuery(this).val();
+			table.ajax.url('data/pagu/'+param).load();
+		});
+		
+		function tabel1(param){
+			jQuery('#ul-'+param).html('<center>Loading.....</center>');
+			jQuery.get('pagu/breakdown/'+param, function(result){
+				if(result){
+					jQuery('#ul-'+param).html(result);
+				}
+				else{
+					jQuery('#ul-'+param).html('<center>Koneksi terputus.....</center>');
+				}
+			});			
+		}
+		
+		//breakdown
+		jQuery('body').off('click', '.breakdown').on('click', '.breakdown', function(){
+			var param=this.id;
+			tabel1(param);
+		});
+		
+		jQuery('#deputi').change(function(){
+			jQuery.get('dropdown/sdeputiby/'+jQuery(this).val(), function(result){
+				if(result){
+					jQuery('#asdeputi').html(result).trigger('chosen:updated');
+				} 
+			});	
+		});
+		
+		function form_default() {
+			jQuery('#div-form,#div-tabel1,#div-kode1,#div-kode2').hide();
+			jQuery('#div-tabel').show();
+			jQuery('._pagu,#kode').val('');
+			jQuery('.warning').hide();
+			jQuery.get('token', function(result){
+				jQuery('#_token').val(result);
+			});
+		}
+
+		function validasi_form(arr_param){
+			var lanjut = true;
+			var arr_id = arr_param.split(",");
+			for(i=0; i<arr_id.length; i++) {
+				if(jQuery('#'+arr_id[i]).val() == null || jQuery('#'+arr_id[i]).val() == '') {
+					jQuery('#warning-'+arr_id[i]).show();
+					lanjut = false;
+				} else {
+					jQuery('#warning-'+arr_id[i]).hide();
+					lanjut = true;
+				} 
+			}
+			return lanjut;
+		}
+		
+		function cari_data(id) {
+			jQuery.getJSON('data/paguby/'+id, function(result){
+				if(result.KDPROGRAM){
+					jQuery('#prg').val(result.KDPROGRAM);
+					jQuery('#keg').val(result.KDGIAT);
+					jQuery('#outp').val(result.KDOUTPUT);
+					jQuery('#soutp').val(result.KDSOUTPUT);
+					jQuery('#kmpn').val(result.KDKMPNEN);
+					jQuery('#skmpn').val(result.KDSKMPNEN);
+					jQuery('#akun').val(result.KDAKUN);
+					jQuery('#rupiah').val(result.JUMLAH);
+				}
+				else{
+					alertify.log('Data tidak ditemukan!');
+				}
+			});
+		}
+		
+		form_default();
+		
+		jQuery('#btn-proses').click(function(){
+			validasi_form('deputi,asdeputi');
+			if(validasi_form('deputi,asdeputi')==true){
+				var data = jQuery('#form-ruh').serialize();
+				jQuery.ajax({
+					url: 'split-data/rkakl',
+					method: 'POST',
+					data: data,
+					success: function(result){
+						if(result == 'success'){
+							form_default();
+							var param=jQuery('#param').val();
+							table.ajax.url('data/pagu/'+param).load();
+						} else {
+							alertify.log(result);
+						}
+					}
+				});
+			} 
+		});
+		
+		jQuery('body').off('click', '.pilih').on('click', '.pilih', function(){
+			var param=this.id;
+			var arr_data=param.split('-');
+			var form  = '<div class="form-group">';
+			
+			for(i=0;i<arr_data.length;i++){
+				if(i==6||i==1||i==2||i==3||i==4){
+					form += '<div class="col-lg-2"><input type="text" name="kdang-'+i+'" class="form-control" value="'+arr_data[i]+'" readonly/></div>';
+				}else{
+					form += '<div class="col-lg-1"><input type="text" name="kdang-'+i+'" class="form-control" value="'+arr_data[i]+'" readonly/></div>';
+				}
+			}
+			
+			form += '</div>';
+			
+			jQuery('#div-kode').html(form);
+			jQuery('#div-tabel1,#div-kode1').hide();
+			jQuery('#div-form,#div-kode2').fadeIn();
+			jQuery('#kode').val(param);
+		
+		});
+		
+		jQuery('#tambah').click(function(){
+			jQuery('#div-tabel,#div-form').hide();
+			jQuery('#div-tabel1').fadeIn();
+			tabel1('xxx');
+		});
+		
+		jQuery('#btn-batal,#batal-tambah').click(function(){
+			form_default();
+		});
+		
+		jQuery('#tabel-ruh').off('click', '.ubah').on('click', '.ubah', function(){
+			jQuery('#div-form,#div-kode1').show();
+			jQuery('#div-tabel,#div-kode2').hide();
+			jQuery('#inp-id').val(this.id);
+			jQuery('#kode').val('');
+			cari_data(this.id);
+		});
+	});
+
+</script>

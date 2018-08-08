@@ -1,0 +1,70 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-money"></i> Pagu Updated</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-danger" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Kode</th>
+								<th>Uraian</th>
+								<th>Jumlah</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody id="tabel-ruh-body">
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		//tampilan default
+		function form_default() {
+			jQuery('#div-tabel').show();
+		}
+		
+		//aktivasi tampilan default
+		form_default();
+		
+		//tabel generator
+		function tabel(param){
+			jQuery.get('pagu/breakdown/'+param, function(result){
+				jQuery('#tabel-ruh-body').html(result);
+			});
+		}
+		
+		//panggil tabel
+		tabel('xxx');
+		
+	});
+</script>

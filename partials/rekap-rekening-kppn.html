@@ -1,0 +1,174 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-print"></i> Cetak Rekapitulasi Rekening Bendahara - KPPN</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+		<div class="col-lg-12">
+			
+			<div class="box">
+				<div class="box-header">
+					
+				</div><!-- /.box-header -->
+				
+				<div class="box-body table-responsive"> <!--style="overflow-x:scroll;"-->
+					<form id="form-cetak" name="form-cetak" class="form-horizontal">
+						<input type="hidden" id="_token" name="_token">
+						<br/>
+						<!--dropdown tahun anggaran-->
+						<div class="form-group">
+							<label class="control-label col-lg-3">Tahun Anggaran</label>
+							<div class="col-lg-3">
+								<select class="form-control chosen" id="thang" name="thang">
+									<option value="" style="display:none;">Pilih Tahun Anggaran</option>
+									<option value="2014"> 2014</option>
+									<option value="2015"> 2015</option>
+									<option value="2016"> 2016</option>
+								</select>
+							</div>
+							<div class="col-lg-2">
+								<span id="warning-thang" class="label label-danger warning">Required!</span>
+							</div>
+						</div>
+						<!--dropdown kode bulan-->
+						<div class="form-group">
+							<label class="control-label col-lg-3">Periode</label>
+							<div class="col-lg-3">
+								<select class="form-control chosen" id="kdbulan" name="kdbulan">
+									<option value="" style="display:none;">Pilih Periode</option>
+									<option value="01">Januari</option>
+									<option value="02">Pebruari</option>
+									<option value="03">Maret</option>
+									<option value="04">April</option>
+									<option value="05">Mei</option>
+									<option value="06">Juni</option>
+									<option value="07">Juli</option>
+									<option value="08">Agustus</option>
+									<option value="09">September</option>
+									<option value="10">Oktober</option>
+									<option value="11">Nopember</option>
+									<option value="12">Desember</option>
+								</select>
+							</div>
+							<div class="col-lg-2">
+								<span id="warning-kdbulan" class="label label-danger warning">Required!</span>
+							</div>
+						</div>
+						
+						<!--dropdown jenis lpj-->
+						<div class="form-group">
+							<label class="control-label col-lg-3">Jenis LPJ</label>
+							<div class="col-lg-3">
+								<select class="form-control chosen" id="jnslpj" name="jnslpj">
+									<option value="" style="display:none;">Pilih Jenis LPJ</option>
+									<option value="1">LPJ Penerimaan</option>
+									<option value="2">LPJ Pengeluaran</option>
+								</select>
+							</div>
+							<div class="col-lg-2">
+								<span id="warning-jnslpj" class="label label-danger warning">Required!</span>
+							</div>
+						</div>
+					
+						<!--button-->
+						<div class="form-group">
+							<hr/>
+							<label class="control-label col-lg-3"> </label>
+							<div class="col-lg-8">
+								<button title="Simpan Data Ini?" id="btn-cetak" type="button" class="btn btn-primary"><i class="fa fa-desktop"></i> Tampilkan</button>
+								<button title="Unduh Data Ini?" id="btn-excel" type="button" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Excel</button>
+								<button title="Unduh Data Ini?" id="btn-pdf" type="button" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> PDF</button>
+								<button title="Batal"  id="btn-batal" type="button" class="btn btn-default"><i class="fa fa-refresh"></i> Reset</button>
+							</div>
+						</div>
+						
+					</form>
+				</div><!-- /.box-body -->
+				
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery('.chosen').chosen();
+		
+		function fdefault(){
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery('.warning').hide();
+			jQuery('#btn-cetak, #btn-excel, #btn-pdf').prop('disabled', false);
+			jQuery('#btn-cetak').html('<i class="fa fa-desktop"></i> Cetak</span>');
+			jQuery('#btn-excel').html('<i class="fa fa-file-excel-o"></i> Excel</span>');
+			jQuery('#btn-pdf').html('<i class="fa fa-file-pdf-o"></i> PDF</span>');
+		}
+		
+		fdefault();
+		
+		//validasi input
+		function form_valid(str_id){
+			var arr_id=str_id.split(',');
+			var next=true;
+			for(x=0;x<arr_id.length;x++){
+				if(jQuery('#'+arr_id[x]).val()==''){
+					jQuery('#warning-'+arr_id[x]).show();
+					next=false;
+				}
+			}
+			return next;
+		}
+		
+		//tayang ke monitor
+		jQuery('#btn-cetak').click(function(){
+			jQuery('#btn-cetak').html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+			jQuery('#btn-cetak').prop('disabled', true);
+			var next = form_valid('thang,kdbulan,jnslpj');
+			if(next==true) {
+				var data = jQuery('#form-cetak').serialize();
+				alert(data);
+			} 
+		});
+		
+		//download ke excel
+		jQuery('#btn-excel').click(function(){
+			jQuery('#btn-excel').html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+			jQuery('#btn-excel').prop('disabled', true);
+			var next = form_valid('thang,kdbulan,jnslpj');
+			if(next==true) {
+				var data = jQuery('#form-cetak').serialize();
+				alert(data);
+			} 
+		});
+		
+		//download ke pdf
+		jQuery('#btn-pdf').click(function(){
+			jQuery('#btn-pdf').html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+			jQuery('#btn-pdf').prop('disabled', true);
+			var next = form_valid('thang,kdbulan,jnslpj');
+			if(next==true) {
+				var data = jQuery('#form-cetak').serialize();
+				alert(data);
+			} 
+		});
+		
+		//batal 
+		jQuery('#btn-batal').click(function(){
+			fdefault();
+			
+		});
+		
+	});
+</script>

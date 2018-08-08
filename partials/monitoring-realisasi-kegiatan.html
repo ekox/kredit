@@ -1,0 +1,120 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-desktop"></i> Monitoring/ Realisasi (Kegiatan)</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-5">
+			
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="grafik1" style="height:300px;">Loading....</div>
+				</div>
+			</div><!-- /.box -->
+			
+		</div>
+		<div class="col-lg-7">
+			
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="grafik2" style="height:300px;">Loading....</div>
+				</div>
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Cetak?" type="button" class="btn btn-primary" id="cetak"><i class="fa fa-print"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive">
+					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Kode</th>
+								<th>Uraian</th>
+								<th>Anggaran</th>
+								<th>Realisasi</th>
+								<th>Sisa Dana</th>
+								<th>Persentase</th>
+							</tr>
+						</thead>
+						<tbody id="tabel-ruh-body">
+						</tbody>
+						<tfoot style="background-color:#fdc900;">
+							<tr>
+								<td colspan="3" style="text-align:center;">Total</td>
+								<td id="total1" style="text-align:right;"></td>
+								<td id="total2" style="text-align:right;"></td>
+								<td id="total3" style="text-align:right;"></td>
+								<td id="total4" style="text-align:right;"></td>
+							</tr>
+						</tfoot>
+					</table>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		//tabel init
+		function init(param){
+			jQuery('#tabel-ruh-body').html('Loading....');
+			jQuery('#total1,#total2,#total3,#total4').html('');
+			jQuery.getJSON('monitoring/realisasi/kegiatan/'+param, function(result){
+				if(result.data){
+					
+					//isi tabel
+					jQuery('#tabel-ruh-body').html(result.data);
+					jQuery('#total1').html(result.total1);
+					jQuery('#total2').html(result.total2);
+					jQuery('#total3').html(result.total3);
+					jQuery('#total4').html(result.total4);
+					
+					//isi grafik1
+					jQuery('#grafik1').html(result.grafik1);
+					
+					//isi grafik2
+					jQuery('#grafik2').html(result.grafik2);
+					
+				}
+				else{
+					jQuery('#tabel-ruh-body,#grafik1,#grafik2').html('Koneksi terputus...');
+				}
+			});
+		}
+		
+		//panggil function
+		init('xxx');
+		
+		jQuery('#cetak').click(function(){
+			window.open('laporan/realisasi_per_output_akun','_blank');
+		});
+	});
+</script>

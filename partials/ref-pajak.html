@@ -1,0 +1,311 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1 data-toggle="collapse" data-target="#demo" ><i class="fa fa-list"></i > Referensi Pajak</h1>
+</section>
+
+<!-- Main content -->
+<section class="content" style="color:blue" >
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Uraian Transaksi</label>
+								<div class="col-lg-6">
+									<textarea class="form-control" id="jenis_transaksi" name="jenis_transaksi"></textarea>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-jenis_transaksi" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">PPN</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="ppn" name="ppn" style="text-align:right;"/>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-ppn" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">PPH 21</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="pph_21" name="pph_21" style="text-align:right;"/>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-pph_21" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">PPH 22</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="pph_22" name="pph_22" style="text-align:right;"/>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-pph_22" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">PPH 23</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="pph_23" name="pph_23" style="text-align:right;"/>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-pph_23" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3">PPH 24</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" id="pph_24" name="pph_24" style="text-align:right;"/>
+								</div>
+								<div class="col-lg-3">
+									<span id="warning-pph_24" class="label label-warning warning">Required!</span> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-3">
+									<button title="Simpan" id="btn-simpan" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+									<button title="Batal" id="btn-batal" class="btn btn-default"><i class="fa fa-refresh"></i> Batal</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-info" id="btn-tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div>
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Uraian</th>
+								<th>PPN</th>
+								<th>PPh 21</th>
+								<th>PPh 22</th>
+								<th>PPh 23</th>
+								<th>PPh 24</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+	
+		jQuery('.chosen').chosen();
+		
+		//jQuery('#ppn,#pph_21,#pph_22,#pph_23,#pph_24').mask('000,000,000,000,000', {reverse: true});
+		
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		}
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		jQuery.get('cek/level', function(result){
+			if(result=='00'){
+				jQuery('#div-tambah').show();
+			}
+			else{
+				jQuery('#div-tambah').hide();
+			}
+		});
+	
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "ref/pajak"
+		});
+		
+		function form_default() {
+			jQuery('#inp-rekambaru').val(0);
+			jQuery.get('token', function(token){
+				jQuery('#_token').val(token)
+			});
+			jQuery('.warning, #div-form').hide();
+			jQuery('#div-tabel').show();
+			jQuery('input,textarea').val('');
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery('#btn-simpan').html('<i class="fa fa-save"></i> Simpan');
+			jQuery('#btn-simpan').prop('disabled' ,false);
+		}
+		
+		function validasi_form(arr_param) {
+			var lanjut = true;
+			var arr_id = arr_param.split(",");
+			for(i=0; i<arr_id.length; i++) {
+				if(jQuery('#'+arr_id[i]).val() == null || jQuery('#'+arr_id[i]).val() == '') {
+					jQuery('#warning-'+arr_id[i]).show();
+					lanjut = false;
+				} else {
+					jQuery('#warning-'+arr_id[i]).hide();
+					lanjut = true;
+				} 
+			}
+			return lanjut;
+		}
+		
+		function cari_data(param) {
+			jQuery('#inp-rekambaru').val(1);
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+			
+			jQuery.getJSON('ref/pajak-cari/'+param, function(result){
+				jQuery('#jenis_transaksi').val(result.jenis_transaksi);
+				jQuery('#ppn').val(numberWithCommas(result.ppn));
+				jQuery('#pph_21').val(numberWithCommas(result.pph_21));
+				jQuery('#pph_22').val(numberWithCommas(result.pph_22));
+				jQuery('#pph_23').val(numberWithCommas(result.pph_23));
+				jQuery('#pph_24').val(numberWithCommas(result.pph_24));
+				jQuery('#inp-id').val(result.id);
+			});
+		}
+		
+		form_default();
+		
+		jQuery('#btn-tambah').click(function(){
+			jQuery('#div-tabel').hide();
+			jQuery('#div-form').show();
+		});
+		
+		jQuery('#jenis').change(function(){
+			var jenis=jQuery(this).val();
+			if(jenis=='1'){
+				jQuery('.pegawai').show();
+				jQuery('.rekanan').hide();
+			}
+			else{
+				jQuery('.pegawai').hide();
+				jQuery('.rekanan').show();
+			}
+		});
+		
+		jQuery('#btn-simpan').click(function(){
+			jQuery('#btn-simpan').html('Loading....');
+			jQuery('#btn-simpan').prop('disabled' ,true);
+			var data = jQuery('#form-ruh').serialize();
+			var lanjut=validasi_form('jenis_transaksi');
+			
+			if(lanjut == true) {
+				jQuery.ajax({
+					url: 'ref/pajak-simpan',
+					method: 'POST',
+					data: data,
+					success: function(result){
+						if(result){
+							if(result == 'success'){
+								alertify.log('Berhasil disimpan');
+								form_default();
+								table.ajax.reload('ref/pajak');
+							} else {
+								alertify.log(result)
+								jQuery('#btn-simpan').html('<i class="fa fa-save"></i> Simpan');
+								jQuery('#btn-simpan').prop('disabled' ,false);
+							}
+						}
+						else{
+							alertify.log('Data gagal disimpan!');
+							jQuery('#btn-simpan').html('<i class="fa fa-save"></i> Simpan');
+							jQuery('#btn-simpan').prop('disabled' ,false);
+						} 
+					}
+				});
+			}
+			else{
+				alertify.log('Kolom tidak dapat dikosongkan!');
+				jQuery('#btn-simpan').html('<i class="fa fa-save"></i> Simpan');
+				jQuery('#btn-simpan').prop('disabled' ,false);
+			}
+			
+		});
+		
+		jQuery('#btn-batal').click(function(){
+			form_default();
+		});
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var id = this.id;
+			cari_data(id);
+		});
+		
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var id = this.id;
+			alertify.confirm('Hapus data ini?', function(e){
+				if(e){
+					var token = jQuery('#_token').val();
+					jQuery.ajax({
+						url: 'ref/pajak-hapus',
+						method: 'POST',
+						data: {id:id, _token : token},
+						success: function(result){
+							if(result == 'success'){
+								alertify.log("Berhasil dihapus");
+								form_default();
+								table.ajax.reload('ref/deputi');
+							} else {
+								alertify.log(result);
+							} 
+						}
+					});
+				}
+			});
+		});
+		
+	});
+
+</script>
+

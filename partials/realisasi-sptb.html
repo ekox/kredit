@@ -1,0 +1,393 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+<style>
+	td.details-control {
+		background: url('template/img/details_open.png') no-repeat center center;
+		cursor: pointer;
+	}
+	tr.shown td.details-control {
+		background: url('template/img/details_close.png') no-repeat center center;
+	}
+</style>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Daftar SPTB</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-table">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data SPTB</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="display:none;">
+						<button title="Tambah Data" type="button" class="btn btn-primary" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">
+					<table id="tabel-ruh" class="table table-hover">
+						<thead style="background-color:#99CCFF;">
+							<tr>
+								<th></th>
+								<th>No</th>
+								<th>No. SPTB</th>
+								<th>Tgl. SPTB</th>
+								<th>Dep / Unit / Prog / Keg / Output / BKPK</th>
+								<th>Jumlah</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-table1">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					Ubah SPTB
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">
+					<table id="tabelubah" class="table table-hover">
+						<thead style="background-color:#99CCFF;">
+							<tr>
+								<th>No. SPTB</th>
+								<th>Tgl. SPTB</th>
+								<th>Dep / Unit / Prog / Keg / Output / BKPK</th>
+								<th>Jumlah</th>
+							</tr>
+						</thead>
+						
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					Ubah SPTB
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+							<input type="hidden" id="inp-id" name="inp-id">
+							<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+							<input type="hidden" id="_token" name="_token">
+							<div class="box-body">
+								<div class="form-group">
+									<label class="control-label col-lg-3">No SPTB</label>
+									<div class="col-lg-9">
+										<input type="text" id="nosptb" name="nosptb" class="form-control" readonly>
+									</div>
+									
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">tgl SPTB</label>
+									<div class="col-lg-9">
+										<input type="text" id="tgsptb" name="tgsptb" class="form-control" readonly>
+									</div>
+									
+								</div>
+								
+								<table id="tabeltambah" class="table table-hover">
+									<thead style="background-color:#99CCFF;">
+										<tr>
+											<th></th>
+											<th>Kddept Kdunit</th>
+											<th>Prog / Keg / Output / SOutput / Komp / SKomp / BKPK</th>
+											<th>Jumlah</th>
+										</tr>
+									</thead>
+						
+								</table>
+								</br>
+								<div class="form-group">
+									<label class="control-label col-lg-3"></label>
+									<div class="col-lg-5">
+										<button title="Simpan Data Ini?" id="simpan" type="button" class="btn btn-primary">Simpan</button>
+										<button title="Batal"  id="batal" type="button" class="btn btn-danger">Batal</button>
+									</div>
+								</div>
+							</div><!-- /.box-body -->
+							
+						</div>
+						<div class="col-lg-4">
+						
+					
+					
+					</form>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		function form_default(){
+			jQuery('#div-table').show();
+			jQuery('#div-table1,#div-form').hide();
+			jQuery('#div-tambah').css("display","inherit");
+		}
+		
+		form_default();
+	
+		var table=jQuery('#tabel-ruh').DataTable({
+			
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			"columns": [
+				{
+					"className":      'details-control',
+					"orderable":      false,
+					"data":      null,
+					"defaultContent": ''
+				},
+				{},
+				{},
+				{},
+				{},
+					{},
+				{}
+			],
+			aaSorting: [],
+			bServerSide: true,
+			ajax:{
+				url: "sptb/monitoring", // Change this URL to where your json data comes from
+				type: "GET", // This is the default value, could also be POST, or anything you want.
+				data: function(d) {
+					//d.id = jQuery("#inp-id").val()
+				}
+
+			},
+			fnCreatedRow: function( nRow, aData, iDataIndex ) {
+				jQuery(nRow).attr('id', aData[0]);
+			}
+			
+		});
+		
+		jQuery('#tabel-ruh').off('click', 'td.details-control').on('click', 'td.details-control', function () {
+			var tr = jQuery(this).closest('tr');
+			var row = table.row( tr );
+	 
+			if ( row.child.isShown() ) {
+				// This row is already open - close it
+				row.child.hide();
+				tr.removeClass('shown');
+			}
+			else {
+				var id=jQuery(this).parent().attr('id');
+				
+				jQuery.get('sptb/kuitansi/'+id, function(result){
+					if(result){
+						// Open this row
+						row.child( result ).show();
+						tr.addClass('shown');
+					}
+					else{
+						alertify.log('Tidak ada data detil...');
+					}
+				});
+			}
+		});
+		
+		
+		
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var id=this.id;
+			jQuery('#div-table').hide();
+			jQuery('#div-table1').show();
+				var table=jQuery('#tabelubah').DataTable({
+				
+				bProcessing:true,
+				oLanguage:{
+					"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+					"sLengthMenu":   "Tampilan _MENU_ entri",
+					"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+					"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+					"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+					"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Cari:",
+					"sUrl":          "",
+					"oPaginate": {
+					  "sFirst":    "Awal",
+					  "sPrevious": "Sebelum",
+					  "sNext":     "Sesudah",
+					  "sLast":     "Akhir"
+					}
+				},
+				"columns": [
+					
+					{},
+					{},
+					{},
+					{}
+				],
+				aaSorting: [],
+				bServerSide: true,
+				ajax:{
+					url: "sptb/monitoring/"+id, // Change this URL to where your json data comes from
+					type: "GET", // This is the default value, could also be POST, or anything you want.
+					data: function(d) {
+						//d.id = jQuery("#inp-id").val()
+					}
+
+				},
+				fnCreatedRow: function( nRow, aData, iDataIndex ) {
+					jQuery(nRow).attr('id', aData[0]);
+				}
+				
+			});
+			var tr = jQuery("#tabelubah").children('tr:first');
+			var row = table.row( tr );
+				jQuery.get('sptb/all-kuitansi/'+id, function(result){
+						// Open this row
+						row.child( $(result) ).show();
+						console.log(result);
+				
+				});
+			
+			
+		});
+		
+		function getDate(){
+			var d = new Date();
+			var month = d.getMonth()+1;
+			var day = d.getDate();
+			var output = d.getFullYear() + '-' +
+				(month<10 ? '0' : '') + month + '-' +
+				(day<10 ? '0' : '') + day;
+				return output;
+		};
+		function createTable(){
+			jQuery('#tabeltambah').DataTable({
+				
+				bProcessing:true,
+				oLanguage:{
+					"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+					"sLengthMenu":   "Tampilan _MENU_ entri",
+					"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+					"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+					"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+					"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Cari:",
+					"sUrl":          "",
+					"oPaginate": {
+					  "sFirst":    "Awal",
+					  "sPrevious": "Sebelum",
+					  "sNext":     "Sesudah",
+					  "sLast":     "Akhir"
+					}
+				},
+				"columns": [
+					{
+					"className":      'details-control',
+					"orderable":      false,
+					"data":      null,
+					"defaultContent": ''
+					},
+					{},
+					{},
+					{}
+				],
+				aaSorting: [],
+				bServerSide: true,
+				ajax:{
+					url: "sptb/ambil-kuitansi", // Change this URL to where your json data comes from
+					type: "GET", // This is the default value, could also be POST, or anything you want.
+					data: function(d) {
+						//d.id = jQuery("#inp-id").val()
+					}
+
+				},
+				fnCreatedRow: function( nRow, aData, iDataIndex ) {
+					jQuery(nRow).attr('id', aData[0]);
+				}
+				
+			});
+			
+		};
+		jQuery('#tambah').click(function(){
+			jQuery.getJSON('sptb/ambil-nomor', function(result){
+				if(result){
+					jQuery('#nosptb').val(parseInt(result.nosptb)+1);
+					jQuery('#tgsptb').val(getDate());
+					jQuery('#div-form').show();
+					jQuery('#div-table,#div-table1').hide();
+					createTable();
+				}
+				else{
+					alertify.log("nomor kuitansi tidak ditemukan, hubungi administrator");
+				}
+			});
+			
+		});
+			jQuery('#tabeltambah').off('click', 'td.details-control').on('click', 'td.details-control', function () {
+			var tr = jQuery(this).closest('tr');
+			var row = table.row( tr );
+			
+				if ( row.child.isShown() ) {
+					// This row is already open - close it
+					row.child.hide();
+					tr.removeClass('shown');
+				}
+				else {
+					var id=jQuery(this).parent().attr('id');
+					
+					jQuery.get('sptb/kuitansi-per-akun/'+id, function(result){
+						if(result){
+							// Open this row
+							row.child( result ).show();
+							tr.addClass('shown');
+						}
+						else{
+							alertify.log('Tidak ada data detil...');
+						}
+					});
+				}
+			
+		});
+	});
+</script>

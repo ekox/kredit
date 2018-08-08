@@ -1,0 +1,887 @@
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Realisasi/ Transaksi - Kuitansi </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+							<input type="hidden" id="inp-id" name="inp-id">
+							<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+							<input type="hidden" id="_token" name="_token">
+							<div class="box-body">
+								<div class="form-group">
+									<label class="control-label col-lg-3">Satker</label>
+									<div class="col-lg-7">
+										<input type="text" id="kdsatker" name="kdsatker" class="form-control" readonly>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-kdsatker" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Deputi</label>
+									<div class="col-lg-7">
+										<input type="text" id="kddeputi" name="kddeputi" class="form-control" readonly>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-kddeputi" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Asisten Deputi</label>
+									<div class="col-lg-7">
+										<input type="text" id="kdasdeputi" name="kdasdeputi" class="form-control" readonly>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-kdasdeputi" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">TA :</label>
+									<div class="col-lg-7">
+										<input type="text" id="tahun" name="tahun" class="form-control" readonly>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-tahun" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Lokasi :</label>
+									<div class="col-lg-7">
+										<input type="text" id="lokasi" name="lokasi" class="form-control" readonly>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-lokasi" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Kabkota :</label>
+									<div class="col-lg-7">
+										<input type="text" id="kdkabkota" name="kdkabkota" class="form-control" readonly>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-kdkabkota" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Cara Penarikan</label>
+									<div class="col-lg-7">
+										<select id="carapenarikan" name="carapenarikan" class="form-control chosen" placeholder="Pilih Data" readonly>
+										</select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-carapenarikan" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Kewenangan</label>
+									<div class="col-lg-7">
+										<select id="kewenangan" name="kewenangan" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-kewenangan" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Jen Dok</label>
+									<div class="col-lg-7">
+										<select id="jendok" name="jendok" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-jendok" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Sumber Dana</label>
+									<div class="col-lg-7">
+										<select id="sumberdana" name="sumberdana" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-sumberdana" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Jenis Pembayaran</label>
+									<div class="col-lg-7">
+										
+										 <select id="jenispembayaran" name="jenispembayaran" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-jenispembayaran" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Sifat Pembayaran</label>
+									<div class="col-lg-7">
+										<select id="sifspm" name="sifspm" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-sifspm" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Cara Pembayaran</label>
+									<div class="col-lg-7">
+										<select id="carabayar" name="carabayar" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-carabayar" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Tanggal Transaksi</label>
+									<div class="col-lg-7">
+										<input type="text" id="tgltrx" name="tgltrx" class="form-control">
+									</div>
+									
+									<div class="col-lg-2">
+										<span id="warning-tgltrx" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Nomor Transaksi</label>
+									<div class="col-lg-7">
+										<input type="text" id="notrx" name="notrx" class="form-control" readonly>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-notrx" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Numbering Transaksi</label>
+									<div class="col-lg-7">
+										<input type="text" id="numtrx" name="numtrx" class="form-control">
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-numtrx" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Tanggal SPBy</label>
+									<div class="col-lg-7">
+										<input type="text" id="tglspby" name="tglspby" class="form-control">
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-tglspby" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Nomor SPBy</label>
+									<div class="col-lg-7">
+										<input type="text" id="nospby" name="nospby" class="form-control">
+									</div>
+
+									<div class="col-lg-2">
+										<span id="warning-nospby" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Numbering SPBy</label>
+									<div class="col-lg-7">
+										<input type="text" id="numspby" name="numspby" class="form-control">
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-numspby" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Kode Anggaran </label>
+									<div class="col-lg-9" id="div-kode">
+									</div>
+									
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3"> Nilai</label>
+									<div class="col-lg-3">
+										<input type="text" id="nilai" name="nilai" class="form-control val_num" style="text-align:right;">
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-nilai" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Referensi Pajak</label>
+									<div class="col-lg-7">
+										<select id="refpajak" name="refpajak" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									
+									<div class="col-lg-2">
+										<span id="warning-refpajak" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="control-label col-lg-3">PPN</label>
+									<div class="col-lg-3">
+										<input type="text" id="ppn" name="ppn" class="form-control val_num" style="text-align:right;">
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-ppn" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">PPh21</label>
+									<div class="col-lg-3">
+										<input type="text" id="pph21" name="pph21" class="form-control val_num" style="text-align:right;">
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-pph21" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">PPh22 </label>
+									<div class="col-lg-3">
+										<input type="text" id="pph22" name="pph22" class="form-control val_num" style="text-align:right;">
+									</div>
+
+									<div class="col-lg-2">
+										<span id="warning-pph22" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">PPh23</label>
+									<div class="col-lg-3">
+										<input type="text" id="pph23" name="pph23" class="form-control val_num" style="text-align:right;">
+									</div>									
+									<div class="col-lg-2">
+										<span id="warning-pph23" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">PPh24</label>
+									<div class="col-lg-3">
+										<input type="text" id="pph24" name="pph24" class="form-control val_num" style="text-align:right;">
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-pph24" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Untuk Keperluan</label>
+									<div class="col-lg-7">
+										<input type="text" id="keperluan" name="keperluan" class="form-control">
+									</div>
+									
+									<div class="col-lg-2">
+										<span id="warning-keperluan" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Tempat Bayar</label>
+									<div class="col-lg-7">
+										<input type="text" id="tempatbayar" name="tempatbayar" class="form-control">
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-tempatbayar" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Tanggal Bayar</label>
+									<div class="col-lg-7">
+										<input type="text" id="tglbayar" name="tglbayar" class="form-control">
+									</div>
+									<div class="col-lg-2">
+									<span id="warning-tglbayar" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Pihak Ketiga</label>
+									<div class="col-lg-7">
+										<select id="pihakketiga" name="pihakketiga" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									
+									<div class="col-lg-2">
+										<span id="warning-pihakketiga" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">PPK</label>
+									<div class="col-lg-7">
+										<select id="ppk" name="ppk" class="form-control chosen" placeholder="Pilih Data">
+										</select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-ppk" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Penerima Barang / Jasa</label>
+									<div class="col-lg-7">
+										<select id="penerima" name="penerima" class="form-control chosen" placeholder="Pilih Data"></select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-penerima" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-lg-3">Pelaksana Kegiatan</label>
+									<div class="col-lg-7">
+										<select id="pelaksana" name="pelaksana" class="form-control chosen" placeholder="Pilih Data"></select>
+									</div>
+									<div class="col-lg-2">
+										<span id="warning-pelaksana" class="label label-warning warning">Required!</span>
+									</div>
+								</div>
+								
+								</br>
+								<div class="form-group">
+									<label class="control-label col-lg-3"></label>
+									<div class="col-lg-5">
+										<button title="Simpan Data Ini?" id="simpan" type="button" class="btn btn-primary">Simpan</button>
+										<button title="Batal"  id="batal" type="button" class="btn btn-danger">Batal</button>
+									</div>
+								</div>
+							</div><!-- /.box-body -->
+							
+						</div>
+						<div class="col-lg-4">
+						
+					</form>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="display:none;">
+						<div class="dropdown pull-right">
+						  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+							<i class="fa fa-plus"></i>
+							<span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu dropdown-menu-right">
+							<li><a href="javascript:;" id="tambah" title="Tambah kuitansi?">Kuitansi</a></li>
+							<li><a href="javascript:;" id="tambah1" title="Tambah kuitansi?">Perjadin/Rapat/Honor</a></li>
+						  </ul>
+						</div>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead style="background-color:#99CCFF;">
+							<tr>
+								<th>No</th>
+								<th>No.Kuitansi</th>
+								<th>Tgl.Kuitansi</th>
+								<th>Deputi</th>
+								<th>As.Deputi</th>
+								<th>Kode</th>
+								<th>Sifat</th>
+								<th>Uraian</th>
+								<th>Nilai</th>
+								<th>Kode Status</th>
+								<th>Uraian Status</th>
+								<th>No.DRPP</th>
+								<th style="width:200px;">Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel1">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right">
+						<button title="Batal Tambah" type="button" class="btn btn-primary" id="batal-tambah"><i class="fa fa-times"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<div class="row">
+						<div class="col-lg-3" style="text-align:center;">Kode</div>
+						<div class="col-lg-6" style="text-align:center;">Uraian</div>
+						<div class="col-lg-2" style="text-align:center;">Jumlah</div>
+						<div class="col-lg-1" style="text-align:center;">Aksi</div>
+					</div>
+					<hr>
+					<ul id="ul-xxx"></ul>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel2">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data Perjadin/Rapat/Honor</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">
+					<div class="row">
+						<div class="col-lg-3" style="text-align:center;">Kode</div>
+						<div class="col-lg-6" style="text-align:center;">Uraian</div>
+						<div class="col-lg-2" style="text-align:center;">Jumlah</div>
+						<div class="col-lg-1" style="text-align:center;">Aksi</div>
+					</div>
+					<hr>
+					<ul id="ul-xxx"></ul>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		jQuery('#div-tambah').show();
+		
+		jQuery('.val_num').mask('000,000,000,000,000', {reverse: true});
+		
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		}
+		
+		jQuery('.chosen').chosen();
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		function tabel1(param){
+			jQuery('#ul-'+param).html('<center>Loading.....</center>');
+			jQuery.get('pagu/breakdown-split/'+param, function(result){
+				if(result){
+					jQuery('#ul-'+param).html(result);
+				}
+				else{
+					jQuery('#ul-'+param).html('<center>Koneksi terputus.....</center>');
+				}
+			});
+		}
+		
+		//init datepicker
+		jQuery('#tgltrx, #tglbayar, #tglspby').datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose:true
+		});
+		
+		jQuery.get('dropdown/ctarik', function(result){
+			if(result){
+				jQuery('#carapenarikan').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/sifspm', function(result){
+			if(result){
+				jQuery('#sifspm').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/ppk', function(result){
+			if(result){
+				jQuery('#ppk').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/pegawai', function(result){
+			if(result){
+				jQuery('#penerima').html(result).trigger('chosen:updated');
+				jQuery('#pelaksana').html(result).trigger('chosen:updated');
+			}
+		});
+		
+		jQuery.get('dropdown/refpajak', function(result){
+			if(result){
+				jQuery('#refpajak').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/jenspm', function(result){
+			if(result){
+				jQuery('#jenispembayaran').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/bend', function(result){
+			if(result){
+				jQuery('#pihakketiga').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/dekon', function(result){
+			if(result){
+				jQuery('#kewenangan').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/sdana', function(result){
+			if(result){
+				jQuery('#sumberdana').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/crbay', function(result){
+			if(result){
+				jQuery('#carabayar').html(result).trigger('chosen:updated');
+			}
+		});
+		jQuery.get('dropdown/jendok', function(result){
+			if(result){
+				jQuery('#jendok').html(result).trigger('chosen:updated');
+			}
+		});
+		
+		//Tabel RUH
+		var table = jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			aoColumnDefs: [{ "bSortable": false, "aTargets": [ 7, 8 ] }],
+			bServerSide: true,
+			sAjaxSource: "realisasi/kuitansi"
+		});
+		
+		
+		function form_valid(str_id){
+			var arr_id=str_id.split(',');
+			var lanjut=true;
+			for(x=0;x<arr_id.length;x++){
+			jQuery('#warning-'+arr_id[x]).hide();
+				if(jQuery('#'+arr_id[x]).val()==''){
+					jQuery('#warning-'+arr_id[x]).show();
+					lanjut=false;
+				}
+			}
+			return lanjut;
+		} 
+		
+				
+		function form_default(){
+			jQuery('input,textarea').val('');
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery('.chosen').prop('disabled',false).trigger('chosen:updated');
+			jQuery('#div-form,.warning,#div-tabel1').hide();
+			jQuery('#div-tabel').show();
+			jQuery('#username').prop('disabled', false);
+			jQuery('#div-bank,#div-pemda,#div-kanwil,#div-penjamin,#div-kl').hide();
+			jQuery.getJSON('realisasi/data-kuitansi/', function(result){
+				jQuery('#kdsatker').val(result.kdsatker+' - '+result.nmsatker);
+				jQuery('#kddeputi').val(result.kddeputi+' - '+result.nmdeputi);
+				jQuery('#kdasdeputi').val(result.kdasdeputi+' - '+result.nmasdeputi);
+				jQuery('#tahun').val(result.tahun);
+				jQuery('#lokasi').val(result.kdlokasi+' - '+result.nmlokasi);
+				jQuery('#kdkabkota').val(result.kdkabkota+' - '+result.nmkabkota);
+				jQuery('#kewenangan').val("Kantor Pusat");
+				jQuery('#sumberdana').val("RM");
+				jQuery('#carabayar').val("Giro Bank ");
+				jQuery('#jendok').val("DIPA");
+				jQuery('#ppn').val("0");
+				jQuery('#pph21').val("0");
+				jQuery('#pph22').val("0");
+				jQuery('#pph23').val("0");
+				jQuery('#pph24').val("0");
+				jQuery('#nilai').val("0");
+				jQuery('#numtrx').val(result.nokuitansi2).attr('readonly', false);
+			});
+		}
+		
+		form_default();
+		
+		jQuery('#tambah').click(function(){
+			jQuery.getJSON('nomor/kuitansi', function(result){
+				if(result){
+					jQuery('#notrx').val(result.notrans);
+					jQuery('#inp-rekambaru').val('1');
+					jQuery('#div-tabel,#div-form').hide();
+					jQuery('#div-tabel1').fadeIn();
+					tabel1('xxx');
+				}
+				else{
+					alertify.log("nomor kuitansi tidak ditemukan, hubungi administrator");
+				}
+			});
+		});
+		
+		jQuery('#batal,#batal-tambah').click(function(){
+			form_default();
+		});
+		
+		jQuery('body').off('click', '.ubah').on('click', '.ubah', function(){
+			var id=this.id;
+			cari_kuitansi(id);
+			jQuery('#div-tabel,#div-tabel1').hide();
+			jQuery('#div-form').fadeIn();
+			jQuery('#inp-rekambaru').val('0');
+			jQuery('#inp-id').val(id);
+		});
+		
+		jQuery('#simpan').click(function(){
+			jQuery('#simpan').html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+			jQuery('#simpan').prop('disabled',true);
+			var lanjut = form_valid('tgltrx,notrx,numtrx,tglspby,nospby,numspby,refpajak,kdangg,nilai,ppn,pph21,pph22,pph23,pph24,keperluan,tglbayar,tempatbayar');
+		
+			if(lanjut==true) {
+				jQuery.get('token', function(token) {
+					if(token) {
+						jQuery('#_token').val(token);
+						var data = jQuery('#form-ruh').serialize();
+						if(jQuery('#inp-rekambaru').val()=='1') {
+							jQuery.ajax({
+								url:'realisasi/kuitansi',
+								method:'POST',
+								data:data,
+								success:function(result){
+									if(result=='success') {
+										jQuery('#simpan').html('Simpan');
+										jQuery('#simpan').prop('disabled',false);
+										alertify.log('Proses simpan berhasil');
+										form_default();
+										table.ajax.reload();
+									} else {
+										jQuery('#simpan').html('Simpan');
+										jQuery('#simpan').prop('disabled',false);
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log('Data tidak dapat disimpan. Koneksi pada aplikasi/database terputus atau data sudah pernah direkam atau format data salah. Hubungi Administrator.');
+								}
+							})
+						} else {
+							jQuery.ajax({
+								url:'realisasi/kuitansi',
+								method:'PUT',
+								data:data,
+								success:function(result){
+									if(result=='success') {
+										jQuery('#simpan').html('Simpan');
+										jQuery('#simpan').prop('disabled',false);
+										alertify.log('Proses simpan berhasil.');
+										form_default();
+										table.ajax.reload();
+									} else {
+										jQuery('#simpan').html('Simpan');
+										jQuery('#simpan').prop('disabled',false);
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									jQuery('#simpan').html('Simpan');
+									jQuery('#simpan').prop('disabled',false);
+									alertify.log('Data tidak dapat disimpan. Koneksi pada aplikasi/database terputus atau data sudah pernah direkam atau format data salah. Hubungi Administrator.');
+								}
+							})
+						} 
+					} else {
+						jQuery('#simpan').html('Simpan');
+						jQuery('#simpan').prop('disabled',false);
+						alertify.log('Proses simpan gagal. Silahkan refresh halaman browser anda.');
+					} 
+				});
+			} else {
+				jQuery('#simpan').html('Simpan');
+				jQuery('#simpan').prop('disabled',false);
+				alertify.log('Kolom tidak boleh dikosongkan!');
+			} 
+		});
+		
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var id = this.id;
+			alertify.confirm('Hapus data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'realisasi/kuitansi',
+								method:'DELETE',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses hapus berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+								}
+							});
+						} else {
+							alertify.log('Proses hapus gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+		
+		jQuery('body').off('click', '.breakdown').on('click', '.breakdown', function(){
+			var param=this.id;
+			tabel1(param);
+		});
+		
+		jQuery('body').off('click', '.pilih').on('click', '.pilih', function(){
+			
+			var param=this.id;
+			jQuery.getJSON('pagu/breakdown-split/'+param, function(result){
+				if(result.kdakun){
+					
+					jQuery('#kewenangan').val(result.kddekon).trigger('chosen:updated');
+					jQuery('#carapenarikan').val(result.kdctarik).trigger('chosen:updated');
+					jQuery('#jendok').val(result.kdjendok).trigger('chosen:updated');
+					jQuery('#sumberdana').val(result.kdbeban+'-'+result.kdjnsban).trigger('chosen:updated');
+					jQuery('#').val('').trigger('chosen:updated');
+					
+					var arr_data=param.split('-');
+					var form  = '<div class="form-group">';
+					for(i=0;i<arr_data.length;i++){
+						if(i==6||i==1||i==2||i==3||i==4){
+							form += '<div class="col-lg-2"><input type="text" name="kdang-'+i+'" class="form-control" value="'+arr_data[i]+'" readonly/></div>';
+						}else{
+							form += '<div class="col-lg-1"><input type="text" name="kdang-'+i+'" class="form-control" value="'+arr_data[i]+'" readonly/></div>';
+						}
+					}
+					
+					form += '</div>';
+					
+					jQuery('#div-kode').html(form);
+					jQuery('#div-tabel1').hide();
+					jQuery('#div-form').fadeIn();
+					
+				}
+				else{
+					alertify.log('Pagu tidak ditemukan, hubungi Administrator.');
+				}
+			});
+		
+		});
+		
+		jQuery('#refpajak').on('change',function(){
+			var id = this.value;
+			cari_refpajak(id);
+		});
+		
+		function cari_refpajak(id){
+			jQuery.getJSON('ref/get-ref-pajak/'+id, function(result){
+				if(result) {
+					var nilai = jQuery('#nilai').val().replace(/,/g , "");
+					nilai = parseInt(nilai);
+					var ppn=result.ppn;
+					var pph_21=result.pph_21;
+					var pph_22=result.pph_22;
+					var pph_23=result.pph_23;
+					var pph_24=result.pph_24;
+					var nilai_ppn=parseFloat(nilai)*parseFloat(ppn)/100;
+					ppn=(parseFloat(nilai)-nilai_ppn)*parseFloat(ppn)/100;
+					pph_21=(parseFloat(nilai)-nilai_ppn)*parseFloat(pph_21)/100;
+					pph_22=(parseFloat(nilai)-nilai_ppn)*parseFloat(pph_22)/100;
+					pph_23=(parseFloat(nilai)-nilai_ppn)*parseFloat(pph_23)/100;
+					pph_24=(parseFloat(nilai)-nilai_ppn)*parseFloat(pph_24)/100;
+					jQuery('#ppn').val(numberWithCommas(parseInt(ppn)));
+					jQuery('#pph21').val(numberWithCommas(parseInt(pph_21)));
+					jQuery('#pph22').val(numberWithCommas(parseInt(pph_22)));
+					jQuery('#pph23').val(numberWithCommas(parseInt(pph_23)));
+					jQuery('#pph24').val(numberWithCommas(parseInt(pph_24)));
+				}
+			});
+		}
+		
+		function cari_kuitansi(id){
+			jQuery.getJSON('realisasi/cari-kuitansi/'+id, function(result){
+				if(result) {
+					jQuery('#kdsatker').val(result.kdsatker);
+					jQuery('#kddeputi').val(result.kddeputi);
+					jQuery('#kdasdeputi').val(result.kdasdeputi);
+					jQuery('#tahun').val(result.thang);
+					jQuery('#lokasi').val(result.kdlokasi);
+					jQuery('#kdkabkota').val(result.kdkabkota);
+					jQuery('#carapenarikan').val(result.crtarik);
+					jQuery('#kewenangan').val(result.kddekon);
+					jQuery('#jendok').val(result.kdjendok);
+					jQuery('#jenispembayaran').val(result.kdjenspm);
+					jQuery('#sifspm').val(result.kdsifspm);
+					jQuery('#sumberdana').val(result.kdbeban+'-'+result.kdjnsban);
+					jQuery('#carabayar').val(result.crbyr);
+					jQuery('#tgltrx').val(result.tgkuitansi);
+					jQuery('#notrx').val(result.nokuitansi);
+					jQuery('#numtrx').val(result.nokuitansi2).attr('readonly', true);
+					jQuery('#tglspby').val(result.tg_spby);
+					jQuery('#nospby').val(result.no_spby);
+					jQuery('#numspby').val(result.no_spby_numbering);
+					var form  = '<div class="form-group">';
+					form += '<div class="col-lg-1"><input type="text" name="kdang-1" class="form-control" value="'+result.kdprogram+'" readonly/></div>';
+					form += '<div class="col-lg-2"><input type="text" name="kdang-2" class="form-control" value="'+result.kdgiat+'" readonly/></div>';
+					form += '<div class="col-lg-1"><input type="text" name="kdang-3" class="form-control" value="'+result.kdoutput+'" readonly/></div>';
+					form += '<div class="col-lg-1"><input type="text" name="kdang-4" class="form-control" value="'+result.kdsoutput+'" readonly/></div>';
+					form += '<div class="col-lg-1"><input type="text" name="kdang-5" class="form-control" value="'+result.kdkmpnen+'" readonly/></div>';
+					form += '<div class="col-lg-1"><input type="text" name="kdang-6" class="form-control" value="'+result.kdskmpnen+'" readonly/></div>';
+					form += '<div class="col-lg-2"><input type="text" name="kdang-6" class="form-control" value="'+result.kdmak+'" readonly/></div>';
+					form += '</div>';
+					jQuery('#div-kode').html(form);
+					jQuery('#nilai').val(result.nilai);
+					jQuery('#refpajak').val(result.id_ref_pajak);
+					jQuery('#ppn').val(result.ppn_);
+					jQuery('#pph21').val(result.pph_21_);
+					jQuery('#pph22').val(result.pph_22_);
+					jQuery('#pph23').val(result.pph_23_);
+					jQuery('#pph24').val(result.pph_24_);
+					jQuery('#keperluan').val(result.untukkeperluan1);
+					jQuery('#tempatbayar').val(result.tempatbyr);
+					jQuery('#tglbayar').val(result.tgbyr);
+					jQuery('#pihakketiga').val(result.nipbend);
+					jQuery('#ppk').val(result.namappk);
+					jQuery('#penerima').val(result.jabatpen);
+					jQuery('#pelaksana').val(result.nippelaksanakeg);
+					jQuery('.chosen').trigger('chosen:updated'); 
+				}
+			});
+		}
+		
+	});
+</script>

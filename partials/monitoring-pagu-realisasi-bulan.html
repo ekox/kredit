@@ -1,0 +1,84 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-desktop"></i> Monitoring/ Realisasi (Deputi Per Bulan)</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="widget1" style="height:300px;">Loading....</div>
+				</div>
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" id="div-tabel">					
+					
+					
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+
+<div class="modal fade" id="modal-detil" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body" id="modal-detil1" style="overflow-y:scroll;">
+				
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	jQuery(document).ready(function(){
+		
+		//tabel init
+		function tabel(param){
+			jQuery('#widget1').html('Loading....');
+			jQuery('#div-tabel').html('Loading....');
+			jQuery.getJSON('monitoring/realisasi/deputi-bulan', function(result){
+				if(result.data){
+					jQuery('#widget1').html(result.grafik1);
+					jQuery('#div-tabel').html(result.data);
+				}
+				else{
+					jQuery('#widget1').html('Koneksi terputus...');
+					jQuery('#div-tabel').html('Koneksi terputus....');
+				}
+			});
+		}
+		
+		//panggil tabel
+		tabel('xxx');
+		
+	});
+</script>

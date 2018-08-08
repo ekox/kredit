@@ -1,0 +1,73 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-list"></i> Laporan Realisasi</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Jenis Laporan</label>
+								<div class="col-lg-3">
+									<select class="form-control chosen" id="jenis_laporan" name="jenis_laporan">
+										<option value="1" >Realisasi Per Jenis Belanja</option>
+										<option value="2" >Realisasi Per Output</option>
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-jenis_laporan" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-3"></div>
+								<div class="col-lg-3">
+									<button class="btn btn-primary" id="btn-proses" title="Cetak Laporan Revisi Internal"><i class="fa fa-print"></i> Proses</button>
+								</div>
+							</div>
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->	
+		</div>
+	</div>	
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		jQuery('.chosen').chosen();
+		
+		jQuery('.warning').hide();
+		
+		jQuery('#btn-proses').click(function(){
+			var jnslap = jQuery('#jenis_laporan').val();
+			if(jnslap=='1'){
+				window.open('laporan/jenis_belanja','_blank');
+			}else if(jnslap=='2'){
+				window.open('laporan/realisasi_per_output_akun','_blank');
+			}
+		});
+	});
+
+</script>

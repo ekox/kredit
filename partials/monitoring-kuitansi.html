@@ -1,0 +1,99 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-desktop"></i> Monitoring Realisasi (Kuitansi)</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row">
+		
+		<div class="col-lg-6">
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="widget1" style="height:300px;">Loading....</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="widget2" style="height:300px;">Loading....</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="row">
+		
+		<div class="col-lg-6">
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="widget3" style="height:300px;">Loading....</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="box box-solid">
+				<div class="box-body">
+					<div id="widget4" style="height:370px;">Loading....</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		//get widget 1
+		jQuery.get('monitoring/realisasi/saiba1', function(result){
+			if(result){
+				jQuery('#widget1').html(result);
+			}
+			else{
+				jQuery('#widget1').html('Koneksi terputus!');
+			}
+		});
+		
+		//get widget 2
+		jQuery.get('monitoring/realisasi/kuitansi1', function(result){
+			if(result){
+				jQuery('#widget2').html(result);
+			}
+			else{
+				jQuery('#widget2').html('Koneksi terputus!');
+			}
+		});
+		
+		//get widget 3
+		jQuery.get('monitoring/pagu/data1', function(result){
+			if(result){
+				jQuery('#widget3').html(result);
+			}
+			else{
+				jQuery('#widget3').html('Koneksi terputus!');
+			}
+		});
+		
+		//get widget 4
+		jQuery.get('monitoring/realisasi/saiba2', function(result){
+			if(result){
+				jQuery('#widget4').html(result);
+			}
+			else{
+				jQuery('#widget4').html('Koneksi terputus!');
+			}
+		});
+		
+	});
+</script>

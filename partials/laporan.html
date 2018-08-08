@@ -1,0 +1,137 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-desktop"></i> Laporan</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<!-- Small boxes (Stat box) -->
+	<!-- <div class="row"> -->
+		<!-- <div class="col-lg-12">	-->
+			
+			<!-- <div class="box"> -->
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading" >
+					REKAP LPJ KPPN
+				</div>
+				<div class="panel-body" >
+					<div class="form-group">
+						<table id="example" class="table table-bordered table-striped">
+							<tbody>
+								
+								<tr>
+									<td>
+										<label for="dropdownBulan" >Bulan</label>
+									</td>
+									<td>
+											 <div class="dropdown" id="dropdownBulan">
+												<button class="btn btn-default"
+														data-toggle="dropdown">
+													<span id="dropdown_bulantitle2">Select</span>
+													<input type="hidden" name="bulan">
+													<span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" >
+													<li><a tabindex="-1" href="#">Januari</a></li>
+													<li><a tabindex="-1" href="#">Pebruari</a></li>
+													<li><a tabindex="-1" href="#">Maret</a></li>
+													<li><a tabindex="-1" href="#">April</a></li>
+													<li><a tabindex="-1" href="#">Mei</a></li>
+													<li><a tabindex="-1" href="#">Juni</a></li>
+													<li><a tabindex="-1" href="#">Juli</a></li>
+													<li><a tabindex="-1" href="#">Agustus</a></li>
+													<li><a tabindex="-1" href="#">September</a></li>
+													<li><a tabindex="-1" href="#">Oktober</a></li>
+													<li><a tabindex="-1" href="#">Nopember</a></li>
+													<li><a tabindex="-1" href="#">Desember</a></li>
+												</ul>
+											</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="tahun">Tahun</label>
+									</td>
+									<td>
+										<!-- <button class="btn btn-default"
+														data-toggle="dropdown">
+													<span id="tahun">2016</span> -->
+													
+													
+												<div class="dropdown" id="dropdownTahun">
+												<button class="btn btn-default"
+														data-toggle="dropdown">
+													<span id="dropdown_tahuntitle2">Select</span>
+													<input type="hidden" name="tahun">
+													<span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" >
+													<li><a tabindex="-1" href="#">2015</a></li>
+													<li><a tabindex="-1" href="#">2016</a></li>
+												</ul>
+											</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- <td>
+										<label for="IdAdkSilabi">ADK LPJ</label>
+									</td>
+									<td>										
+										<input type="file" id="IdAdkSilabi" name="IdAdkSilabi" >
+									</td> -->
+								</tr>
+							
+							</tbody>
+						</table>					
+							
+					
+					</div>
+					
+					
+				</div>
+				
+			</div>
+					
+				
+			<!-- </div>-->
+		
+			
+		<!-- </div> -->
+	<!-- </div> -->
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		//var token =null;
+		$.ajax({
+		method :"GET",
+		//url : "token",
+		success: function(data){
+				  }
+		
+ });
+ $("#dropdownBulan").on("click", "li a", function() {
+    var platform = $(this).text();
+	 $("#dropdown_bulantitle2").html(platform);
+	 $("input[name=bulan]").val(platform);
+   
+});   
+$("#dropdownTahun").on("click", "li a", function() {
+    var platform = $(this).text();
+	 $("#dropdown_tahuntitle2").html(platform);
+	 $("input[name=tahun]").val(platform);
+   
+});   
+		
+		
+	});
+</script>

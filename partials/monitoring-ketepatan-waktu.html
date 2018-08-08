@@ -1,0 +1,167 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-desktop"></i> Monitoring Ketepatan Waktu</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-form1">
+		<div class="col-lg-12">
+			
+			<div class="box">
+				<div class="box-body">
+					<form class="form-horizontal">
+						<div class="form-group" id="div-satker">
+							<label class="control-label col-md-2">PPK</label>
+							<div class="col-md-7">
+								<select id="kdppk" name="kdppk" class="form-control chosen"></select>
+							</div>
+						</div>
+						<div class="form-group" id="div-satker">
+							<label class="control-label col-md-2">Jenis SPP</label>
+							<div class="col-md-7">
+								<select id="kdspp" name="kdspp" class="form-control chosen"></select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">Nomor SPP</label>
+							<div class="col-md-3">
+								<input type="text" id="nospp" name="nospp" class="form-control val_num" maxlength="5"/>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title"><a href="javascript:;" id="refresh" class="btn btn-info"><i class="fa fa-refresh"></i></a> Data</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th rowspan="2">NO</th>
+								<th rowspan="2">KDPPK</th>
+								<th rowspan="2">NMPPK</th>
+								<th rowspan="2">NOSPP</th>
+								<th rowspan="2">TGSPP</th>
+								<th rowspan="2">JENSPP</th>
+								<th colspan="2">UPLOAD</th>
+								<th colspan="2">TERIMA/VERIFIKASI</th>
+								<th colspan="2">KASUBBAG VERA</th>
+								<th colspan="2">PPSPM</th>
+								<th rowspan="2">STATUSSPP</th>
+								<th rowspan="2">STATUSSPM</th>
+							</tr>
+							<tr>
+								<th>BARU</th>
+								<th>ULANG</th>
+								<th>TERIMA</th>
+								<th>VERIFIKASI</th>
+								<th>SETUJU</th>
+								<th>TOLAK</th>
+								<th>SETUJU</th>
+								<th>TOLAK</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery('.chosen').chosen();
+		
+		//ref ppk
+		jQuery.get('dropdown/ppk', function(result){
+			jQuery('#kdppk').html(result).trigger('chosen:updated');
+		});
+		
+		//ref kdspp
+		jQuery.get('dropdown/jenspp', function(result){
+			jQuery('#kdspp').html(result).trigger('chosen:updated');
+		});
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		jQuery.extend({
+			getValues: function(url) {
+				var result = null;
+				jQuery.ajax({
+					url: url,
+					type: 'get',
+					async: false,
+					success: function(data) {
+						result = data;
+					}
+				});
+			   return result;
+			}
+		});
+		
+		var token= jQuery.getValues("token");
+		
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			sAjaxSource: "evaluasi-monitoring"
+		});
+		
+		function form_default(){
+			jQuery('input,textarea,select').val('');
+			jQuery('#spm').html('');
+			jQuery('#div-form').hide();
+			jQuery('#div-form1,#div-tabel').show();
+			jQuery('.chosen').trigger('chosen:updated');
+		}
+		
+		form_default();
+		
+		jQuery('#refresh').click(function(){
+			table.ajax.url("evaluasi-monitoring?kdppk="+jQuery('#kdppk').val()+"&kdspp="+jQuery('#kdspp').val()+"&nospp="+jQuery('#nospp').val()).load();
+		});
+	
+	});
+</script>

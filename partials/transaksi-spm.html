@@ -1,0 +1,238 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-upload"></i> Transaksi/ SPM (Antrian dan Upload SPM)</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="pad margin no-print">
+		<div class="alert alert-info" style="margin-bottom: 0!important;">
+			<i class="fa fa-info"></i>
+			<b>Catatan:</b> Silahkan pilih tanggal antrian SPM.
+		</div>
+	</div>
+	
+	<div class="row" id="div-form-cari">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-search"></i> Form Antrian SPM</h3>
+				</div><!-- /.box-header -->
+				
+				<div class="box-body table-responsive"> <!--style="overflow-x:scroll;"-->
+					<form id="form-cari" name="form-cari" class="form-horizontal">
+						<br/>
+						
+						<!--dropdown jenis lpj-->
+						<div class="form-group">
+							<label class="control-label col-lg-3">Jenis SPM</label>
+							<div class="col-lg-3">
+								<select class="form-control chosen" id="jnsspm" name="jnsspm">
+									<option value="" style="display:none;">Pilih Data</option>
+									<option value="1">SPM Gaji</option>
+									<option value="2">SPM Non Gaji</option>
+								</select>
+							</div>
+							<div class="col-lg-2">
+								<span id="warning-jnsspm" class="label label-danger warning">Required!</span>
+							</div>
+						</div>
+						
+						<!--dropdown jenis lpj-->
+						<div class="form-group">
+							<label class="control-label col-lg-3">Tanggal Antrian</label>
+							<div class="col-lg-2">
+								<input type="text" id="tgl_antrian" name="tgl_antrian" class="form-control dp">
+							</div>
+							<div class="col-lg-2">
+								<span id="warning-tgl_antrian" class="label label-danger warning">Required!</span>
+							</div>
+						</div>
+					
+						<!--button-->
+						<div class="form-group">
+							<hr/>
+							<label class="control-label col-lg-3"> </label>
+							<div class="col-lg-8">
+								<button title="Tampilkan antrian?" id="cari" type="button" class="btn btn-success"><i class="fa fa-search"></i> Tampilkan</button>
+							</div>
+						</div>
+						
+					</form>
+				</div><!-- /.box-body -->
+				
+			</div><!-- /.box -->
+		
+			<!--<input class="form-control" type="file" id="upload" name="upload"/>-->
+		</div>
+	</div>
+	
+	<div class="row" id="div-form-proses">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-print"></i> Form Proses SPM</h3>
+				</div><!-- /.box-header -->
+				
+				<div class="box-body table-responsive"> <!--style="overflow-x:scroll;"-->
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="_token" name="_token">
+						<input type="hidden" id="noantrian_" name="noantrian_">
+						<input type="hidden" id="jnsspm_" name="jnsspm_">
+						<input type="hidden" id="tgl_antrian_" name="tgl_antrian_">
+						<br/>
+						
+						<!--dropdown jenis lpj-->
+						<div class="form-group">
+							<label class="control-label col-lg-3" style="font-size:40px;">Nomor Antrian</label>
+							<div class="col-lg-9" id="div-noantrian">
+								
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-lg-3">Jumlah SPM</label>
+							<div class="col-lg-1">
+								<input type="text" id="jmlspm" name="jmlspm" class="form-control val_num" maxlength="2">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-lg-3">Upload ADK SPM</label>
+							<div class="col-lg-9" id="div-upload">
+								
+							</div>
+						</div>
+					
+						<!--button-->
+						<div class="form-group">
+							<hr/>
+							<label class="control-label col-lg-3"> </label>
+							<div class="col-lg-8">
+								<button title="Simpan data ini?" id="simpan" type="button" class="btn btn-danger">Simpan Antrian</button>
+							</div>
+						</div>
+						
+					</form>
+				</div><!-- /.box-body -->
+				
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+
+</section>
+
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery('.chosen').chosen();
+		
+		jQuery('#tgl_antrian').datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose:true
+		});
+		
+		function upload(jnsspm,tgl_antrian,token){
+			jQuery('#div-upload').html('<input type="file" id="file_spm" name="file_spm" class="form-control">');
+			jQuery("#file_spm").pekeUpload({
+				url:'antrian/upload?_token='+token,
+				theme:'bootstrap',
+				multi:'false',
+				maxSize:0,
+				data:jnsspm+'-'+tgl_antrian,
+				showErrorAlerts:'false',
+				onFileError:function(file,error){
+					//validasi gagal upload
+					alertify.log(error);
+				},
+				onFileSuccess:function(file,data){
+					alertify.log('Upload file '+file.name+' berhasil');
+					//window.location.href="#/input/monitoring";
+				}
+			});
+		}
+		
+		function form_default(){
+			jQuery('input,textarea').val('');
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery('.warning').hide();
+			jQuery('#div-form-proses').hide();
+			jQuery('#cari').html('<i class="fa fa-search"></i>Tampilkan');
+			jQuery('#cari').prop('disabled',false);
+		}
+		
+		form_default();
+		
+		jQuery('#cari').click(function(){
+			if(jQuery('#jnsspm').val()!='' && jQuery('#tgl_antrian').val()!=''){
+				jQuery('#cari').html('Loading.....');
+				jQuery('#cari').prop('disabled',true);
+				var jnsspm=jQuery('#jnsspm').val();
+				var tgl_antrian=jQuery('#tgl_antrian').val().replace(/-/g,'');
+				jQuery.get('antrian/alokasi/'+jnsspm+'/'+tgl_antrian, function(result){
+					if(result){
+						jQuery('#cari').html('<i class="fa fa-search"></i>Tampilkan');
+						jQuery('#cari').prop('disabled',false);
+						jQuery('#div-noantrian').html('<text class="text-success" style="font-size:50px;">'+result.noaktif+'</text>');
+						upload(jnsspm,tgl_antrian,result.token);
+						jQuery('#_token').val(result.token);
+						jQuery('#div-form-proses').show();
+						jQuery('#noantrian_').val(result.noaktif);
+						jQuery('#jnsspm_').val(jnsspm);
+						jQuery('#tgl_antrian_').val(tgl_antrian);
+					}
+					else{
+						jQuery('#cari').html('<i class="fa fa-search"></i>Tampilkan');
+						jQuery('#cari').prop('disabled',false);
+						alertify.log('Data alokasi antrian tidak dapat ditampilkan.<br>Hubungi Administrator.');
+					}
+				});
+			}
+			else{
+				alertify.log('Kolom tidak dapat dikosongkan!');
+			}
+		});
+		
+		jQuery('#simpan').click(function(){
+			if(jQuery('#jmlspm').val()!=''){
+				jQuery('#simpan').html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+				jQuery('#simpan').prop('disabled',true);
+				jQuery.ajax({
+					url:'antrian/proses',
+					method:'POST',
+					data:jQuery('#form-ruh').serialize(),
+					success:function(result){
+						if(result=='success') {
+							jQuery('#simpan').html('Simpan');
+							jQuery('#simpan').prop('disabled',false);
+							alertify.log('Proses simpan berhasil');
+							form_default();
+						} else {
+							jQuery('#simpan').html('Simpan');
+							jQuery('#simpan').prop('disabled',false);
+							alertify.log(result);
+						} 
+					},
+					error:function(result){
+						jQuery('#simpan').html('Simpan');
+						jQuery('#simpan').prop('disabled',false);
+						alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
+					}
+				})
+			}
+			else{
+				alertify.log('Kolom tidak dapat dikosongkan!');
+			}
+		});
+		
+	});
+</script>

@@ -1,0 +1,388 @@
+<!-- Prevent direct access to .html file -->
+<script>
+	if(typeof app === 'undefined'){
+		document.location.href='index.php';
+	}
+</script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1><i class="fa fa-groups"></i> Debitur/ Skoring</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	
+	<div class="row" id="div-form">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-pencil"></i> Form</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body">					
+					
+					<form id="form-ruh" name="form-ruh" class="form-horizontal">
+						<input type="hidden" id="inp-id" name="inp-id">
+						<input type="hidden" id="inp-rekambaru" name="inp-rekambaru">
+						<input type="hidden" id="_token" name="_token">
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label col-lg-3">Tanggal Pengajuan</label>
+								<div class="col-lg-2">
+									<input type="text" id="tgpemohon1" name="tgpemohon1" class="form-control"/>
+								</div>
+								<label class="control-label col-lg-1">s.d</label>
+								<div class="col-lg-2">
+									<input type="text" id="tgpemohon2" name="tgpemohon2" class="form-control"/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-tgpemohon1" class="label label-warning warning">Required!</span>
+									<span id="warning-tgpemohon2" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Status Debitur</label>
+								<div class="col-lg-4">
+									<select id="status" name="status" class="form-control chosen"></select>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-status" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Total Data</label>
+								<div class="col-lg-3">
+									<input type="text" id="totdata" name="totdata" class="form-control val_num" style="text-align:right;" readonly/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-totdata" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Debitur Valid</label>
+								<div class="col-lg-3">
+									<input type="text" id="totvalid" name="totvalid" class="form-control val_num" style="text-align:right;" readonly/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-totvalid" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Sudah Proses Skoring</label>
+								<div class="col-lg-3">
+									<input type="text" id="totskoring" name="totskoring" class="form-control val_num" style="text-align:right;" readonly/>
+								</div>
+								<div class="col-lg-2">
+									<span id="warning-totskoring" class="label label-warning warning">Required!</span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-lg-3">Hasil Skoring</label>
+								<div class="col-lg-9" id="div-skoring">
+									
+								</div>
+							</div>
+							
+							</br>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-6">
+									<button title="Proses Data Ini?" id="proses" type="button" class="btn btn-primary"><i class="fa fa-refresh"></i> Proses</button>
+									<button title="Simpan Data Ini?" id="simpan" type="button" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
+									<button title="Batal"  id="batal" type="button" class="btn btn-danger"> Batal</button>
+								</div>
+							</div>
+							
+						</div><!-- /.box-body -->
+					</form>
+					
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+
+			
+		</div>
+	</div>
+	
+	<!-- Small boxes (Stat box) -->
+	<div class="row" id="div-tabel">
+		<div class="col-lg-12">
+			
+			<div class="box box-solid box-primary">
+				<div class="box-header">
+					<h3 class="box-title"><i class="fa fa-table"></i> Data</h3>
+					<div class="box-tools pull-right" id="div-tambah" style="">
+						<button title="Tambah Data" type="button" class="btn btn-primary" id="tambah"><i class="fa fa-plus"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive" style="overflow-x:scroll;">					
+					<ul>
+						<li>Diterima (81-100%)</li>
+						<li>Dipertimbangkan (61-80%)</li>
+						<li>Ditolak (0-60%)</li>
+					</ul>
+					<br>
+					
+					<table id="tabel-ruh" class="table table-hover">
+						<thead>
+							<tr>
+								<th>NIK</th>
+								<th>Nama</th>
+								<th>Hunian</th>
+								<th>Alamat</th>
+								<th>Tanggungan</th>
+								<th>KJP</th>
+								<th>Lama Tinggal</th>
+								<th>Skoring</th>
+								<th>Status</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+			
+		</div>
+	</div>
+	
+</section>
+<script>
+	jQuery(document).ready(function(){
+		
+		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		//aktivasi chosen
+		jQuery('.chosen').chosen();
+		
+		jQuery.get('dropdown/status-skoring', function(result){
+			if(result){
+				jQuery('#status').html(result).trigger('chosen:updated');
+			}
+		});
+		
+		//untuk membatasi past date
+		var nowDate = new Date();
+		var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+		
+		function cari_data(){
+			if(jQuery('#tgpemohon1').val()!=='' && jQuery('#tgpemohon2').val()!==''){
+				jQuery.getJSON('debitur/skoring/pilih/'+jQuery('#tgpemohon1').val()+'/'+jQuery('#tgpemohon2').val(), function(result){
+					if(result){
+						jQuery('#totdata').val(result.totdata);
+						jQuery('#totvalid').val(result.totvalid);
+						jQuery('#totskoring').val(result.totskoring);
+					}
+				});
+			}
+		}
+		
+		jQuery('#tgpemohon1,#tgpemohon2').datepicker({
+			endDate: today,
+			format: 'dd-mm-yyyy',
+			autoclose:true
+		});
+		
+		jQuery('#tgpemohon1,#tgpemohon2').change(function(){
+			cari_data();
+		});
+		
+		//tampilan default
+		function form_default() {
+			jQuery('input,select').val('');
+			jQuery('.chosen').trigger('chosen:updated');
+			jQuery('.warning, #div-form').hide();
+			jQuery('#div-tabel').show();
+			jQuery('#div-skoring').html('');
+			jQuery('#simpan').prop('disabled', false);
+		}
+		
+		//aktivasi tampilan default
+		form_default();
+		
+		//klik tambah
+		jQuery('#tambah').click(function(){
+			jQuery('#username').prop('disabled',false);
+			jQuery('#inp-rekambaru').val('1');
+			jQuery('#div-form').show();
+			jQuery('#div-tabel').hide();
+		});
+		
+		//data tabel
+		var table=jQuery('#tabel-ruh').DataTable({
+			bProcessing:true,
+			oLanguage:{
+				"sProcessing":   "<center><h3>Sedang proses....</h3></center>",
+				"sLengthMenu":   "Tampilan _MENU_ entri",
+				"sZeroRecords":  "Tidak ditemukan data yang sesuai",
+				"sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+				"sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+				"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+				"sInfoPostFix":  "",
+				"sSearch":       "Cari:",
+				"sUrl":          "",
+				"oPaginate": {
+				  "sFirst":    "Awal",
+				  "sPrevious": "Sebelum",
+				  "sNext":     "Sesudah",
+				  "sLast":     "Akhir"
+				}
+			},
+			aaSorting: [],
+			bServerSide: true,
+			ajax:{
+				url: "debitur/skoring", // Change this URL to where your json data comes from
+				type: "GET", // This is the default value, could also be POST, or anything you want.
+				data: function(d) {
+					//d.id = jQuery("#inp-id").val()
+				}
+			}
+		});
+		
+		//validasi isian form
+		function form_valid(str_id){
+			var arr_id = str_id.split(',');
+			var next = true;
+			for(x = 0; x < arr_id.length; x++){
+				if(jQuery('#'+arr_id[x]).val()==''){
+					jQuery('#warning-'+arr_id[x]).show();
+					next = false;
+				}
+			}
+			return next;
+		}
+		
+		//klik batal
+		jQuery('#batal').click(function(){
+			form_default();
+		});
+		
+		//klik proses
+		jQuery('#proses').click(function(){
+			jQuery(this).html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+			jQuery(this).prop('disabled',true);
+			var next = form_valid('tgpemohon1,tgpemohon2,status,totdata,totvalid,totskoring');
+			if(next==true){
+				jQuery.ajax({
+					method: 'GET',
+					url: 'debitur/skoring/proses/'+jQuery('#status').val()+'/'+jQuery('#tgpemohon1').val()+'/'+jQuery('#tgpemohon2').val(),
+					success: function(result){
+						jQuery('#proses').html('<i class="fa fa-refresh"></i> Proses');
+						jQuery('#proses').prop('disabled',false);
+						if(result){
+							jQuery('#div-skoring').html(result);
+							alertify.log('Proses skoring debitur berhasil!');
+						} 
+						else{
+							alertify.log('Sesi telah habis, silahkan refresh browser Anda!');
+						}
+					},
+					error: function(result){
+						jQuery('#proses').html('<i class="fa fa-refresh"></i> Proses');
+						jQuery('#proses').prop('disabled',false);
+						alertify.log(result);
+					}
+				});
+			}
+			else{
+				jQuery('#proses').html('<i class="fa fa-refresh"></i> Proses');
+				jQuery('#proses').prop('disabled',false);
+				alertify.log('Data tidak dapat dikosongkan!');
+			}
+		});
+		
+		//klik simpan
+		jQuery('#simpan').click(function(){
+			jQuery(this).html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
+			jQuery(this).prop('disabled',true);
+			var next = form_valid('tgpemohon1,tgpemohon2,status,totdata,totvalid,totskoring');
+			if(next==true){
+				
+				jQuery.get('token', function(token){
+					if(token) {
+						
+						jQuery('#_token').val(token);
+						var data = jQuery('#form-ruh').serialize();
+						
+						jQuery.ajax({
+							method: 'POST',
+							data: data,
+							url: 'debitur/skoring',
+							success: function(result){
+								jQuery('#simpan').html('<i class="fa fa-save"></i> Simpan');
+								jQuery('#simpan').prop('disabled',false);
+								if(result=='success'){
+									alertify.log('Proses simpan skoring debitur berhasil!');
+									table.ajax.reload();
+									form_default();
+								} 
+								else{
+									alertify.log(result);
+								}
+							},
+							error: function(result){
+								jQuery('#simpan').html('<i class="fa fa-save"></i> Simpan');
+								jQuery('#simpan').prop('disabled',false);
+								alertify.log(result);
+							}
+						});
+						
+					}
+					else{
+						jQuery('#simpan').html('<i class="fa fa-save"></i> Simpan');
+						jQuery('#simpan').prop('disabled',false);
+						alertify.log('Sesi browser habis, refresh halaman ini!');
+					}
+				});
+				
+			}
+			else{
+				jQuery('#simpan').html('<i class="fa fa-save"></i> Simpan');
+				jQuery('#simpan').prop('disabled',false);
+				alertify.log('Data tidak dapat dikosongkan!');
+			}
+		});
+		
+		//hapus
+		jQuery('body').off('click', '.hapus').on('click', '.hapus', function(){
+			var id = this.id;
+			alertify.confirm('Hapus data ini?', function(c){
+				if(c) {
+					jQuery.get('token', function(token){
+						if(token) {
+							jQuery.ajax({
+								url:'debitur/skoring/hapus',
+								method:'POST',
+								data:{
+									_token:token, 
+									id:id
+								},
+								success:function(result){
+									if(result=='success') {
+										alertify.log('Proses hapus berhasil.');
+										table.ajax.reload();
+									} else {
+										alertify.log(result);
+									} 
+								},
+								error:function(result){
+									alertify.log(result);
+								}
+							});
+						} else {
+							alertify.log('Proses hapus gagal. Silahkan refresh halaman browser anda.');
+						} 
+					});
+				} 
+			});
+		});
+		
+	});
+	
+</script>
