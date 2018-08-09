@@ -86,9 +86,9 @@
       <nav id="nav-menu-container">
         <ul class="nav-menu">
           <li><a href="#about">Informasi</a></li>
-          <li><a href="#features">Developer</a></li>
-          <li><a href="#portfolio">Persyaratan</a></li>
-          <li><a href="#team">Hunian</a></li>
+          <li><a href="#features">Mitra</a></li>
+          <li><a href="#features">Persyaratan</a></li>
+          <li><a href="#portfolio">Hunian</a></li>
           <li><a href="#contact">Hubungi Kami</a></li>
 		  <li><a href="auth">Sign In</a></li>
         </ul>
@@ -105,12 +105,9 @@
     <div class="container text-center">
       <h2>
           Informasi
-        </h2>
+      </h2>
 
-      <p>
-        Voluptua scripserit per ad, laudem viderer sit ex. Ex alia corrumpit voluptatibus usu, sed unum convenire id. Ut cum nisl moderatius, per nihil dicant commodo an. Eum tacimates erroribus ad. Atqui feugiat euripidis ea pri, sed veniam tacimates ex. Menandri
-        temporibus an duo.
-      </p>
+      <p>Informasi data statistik pengajuan kredit hunian oleh masyarakat DKI Jakarta berdasarkan level data.      </p>
 
       <div class="row stats-row">
         <div class="stats-col text-center col-md-3 col-sm-6">
@@ -143,12 +140,10 @@
   <!-- Parallax -->
 
   <div class="block bg-primary block-pd-lg block-bg-overlay text-center" data-bg-img="template/Bell/img/parallax-bg.jpg" data-settings='{"stellar-background-ratio": 0.6}' data-toggle="parallax-bg">
-    <h2>
-        Developer
-      </h2>
+    <h2>Mitra DP 0 </h2>
 
     <p>
-      This is the most powerful theme with thousands of options that you have never seen before.
+      Para pihak yang mendukung terselenggaranya program kredit hunian.
     </p>
     <img alt="Bell - A perfect theme" class="gadgets-img hidden-md-down" src="template/Bell/img/gadgets.png">
   </div>
@@ -172,12 +167,11 @@
 
             <div>
               <h3>
-                  Memiliki e-KTP
+                  Memiliki e-KTP dan KK
                 </h3>
 
               <p>
-                Eque feugiat contentiones ei has. Id summo mundi explicari his, nec in maiorum scriptorem.
-              </p>
+                Memiliki Kartu Tanda Penduduk elektronik dan Kartu Keluarga yang telah terdaftar resmi di Dukcapil </p>
             </div>
           </div>
         </div>
@@ -191,13 +185,10 @@
             </div>
 
             <div>
-              <h3>
-                  Data NIK Valid
-                </h3>
+              <h3>Memiliki NPWP</h3>
 
               <p>
-                Eque feugiat contentiones ei has. Id summo mundi explicari his, nec in maiorum scriptorem.
-              </p>
+               Memiliki NPWP dan SPT tahunan PPH orang pribadi </p>
             </div>
           </div>
         </div>
@@ -216,7 +207,7 @@
                 </h3>
 
               <p>
-                Eque feugiat contentiones ei has. Id summo mundi explicari his, nec in maiorum scriptorem.
+                Telah bertempat tinggal di area Provinsi DKI Jakarta sekurang - kurangnya selama 5 tahun.
               </p>
             </div>
           </div>
@@ -238,8 +229,7 @@
                 </h3>
 
               <p>
-                Eque feugiat contentiones ei has. Id summo mundi explicari his, nec in maiorum scriptorem.
-              </p>
+                Belum pernah membeli atau memiliki rumah pribadi di DKI jakarta </p>
             </div>
           </div>
         </div>
@@ -253,13 +243,10 @@
             </div>
 
             <div>
-              <h3>
-                 Lokasi Hunian Dekat
-                </h3>
+              <h3>Tidak Disubsidi </h3>
 
               <p>
-                Eque feugiat contentiones ei has. Id summo mundi explicari his, nec in maiorum scriptorem.
-              </p>
+                Tidak dan belum pernah mengikuti program subsidi perumahan dari pemerintah </p>
             </div>
           </div>
         </div>
@@ -274,11 +261,10 @@
 
             <div>
               <h3>
-                  Surat Ket. Penghasilan
-                </h3>
+                  Berpenghasilan</h3>
 
               <p>
-                Eque feugiat contentiones ei has. Id summo mundi explicari his, nec in maiorum scriptorem.
+                Memiliki penghasilan bulanan maksimal 7 juta rupiah
               </p>
             </div>
           </div>
@@ -294,12 +280,9 @@
       <div class="row">
         <div class="col-lg-9 col-sm-12 text-lg-left text-center">
           <h2>
-              Komentar
-            </h2>
+              DP 0 Rupiah </h2>
 
-          <p>
-            Lorem ipsum dolor sit amet, nec ad nisl mandamus imperdiet, ut corpora cotidieque cum. Et brute iracundia his, est eu idque dictas gubergren
-          </p>
+          <p>Kemudahan mendapatkan hunian tanpa uang muka untuk warga DKI Jakarta </p>
         </div>
 		
       </div>
@@ -311,11 +294,10 @@
   <section class="portfolio" id="portfolio">
     <div class="container text-center">
       <h2>
-          Hunian Tapak
-        </h2>
+          Hunian Tipe A </h2>
 
       <p>
-        Voluptua scripserit per ad, laudem viderer sit ex. Ex alia corrumpit voluptatibus usu, sed unum convenire id. Ut cum nisl moderatius, Per nihil dicant commodo an.
+        Kelas hunian DP 0 rupiah dengan spesifikasi kelas A
       </p>
     </div>
 
@@ -327,11 +309,11 @@
               <div class="portfolio-over">
                 <div>
                   <h3 class="card-title">
-                    The Dude Rockin'
+                    DP 0 Rupiah
                   </h3>
 
                   <p class="card-text">
-                    Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                    Kredit hunian tanpa uang muka
                   </p>
                 </div>
               </div></a>
@@ -344,11 +326,11 @@
               <div class="portfolio-over">
                 <div>
                   <h3 class="card-title">
-                    The Dude Rockin'
+                    DP 0 Rupiah
                   </h3>
 
                   <p class="card-text">
-                    Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                    Kredit hunian tanpa uang muka
                   </p>
                 </div>
               </div></a>
@@ -361,11 +343,11 @@
               <div class="portfolio-over">
                 <div>
                   <h3 class="card-title">
-                    The Dude Rockin'
+                    DP 0 Rupiah
                   </h3>
 
                   <p class="card-text">
-                    Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                    Kredit hunian tanpa uang muka
                   </p>
                 </div>
               </div></a>
@@ -378,11 +360,11 @@
               <div class="portfolio-over">
                 <div>
                   <h3 class="card-title">
-                    The Dude Rockin'
+                    DP 0 Rupiah
                   </h3>
 
                   <p class="card-text">
-                    Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                    Kredit hunian tanpa uang muka
                   </p>
                 </div>
               </div></a>
@@ -397,11 +379,11 @@
               <div class="portfolio-over">
                 <div>
                   <h3 class="card-title">
-                    The Dude Rockin'
+                    DP 0 Rupiah
                   </h3>
 
                   <p class="card-text">
-                    Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                    Kredit hunian tanpa uang muka
                   </p>
                 </div>
               </div></a>
@@ -414,11 +396,11 @@
               <div class="portfolio-over">
                 <div>
                   <h3 class="card-title">
-                    The Dude Rockin'
+                    DP 0 Rupiah
                   </h3>
 
                   <p class="card-text">
-                    Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                    Kredit hunian tanpa uang muka
                   </p>
                 </div>
               </div></a>
@@ -431,11 +413,11 @@
               <div class="portfolio-over">
                 <div>
                   <h3 class="card-title">
-                    The Dude Rockin'
+                    DP 0 Rupiah
                   </h3>
 
                   <p class="card-text">
-                    Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                    Kredit hunian tanpa uang muka
                   </p>
                 </div>
               </div></a>
@@ -448,11 +430,11 @@
               <div class="portfolio-over">
                 <div>
                   <h3 class="card-title">
-                    The Dude Rockin'
+                    DP 0 Rupiah
                   </h3>
 
                   <p class="card-text">
-                    Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                    Kredit hunian tanpa uang muka
                   </p>
                 </div>
               </div></a>
@@ -467,7 +449,7 @@
   <section class="team" id="team">
     <div class="container">
       <h2 class="text-center">
-          Hunian Susun
+          Hunian Tipe B
         </h2>
 
       <div class="row">
@@ -475,12 +457,12 @@
           <div class="card card-block">
             <a href="#"><img alt="" class="team-img" src="template/Bell/img/team-1.jpg">
               <div class="card-title-wrap">
-                <span class="card-title">Sergio Fez</span> <span class="card-text">Art Director</span>
+                <span class="card-title">Rusunawa</span> <span class="card-text">KS Tubun</span>
               </div>
 
               <div class="team-over">
                 <h4 class="hidden-md-down">
-                  Connect with me
+                  DP 0 Rupiah
                 </h4>
 
                 <nav class="social-nav">
@@ -488,7 +470,7 @@
             </nav>
 
             <p>
-              Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+             Bebas banjir, dalamm kota, bebas uang muka, bunga cicilan dan flat
             </p>
           </div>
           </a>
@@ -499,12 +481,12 @@
         <div class="card card-block">
           <a href="#"><img alt="" class="team-img" src="template/Bell/img/team-2.jpg">
               <div class="card-title-wrap">
-                <span class="card-title">Sergio Fez</span> <span class="card-text">Art Director</span>
+                <span class="card-title">Rusunawa</span> <span class="card-text">BLK Pasar Rebo</span>
               </div>
 
               <div class="team-over">
                 <h4 class="hidden-md-down">
-                  Connect with me
+                   DP 0 Rupiah
                 </h4>
 
                 <nav class="social-nav">
@@ -512,7 +494,7 @@
           </nav>
 
           <p>
-            Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+            Bebas banjir, dalamm kota, bebas uang muka, bunga cicilan dan flat
           </p>
         </div>
         </a>
@@ -523,12 +505,12 @@
       <div class="card card-block">
         <a href="#"><img alt="" class="team-img" src="template/Bell/img/team-3.jpg">
               <div class="card-title-wrap">
-                <span class="card-title">Sergio Fez</span> <span class="card-text">Art Director</span>
+                <span class="card-title">Rusunawa</span> <span class="card-text">Rorotan</span>
               </div>
 
               <div class="team-over">
                 <h4 class="hidden-md-down">
-                  Connect with me
+                   DP 0 Rupiah
                 </h4>
 
                 <nav class="social-nav">
@@ -536,7 +518,7 @@
         </nav>
 
         <p>
-          Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+          Bebas banjir, dalamm kota, bebas uang muka, bunga cicilan dan flat
         </p>
       </div>
       </a>
@@ -547,12 +529,12 @@
       <div class="card card-block">
         <a href="#"><img alt="" class="team-img" src="template/Bell/img/team-4.jpg">
               <div class="card-title-wrap">
-                <span class="card-title">Sergio Fez</span> <span class="card-text">Art Director</span>
+                <span class="card-title">Rusunawa</span> <span class="card-text">Rawa Buaya</span>
               </div>
 
               <div class="team-over">
                 <h4 class="hidden-md-down">
-                  Connect with me
+                  DP 0 Rupiah
                 </h4>
 
                 <nav class="social-nav">
@@ -560,7 +542,7 @@
         </nav>
 
         <p>
-          Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+          Bebas banjir, dalamm kota, bebas uang muka, bunga cicilan dan flat
         </p>
       </div>
       </a>
@@ -585,17 +567,17 @@
           <div class="info">
             <div>
               <i class="fa fa-map-marker"></i>
-              <p>Jl. Thamrin, <br>Jakarta</p>
+              <p>Jl. Taman Jatibaru No 1 Kelurahan Cideng, Kec Gambir, Jakpus, <br>Jakarta</p>
             </div>
 
             <div>
               <i class="fa fa-envelope"></i>
-              <p>info@jakarta.go.id</p>
+              <p>infodp0@jakarta.go.id</p>
             </div>
 
             <div>
               <i class="fa fa-phone"></i>
-              <p>+1 5589 55488 55s</p>
+              <p>(021) 123456789 </p>
             </div>
 
           </div>
@@ -647,7 +629,7 @@
                 Licensing information: https://bootstrapmade.com/license/
                 Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Bell
               -->
-             Designed by <a href="https://bootstrapmade.com/">Tim X Developer</a>
+             Powered by <a href="https://bootstrapmade.com/">Tim DP 0 DKI Jakarta</a>
             </div>
           </div>
 

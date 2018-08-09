@@ -20,17 +20,17 @@
 			<div class="small-box bg-primary">
 				<div class="inner">
 					<h3 id="div-kuitansi">
-						0
+						532
 					</h3>
 					<p>
-						SPP
+						Debitur
 					</p>
 				</div>
 				<div class="icon">
 					<i class="fa fa-pencil"></i>
 				</div>
 				<a href="#" class="small-box-footer">
-					Pengajuan SPP dari PPK
+					Pengajuan Online
 				</a>
 			</div>
 		</div><!-- ./col -->
@@ -40,17 +40,17 @@
 			<div class="small-box bg-red">
 				<div class="inner">
 					<h3 id="div-drpp">
-						0
+						320
 					</h3>
 					<p>
-						SPP Verifikasi
+						Debitur
 					</p>
 				</div>
 				<div class="icon">
 					<i class="fa fa-check"></i>
 				</div>
 				<a href="#" class="small-box-footer">
-					Verifikasi SPP oleh PPSPM
+					Pengajuan Petugas
 				</a>
 			</div>
 		</div><!-- ./col -->
@@ -60,17 +60,17 @@
 			<div class="small-box bg-yellow">
 				<div class="inner">
 					<h3 id="div-spm">
-						0
+						502
 					</h3>
 					<p>
-						SPM
+						Debitur
 					</p>
 				</div>
 				<div class="icon">
 					<i class="fa fa-upload"></i>
 				</div>
 				<a href="#" class="small-box-footer">
-					Proses SPM
+					Validasi DUKCAPIL
 				</a>
 			</div>
 		</div><!-- ./col -->
@@ -80,17 +80,17 @@
 			<div class="small-box bg-green">
 				<div class="inner">
 					<h3 id="div-sp2d">
-						0
+						1,200
 					</h3>
 					<p>
-						SP2D
+						Debitur
 					</p>
 				</div>
 				<div class="icon">
 					<i class="fa fa-download"></i>
 				</div>
 				<a href="#" class="small-box-footer">
-					SP2D
+					Lulus Skoring
 				</a>
 			</div>
 		</div><!-- ./col -->
@@ -109,21 +109,6 @@
 </section>
 <script>
 	jQuery(document).ready(function(){
-		
-		jQuery.get('home/realisasi1', function(result){
-			if(result){
-				jQuery('#grafik1').html(result);
-			}
-		});
-		
-		jQuery.getJSON('home/status', function(result){
-			if(result.jml1){
-				jQuery('#div-kuitansi').html(result.jml1);
-				jQuery('#div-drpp').html(result.jml2);
-				jQuery('#div-spm').html(result.jml3);
-				jQuery('#div-sp2d').html(result.jml4);
-			}
-		});
 		
 	});
 </script>

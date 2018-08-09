@@ -802,16 +802,27 @@ class DebiturRekamController extends Controller {
 						$url = $rows[0]->url;
 						$user = $rows[0]->user;
 						$pass = $rows[0]->pass;
-						$token = $token = md5('0'.md5(date('dmY')).'Dp');
+						$token = md5('0'.md5(date('dmy')).'Dp');
+						
+						//return $user.' | '.$pass.' | '.$token.' | ';
 						
 						$data = '';
 						if($rows[0]->aktif=='1'){
 							
 							$ip = $url;
 							
+							$post = '{
+								"PROC":"GETNIK",
+								"APP":"SI RUMAH DP0",
+								"PROSWS":"Pendaftaran DP0",
+								"USRAPP":"admin",
+								"NIK":"'.$nik.'"
+							}';
+							
 							$handle = curl_init($ip);
 							curl_setopt($handle, CURLOPT_POST, true);
 							curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+							curl_setopt($handle, CURLOPT_POSTFIELDS, $post);
 							curl_setopt($handle, CURLOPT_HTTPHEADER, array(
 								'Accept: application/json',
 								'Content-Type: application/json',
@@ -825,7 +836,11 @@ class DebiturRekamController extends Controller {
 							curl_close($handle);
 							
 							//host to host dukcapil
-							$data = $resp;
+							$data = str_replace("[", "", $resp);
+							$data = str_replace("]", "", $data);
+							$data = json_decode($data);
+							
+							var_dump($data);
 							
 						}
 						else{ //kebutuhan testing
@@ -837,7 +852,9 @@ class DebiturRekamController extends Controller {
 							}
 						}
 						
-						if(json_decode($data)){
+						var_dump($data);
+						
+						/*if(json_decode($data)){
 							
 							$data = (array)json_decode($data);
 							
@@ -908,7 +925,7 @@ class DebiturRekamController extends Controller {
 						}
 						else{
 							return 'Webservis DUKCAPIL tidak aktif. Hubungi Administrator DUKCAPIL.';
-						}
+						}*/
 						
 					}
 					else{
@@ -924,6 +941,7 @@ class DebiturRekamController extends Controller {
 		
 		}
 		catch(\Exception $e){
+			return $e;
 			return 'Terdapat kesalahan lainnya!';
 		}
 	}
