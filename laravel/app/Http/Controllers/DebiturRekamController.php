@@ -838,9 +838,6 @@ class DebiturRekamController extends Controller {
 							//host to host dukcapil
 							$data = str_replace("[", "", $resp);
 							$data = str_replace("]", "", $data);
-							$data = json_decode($data);
-							
-							var_dump($data);
 							
 						}
 						else{ //kebutuhan testing
@@ -852,9 +849,7 @@ class DebiturRekamController extends Controller {
 							}
 						}
 						
-						var_dump($data);
-						
-						/*if(json_decode($data)){
+						if(json_decode($data)){
 							
 							$data = (array)json_decode($data);
 							
@@ -925,7 +920,7 @@ class DebiturRekamController extends Controller {
 						}
 						else{
 							return 'Webservis DUKCAPIL tidak aktif. Hubungi Administrator DUKCAPIL.';
-						}*/
+						}
 						
 					}
 					else{
