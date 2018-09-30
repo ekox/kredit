@@ -40,7 +40,7 @@
 	<header class="header">
 		<a href="javascript:;" class="logo">
 			<!-- Add the class icon to your logo image or logo icon to add the margining -->
-			<img src="{{ asset('/template/Bell/img/jakarta.png')}}" width="102" height="36">
+			<img src="{{ asset('/template/img/logo.jpeg')}}" width="102" height="36">
 		</a>
 		<!-- Header Navbar: style can be found in header.less -->
 		<nav class="navbar navbar-static-top" role="navigation">

@@ -527,4 +527,30 @@ class DropdownController extends Controller {
 		}
 	}
 	
+	public function level()
+	{
+		try{
+			$rows = DB::select("
+				select	kdlevel as kode,
+						nmlevel as nilai
+				from t_level
+				order by kdlevel asc
+			");
+			
+			if(count($rows)>0){
+				
+				$data = '<option value="" style="display:none;">Pilih Data</option>';
+				foreach($rows as $row){
+					$data .= '<option value="'.$row->kode.'">'.$row->nilai.'</option>';
+				}
+				
+				return $data;
+				
+			}
+		}
+		catch(\Exception $e){
+			return 'Terdapat kesalahan lainnya!';
+		}
+	}
+	
 }

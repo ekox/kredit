@@ -41,7 +41,9 @@
         <div class="form-box" id="login-box">
 			<div style="background-color:#ffffff;">
 				<center>
-					<img src="{{ asset('/template/img/logo.jpeg') }}" width="30%" height="30%">
+					<a href="home" title="Kembali ke frontpage?">
+						<img src="{{ asset('/template/img/logo.jpeg') }}" width="30%" height="30%">
+					</a>
 				</center>
 			</div>
             <form id="form-ruh" name="form-ruh" onsubmit="return false">

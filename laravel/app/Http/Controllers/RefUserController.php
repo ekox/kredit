@@ -204,50 +204,17 @@ class RefUserController extends Controller {
 		}
 	}
 	
-	public function dropdown_jubar()
-	{
-		try{
-			$rows = DB::select("
-				SELECT	id,
-						nama,
-						nip
-				FROM t_user
-				WHERE kdsatker=? and kdlevel='11' AND kdbpp=?
-			",[
-				session('kdsatker'),
-				session('kdbpp')
-			]);
-			
-			if(count($rows)>0){
-				
-				$data = '<option value="" style="display:none;">Pilih Data</option>';
-				foreach($rows as $row){
-					$data .= '<option value="'.$row->id.'">'.$row->nama.' - '.$row->nip.'</option>';
-				}
-				
-				return $data;
-				
-			}
-		}
-		catch(\Exception $e){
-			return $e;
-		}
-	}
-	
 	public function pilih(Request $request, $id)
 	{
 		try{
 			$rows = DB::select("
 				select	id,
 						nama,
-						nip,
+						nik,
 						username,
 						email,
 						alamat,
 						telp,
-						kdlevel,
-						kdppk,
-						kdbpp,
 						aktif
 				from t_user
 				where id=?
@@ -256,7 +223,29 @@ class RefUserController extends Controller {
 			]);
 			
 			if(count($rows)>0){
-				return response()->json($rows[0]);
+				
+				$rows_detil = DB::select("
+					select	kdlevel
+					from t_user_level
+					where id_user=?
+				",[
+					$id
+				]);
+				
+				if(count($rows_detil)>0){
+				
+					$detil = array();
+					foreach($rows_detil as $row_detil){
+						$detil[] = $row_detil->kdlevel;
+					}
+					
+					$data = (array)$rows[0];
+					$data['kdlevel'] = implode(",", $detil);
+					
+					return response()->json($data);
+					
+				}
+				
 			}
 			
 		}
@@ -268,86 +257,135 @@ class RefUserController extends Controller {
 	public function simpan(Request $request)
 	{
 		try{
-			if($request->input('inp-rekambaru')=='1'){
+			DB::beginTransaction();
+			
+			if(count($request->input('kdlevel'))>0){
 				
-				$password = md5('p4ssw0rd!');
+				$arr_level = $request->input('kdlevel');
 				
-				$rows = DB::select("
-					select	count(*) as jml
-					from t_user
-					where username=?
-				",[
-					$request->input('username')
-				]);
+				if($request->input('inp-rekambaru')=='1'){
 				
-				if($rows[0]->jml==0){
+					$password = md5('p4ssw0rd!');
 					
-					$insert = DB::insert("
-						insert into t_user
-						(username, password, nama, nip, telp, alamat, email, kdlevel, kddept, kdunit, kdsatker, kddekon, kdppk, kdbpp, foto, aktif) 
-						values ('".$request->input('username')."',
-								'".$password."', '".$request->input('nama')."',
-								'".$request->input('nip')."',
-								'".$request->input('telp')."',
-								'".$request->input('alamat')."',
-								'".$request->input('email')."',
-								'".$request->input('kdlevel')."',
-								'".session('kddept')."',
-								'".session('kdunit')."',
-								'".session('kdsatker')."',
-								'".session('kddekon')."',
-								'".$request->input('kdppk')."',
-								'".$request->input('kdbpp')."',
-								'no-image.png', 1)"
-					);
+					$rows = DB::select("
+						select	count(*) as jml
+						from t_user
+						where username=?
+					",[
+						$request->input('username')
+					]);
 					
-					if($insert==true) {
-						return 'success';
+					if($rows[0]->jml==0){
+						
+						$id_user=DB::table('t_user')->insertGetId([
+							'username' => $request->input('username'),
+							'password' => $password,
+							'nama' => $request->input('nama'),
+							'nik' => $request->input('nik'),
+							'telp' => $request->input('telp'),
+							'alamat' => $request->input('alamat'),
+							'email' => $request->input('email'),
+							'foto' => 'no-image.png',
+							'aktif' => '1'
+						]);
+						
+						if($id_user) {
+							
+							for($i=0;$i<count($arr_level);$i++){
+								
+								$aktif = '0';
+								if($i==0){
+									$aktif = '1';
+								}
+								
+								$insert = DB::insert("
+									insert into t_user_level(id_user,kdlevel,aktif)
+									values(?,?,?)
+								",[
+									$id_user,
+									$arr_level[$i],
+									$aktif
+								]);
+								
+							}
+							
+							if($insert){
+								DB::commit();
+								return 'success';
+							}
+							else{
+								return 'Data level gagal disimpan!';
+							}
+							
+						}
+						else {
+							return 'Proses simpan gagal. Hubungi Administrator.';
+						}
+						
 					}
-					else {
-						return 'Proses simpan gagal. Hubungi Administrator.';
+					else{
+						return 'Username ini sudah ada!';
 					}
 					
 				}
 				else{
-					return 'Username ini sudah ada!';
+					
+					$update = DB::update("
+						update t_user
+						set nama=?,
+							nik=?,
+							telp=?,
+							alamat=?,
+							email=?,
+							aktif=?
+						where id=?
+					",[
+						$request->input('nama'),
+						$request->input('nik'),
+						$request->input('telp'),
+						$request->input('alamat'),
+						$request->input('email'),
+						$request->input('aktif'),
+						$request->input('inp-id')
+					]);
+					
+					$delete = DB::delete("
+						delete from t_user_level where id_user=?
+					",[
+						$request->input('inp-id')
+					]);
+					
+					for($i=0;$i<count($arr_level);$i++){
+						
+						$aktif = '0';
+						if($i==0){
+							$aktif = '1';
+						}
+						
+						$insert = DB::insert("
+							insert into t_user_level(id_user,kdlevel,aktif)
+							values(?,?,?)
+						",[
+							$request->input('inp-id'),
+							$arr_level[$i],
+							$aktif
+						]);
+						
+					}
+					
+					if($insert){
+						DB::commit();
+						return 'success';
+					}
+					else{
+						return 'Data level gagal disimpan!';
+					}
+					
 				}
 				
 			}
 			else{
-				
-				$update = DB::update("
-					update t_user
-					set nama=?,
-						nip=?,
-						telp=?,
-						alamat=?,
-						email=?,
-						kdlevel=?,
-						kdppk=?,
-						kdbpp=?,
-						aktif=?
-					where id=?
-				",[
-					$request->input('nama'),
-					$request->input('nip'),
-					$request->input('telp'),
-					$request->input('alamat'),
-					$request->input('email'),
-					$request->input('kdlevel'),
-					$request->input('kdppk'),
-					$request->input('kdbpp'),
-					$request->input('aktif'),
-					$request->input('inp-id')
-				]);
-				
-				if($update==true) {
-					return 'success';
-				}
-				else {
-					return 'Proses simpan gagal. Hubungi Administrator.';
-				}
-				
+				return 'Kode level belum dipilih!';
 			}
 			
 		}
@@ -359,18 +397,34 @@ class RefUserController extends Controller {
 	public function hapus(Request $request)
 	{
 		try{
+			DB::beginTransaction();
 			$delete = DB::delete("
-				delete from t_user
-				where id=?
+				delete from t_user_level
+				where id_user=?
 			",[
 				$request->input('id')
 			]);
 			
-			if($delete==true) {
-				return 'success';
+			if($delete){
+				
+				$delete = DB::delete("
+					delete from t_user
+					where id=?
+				",[
+					$request->input('id')
+				]);
+				
+				if($delete==true) {
+					DB::commit();
+					return 'success';
+				}
+				else {
+					return 'Proses hapus gagal. Hubungi Administrator.';
+				}
+				
 			}
-			else {
-				return 'Proses hapus gagal. Hubungi Administrator.';
+			else{
+				return 'Hapus data level user gagal!';
 			}
 			
 		}
@@ -402,5 +456,35 @@ class RefUserController extends Controller {
 		catch(\Exception $e){
 			return $e;
 		}		
+	}
+	
+	public function dropdown()
+	{
+		try{
+			$rows = DB::select("
+				select	id,
+						nama,
+						nik
+				from t_user
+				order by nama asc
+			");
+			
+			if(count($rows)>0){
+				
+				$data = '<option value="" style="display:none;">Pilih Data</option>';
+				foreach($rows as $row){
+					$data .= '<option value="'.$row->id.'">'.$row->nama.' | '.$row->nik.'</option>';
+				}
+				
+				return $data;
+				
+			}
+			else{
+				return 'Data tidak ditemukan!';
+			}
+		}
+		catch(\Exception $e){
+			return 'Terdapat kesalahan lainnya!';
+		}
 	}
 }

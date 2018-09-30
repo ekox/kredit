@@ -1,5 +1,7 @@
 <?php
 
+Route::post('/cek-debitur', 'DebiturRekamController@cek_debitur'); //post cek debitur
+
 //otentikasi/login
 Route::group(['prefix' => 'auth'], function () {
 
@@ -56,6 +58,7 @@ Route::group(['prefix' => 'dropdown'], function () {
 	Route::get('/kelurahan/{param1}/{param2}/{param3}', 'DropdownController@kelurahan_param');
 	Route::get('/hutang', 'DropdownController@hutang');
 	Route::get('/status-skoring', 'DropdownController@status_skoring');
+	Route::get('/level', 'DropdownController@level');
 	
 });
 
@@ -151,6 +154,11 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::group(['prefix' => 'user'], function(){
 			
 			Route::get('', 'RefUserController@index')->middleware('role:00');
+			Route::get('/{param}', 'RefUserController@pilih')->middleware('role:00');
+			Route::get('/pilih/dropdown', 'RefUserController@dropdown')->middleware('role:00');
+			Route::post('', 'RefUserController@simpan')->middleware('role:00');
+			Route::post('/reset', 'RefUserController@reset')->middleware('role:00');
+			Route::delete('', 'RefUserController@hapus')->middleware('role:00');
 		
 		});
 		
@@ -158,6 +166,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::group(['prefix' => 'petugas'], function(){
 			
 			Route::get('', 'RefPetugasController@index')->middleware('role:00');
+			Route::get('/{param}', 'RefPetugasController@pilih')->middleware('role:00');
+			Route::post('', 'RefPetugasController@simpan')->middleware('role:00');
 			Route::get('/dropdown', 'RefPetugasController@dropdown')->middleware('role:00');
 		
 		});

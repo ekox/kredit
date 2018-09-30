@@ -219,19 +219,11 @@ class RefPetugasController extends Controller {
 	{
 		try{
 			$rows = DB::select("
-				select	id,
-						nama,
-						nip,
-						username,
-						email,
-						alamat,
-						telp,
-						kdlevel,
-						kdppk,
-						kdbpp,
-						aktif
-				from t_user
-				where id=?
+				select	a.*,
+						b.id_user
+				from t_petugas a
+				left outer join t_user_petugas b on(a.kdpetugas=b.kdpetugas)
+				where a.kdpetugas=?
 			",[
 				$id
 			]);
@@ -249,84 +241,97 @@ class RefPetugasController extends Controller {
 	public function simpan(Request $request)
 	{
 		try{
+			DB::beginTransaction();
+			
 			if($request->input('inp-rekambaru')=='1'){
-				
-				$password = md5('p4ssw0rd!');
 				
 				$rows = DB::select("
 					select	count(*) as jml
-					from t_user
-					where username=?
+					from t_petugas
+					where kdpetugas=?
 				",[
-					$request->input('username')
+					$request->input('kdpetugas')
 				]);
 				
 				if($rows[0]->jml==0){
 					
 					$insert = DB::insert("
-						insert into t_user
-						(username, password, nama, nip, telp, alamat, email, kdlevel, kddept, kdunit, kdsatker, kddekon, kdppk, kdbpp, foto, aktif) 
-						values ('".$request->input('username')."',
-								'".$password."', '".$request->input('nama')."',
-								'".$request->input('nip')."',
-								'".$request->input('telp')."',
-								'".$request->input('alamat')."',
-								'".$request->input('email')."',
-								'".$request->input('kdlevel')."',
-								'".session('kddept')."',
-								'".session('kdunit')."',
-								'".session('kdsatker')."',
-								'".session('kddekon')."',
-								'".$request->input('kdppk')."',
-								'".$request->input('kdbpp')."',
-								'no-image.png', 1)"
-					);
+						insert into t_petugas
+						(kdpetugas, nmpetugas) 
+						values ('".$request->input('kdpetugas')."',
+								'".$request->input('nmpetugas')."')
+					");
 					
-					if($insert==true) {
-						return 'success';
+					if($insert) {
+						
+						$delete = DB::delete("
+							delete from t_user_petugas
+							where id_user=? and kdpetugas=?
+						",[
+							$request->input('id_user'),
+							$request->input('kdpetugas')
+						]);
+						
+						$insert = DB::insert("
+							insert into t_user_petugas(id_user,kdpetugas,aktif)
+							values(?,?,'1')
+						",[
+							$request->input('id_user'),
+							$request->input('kdpetugas')
+						]);
+						
+						if($insert){
+							DB::commit();
+							return 'success';
+						}
+						else{
+							return 'Data user petugas gagal disimpan!';
+						}
+						
 					}
 					else {
-						return 'Proses simpan gagal. Hubungi Administrator.';
+						return 'Proses simpan kode petugas gagal. Hubungi Administrator.';
 					}
 					
 				}
 				else{
-					return 'Username ini sudah ada!';
+					return 'Duplikasi data!';
 				}
 				
 			}
 			else{
 				
 				$update = DB::update("
-					update t_user
-					set nama=?,
-						nip=?,
-						telp=?,
-						alamat=?,
-						email=?,
-						kdlevel=?,
-						kdppk=?,
-						kdbpp=?,
-						aktif=?
-					where id=?
+					update t_petugas
+					set nmpetugas=?
+					where kdpetugas=?
 				",[
-					$request->input('nama'),
-					$request->input('nip'),
-					$request->input('telp'),
-					$request->input('alamat'),
-					$request->input('email'),
-					$request->input('kdlevel'),
-					$request->input('kdppk'),
-					$request->input('kdbpp'),
-					$request->input('aktif'),
+					$request->input('nmpetugas'),
 					$request->input('inp-id')
 				]);
 				
-				if($update==true) {
+				$delete = DB::delete("
+					delete from t_user_petugas
+					where id_user=? and kdpetugas=?
+				",[
+					$request->input('id_user'),
+					$request->input('kdpetugas')
+				]);
+				
+				$insert = DB::insert("
+					insert into t_user_petugas(id_user,kdpetugas,aktif)
+					values(?,?,'1')
+				",[
+					$request->input('id_user'),
+					$request->input('kdpetugas')
+				]);
+				
+				if($insert){
+					DB::commit();
 					return 'success';
 				}
-				else {
-					return 'Proses simpan gagal. Hubungi Administrator.';
+				else{
+					return 'Data user petugas gagal disimpan!';
 				}
 				
 			}

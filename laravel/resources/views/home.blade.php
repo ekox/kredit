@@ -283,6 +283,28 @@
               DP 0 Rupiah </h2>
 
           <p>Kemudahan mendapatkan hunian tanpa uang muka untuk warga DKI Jakarta </p>
+		  <br>
+		  <p>Masukan NIK dan Kode Pendaftaran Anda untuk mengetahui status permohonan </p>
+		  <div class="form">
+            <form id="form-ruh" name="form-ruh" onsubmit="return false">
+              <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
+			  <div class="form-group">
+                <input type="text" name="nik" class="col-lg-3 form-control" id="nik" placeholder="NIK" maxlength="16" />
+                <div class="validation"></div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="col-lg-3 form-control" name="noreg" id="noreg" placeholder="Kode Pendaftaran" maxlength="6" />
+                <div class="validation"></div>
+              </div>
+			  <div class="form-group">
+				<div class="text-left"><button id="cek-status" type="button" class="btn btn-success">Cek Status</button></div>
+			  </div>
+			  <br>
+			  <div class="form-group" id="div-status">
+                
+              </div>
+            </form>
+          </div>
         </div>
 		
       </div>
@@ -687,6 +709,46 @@
   <script src="template/Bell/js/custom.js"></script>
 
   <script src="template/Bell/contactform/contactform.js"></script>
+  <script>
+	jQuery(document).ready(function(){
+		
+		jQuery('#cek-status').click(function(){
+						
+			jQuery(this).prop('disabled',true);
+			jQuery(this).html('Loading.....');
+			var lanjut=true;
+			if(jQuery('#nik').val()==''){
+				lanjut=false;
+			}
+			if(jQuery('#noreg').val()==''){
+				lanjut=false;
+			}
+			if(lanjut==true){
+				var data=jQuery('#form-ruh').serialize();
+				jQuery.ajax({
+					url:'cek-debitur',
+					data:data,
+					method:'POST',
+					success:function(result){
+						jQuery('#div-status').html(result.message);
+						jQuery('#cek-status').html('Cek Status');
+						jQuery('#cek-status').prop('disabled', false);
+					},
+					error:function(result){
+						jQuery('#div-status').html(result.message);
+						jQuery('#cek-status').html('Cek Status');
+						jQuery('#cek-status').prop('disabled', false);
+					}
+				});
+			}
+			else{
+				jQuery('#cek-status').html('Cek Status');
+				jQuery('#cek-status').prop('disabled', false);
+			}
+		});
+		
+	});
+  </script>
 
 </body>
 </html>

@@ -28,82 +28,33 @@
 						<input type="hidden" id="_token" name="_token">
 						<div class="box-body">
 							<div class="form-group">
-								<label class="control-label col-lg-3">Username</label>
+								<label class="control-label col-lg-3">Kode Petugas</label>
 								<div class="col-lg-3">
-									<input type="text" id="username" name="username" class="form-control" placeholder="ex. johndoe" maxlength="50"/>
+									<input type="text" id="kdpetugas" name="kdpetugas" class="form-control val_num" maxlength="2"/>
 								</div>
 								<div class="col-lg-2">
-									<span id="warning-username" class="label label-warning warning">Required!</span>
+									<span id="warning-kdpetugas" class="label label-warning warning">Required!</span>
 								</div>
 							</div>
 							
 							<div class="form-group">
-								<label class="control-label col-lg-3">NIP</label>
+								<label class="control-label col-lg-3">Nama Petugas</label>
 								<div class="col-lg-3">
-									<input type="text" id="nip" name="nip" class="form-control val_num" placeholder="ex. 198605232006021002" maxlength="18"/>
+									<input type="text" id="nmpetugas" name="nmpetugas" class="form-control" maxlength="100"/>
 								</div>
 								<div class="col-lg-2">
-									<span id="warning-nip" class="label label-warning warning">Required!</span>
+									<span id="warning-nmpetugas" class="label label-warning warning">Required!</span>
 								</div>
 							</div>
 							
-							<div class="form-group">
-								<label class="control-label col-lg-3">Nama</label>
-								<div class="col-lg-3">
-									<input type="text" id="nama" name="nama" class="form-control" placeholder="ex. John Doe" maxlength="100"/>
-								</div>
-								<div class="col-lg-2">
-									<span id="warning-nama" class="label label-warning warning">Required!</span>
-								</div>
-							</div>
 							
 							<div class="form-group">
-								<label class="control-label col-lg-3">Telp</label>
-								<div class="col-lg-3">
-									<input type="text" id="telp" name="telp" class="form-control" placeholder="02100000" maxlength="15"/>
+								<label class="control-label col-lg-3">ID.User</label>
+								<div class="col-lg-4">
+									<select id="id_user" name="id_user" class="form-control chosen"></select>
 								</div>
 								<div class="col-lg-2">
-									<span id="warning-telp" class="label label-warning warning">Required!</span>
-								</div>
-							</div>
-							
-							<div class="form-group">
-								<label class="control-label col-lg-3">Alamat</label>
-								<div class="col-lg-3">
-									<input type="text" id="alamat" name="alamat" class="form-control" placeholder="Jakarta" maxlength="100"/>
-								</div>
-								<div class="col-lg-2">
-									<span id="warning-alamat" class="label label-warning warning">Required!</span>
-								</div>
-							</div>
-							
-							<div class="form-group">
-								<label class="control-label col-lg-3">Email</label>
-								<div class="col-lg-3">
-									<input type="text" id="email" name="email" class="form-control" placeholder="jhondoe@gmail.com" maxlength="50"/>
-								</div>
-								<div class="col-lg-2">
-									<span id="warning-email" class="label label-warning warning">Required!</span>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="control-label col-lg-3">Level</label>
-								<div class="col-lg-3">
-									<select id="kdlevel" name="kdlevel" class="form-control chosen" data-placeholder="Pilih Level"></select>
-								</div>
-								<div class="col-lg-2">
-									<span id="warning-kdlevel" class="label label-warning warning">Required!</span>
-								</div>
-							</div>
-
-							<div class="form-group" id="div-ppk">
-								<label class="control-label col-lg-3">PPK</label>
-								<div class="col-lg-5">
-									<select id="kdppk" name="kdppk" class="form-control chosen" data-placeholder="Pilih PPK"></select>
-								</div>
-								<div class="col-lg-2">
-									<span id="warning-kdppk" class="label label-warning warning">Required!</span>
+									<span id="warning-id_user" class="label label-warning warning">Required!</span>
 								</div>
 							</div>
 							
@@ -168,19 +119,13 @@
 		jQuery('.chosen').chosen();
 				
 		//ref level user
-		jQuery.get('dropdown/level', function(result){
-			jQuery('#kdlevel').html(result).trigger('chosen:updated');
-		});
-		
-		//ref ppk
-		jQuery.get('dropdown/ppk', function(result){
-			jQuery('#kdppk').html(result).trigger('chosen:updated');
+		jQuery.get('ref/user/pilih/dropdown', function(result){
+			jQuery('#id_user').html(result).trigger('chosen:updated');
 		});
 		
 		//tampilan default
 		function form_default() {
 			jQuery('.warning, #div-form').hide();
-			jQuery('#div-ppk').hide();
 			jQuery('#div-tabel').show();
 			jQuery('#simpan').prop('disabled', false);
 		}
@@ -190,7 +135,7 @@
 		
 		//klik tambah
 		jQuery('#tambah').click(function(){
-			jQuery('#username').prop('disabled',false);
+			jQuery('#kdpetugas').prop('disabled',false);
 			jQuery('#inp-rekambaru').val('1');
 			jQuery('#div-form').show();
 			jQuery('#div-tabel').hide();
@@ -237,32 +182,18 @@
 		//cari data user yang akan di edit berdasarkan id user
 		function cari_data(id){
 			jQuery('.chosen').val('').trigger('chosen:updated');
-			jQuery.getJSON('ref/user/'+id, function(result){
+			jQuery.getJSON('ref/petugas/'+id, function(result){
 				if(result) {
 				
 					jQuery('#inp-id').val(id);
 					jQuery('#inp-rekambaru').val('0');
-					jQuery('#username').val(result.username);
-					jQuery('#nama').val(result.nama);
-					jQuery('#nip').val(result.nip);
-					jQuery('#telp').val(result.telp);
-					jQuery('#alamat').val(result.alamat);
-					jQuery('#email').val(result.email);
-					jQuery('#kdlevel').val(result.kdlevel);
-					jQuery('#kdppk').val(result.kdppk);
-					
-					console.log(result.kdppk);
-					
+					jQuery('#kdpetugas').val(result.kdpetugas);
+					jQuery('#nmpetugas').val(result.nmpetugas);
+					jQuery('#id_user').val(result.id_user);
 					jQuery('.chosen').trigger('chosen:updated');
-					jQuery('#username').prop('disabled', true);
+					jQuery('#kdpetugas').prop('readonly', true);
 					jQuery('#div-form').show();
 					
-					if(result.kdlevel=='06'){
-						jQuery('#div-ppk').show();
-					}
-					else{
-						jQuery('#div-ppk').hide();
-					}
 				}
 			});
 		}
@@ -276,20 +207,9 @@
 			jQuery('#inp-rekambaru').val('0');
 		});
 		
-		//filter berdasarkan kewenangan
-		jQuery('#kdlevel').change(function(){
-			var level = jQuery(this).val();
-			if(level=='06'){
-				jQuery('#div-ppk').show();
-			}
-			else{
-				jQuery('#div-ppk').hide();
-			}
-		});
-		
 		//klik batal
 		jQuery('#batal').click(function(){
-			jQuery('#div-form, #div-deputi, #div-asdeputi').hide();
+			jQuery('#div-form').hide();
 			jQuery('#div-tabel').show();
 			jQuery('input').val('');
 			jQuery('.chosen').val('').trigger('chosen:updated');
@@ -301,7 +221,7 @@
 		jQuery('#simpan').click(function(){
 			jQuery(this).html('<span class="loading"><i class="fa fa-refresh"></i> Loading.....</span>');
 			jQuery(this).prop('disabled',true);
-			var next = form_valid('nama,nip,kdlevel,username,email');
+			var next = form_valid('kdpetugas,nmpetugas,id_user');
 			if(next==true){
 				jQuery.get('token', function(token){
 					if(token){
@@ -309,7 +229,7 @@
 						var data = jQuery('#form-ruh').serialize();
 						if(jQuery('#inp-rekambaru').val()=='1') {
 							jQuery.ajax({
-								url: 'ref/user',
+								url: 'ref/petugas',
 								method: 'POST',
 								data: data,
 								success: function(result){
@@ -333,8 +253,8 @@
 							})
 						} else {
 								jQuery.ajax({
-								url: 'ref/user',
-								method: 'PUT',
+								url: 'ref/petugas',
+								method: 'POST',
 								data: data,
 								success: function(result){
 									if(result=='success') {
@@ -379,7 +299,7 @@
 					jQuery.get('token', function(token){
 						if(token) {
 							jQuery.ajax({
-								url:'ref/user',
+								url:'ref/petugas',
 								method:'DELETE',
 								data:{
 									_token:token, 
@@ -402,122 +322,6 @@
 						} 
 					});
 				} 
-			});
-		});
-		
-		//reset
-		jQuery('body').off('click', '.reset').on('click', '.reset', function(){
-			var id = this.id;
-			alertify.confirm('Reset data ini?', function(c){
-				if(c) {
-					jQuery.get('token', function(token){
-						if(token) {
-							jQuery.ajax({
-								url:'ref/user/reset',
-								method:'PUT',
-								data:{
-									_token:token, 
-									id:id
-								},
-								success:function(result){
-									if(result=='success') {
-										alertify.log('Proses reset berhasil.');
-										table.ajax.reload();
-									} else {
-										alertify.log(result);
-									} 
-								},
-								error:function(result){
-									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
-								}
-							});
-						} else {
-							alertify.log('Proses reset gagal. Silahkan refresh halaman browser anda.');
-						} 
-					});
-				} 
-			});
-		});
-		
-		jQuery('body').off('click', '.aktif').on('click', '.aktif', function(){
-			var id = this.id;
-			alertify.confirm('Aktifkan data ini?', function(c){
-				if(c) {
-					jQuery.get('token', function(token){
-						if(token) {
-							jQuery.ajax({
-								url:'ref/user/aktif',
-								method:'PUT',
-								data:{
-									_token:token, 
-									id:id
-								},
-								success:function(result){
-									if(result=='success') {
-										alertify.log('Proses ubah berhasil.');
-										table.ajax.reload();
-									} else {
-										alertify.log(result);
-									} 
-								},
-								error:function(result){
-									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
-								}
-							});
-						} else {
-							alertify.log('Proses ubah gagal. Silahkan refresh halaman browser anda.');
-						} 
-					});
-				} 
-			});
-		});
-		
-		jQuery('body').off('click', '.non-aktif').on('click', '.non-aktif', function(){
-			var id = this.id;
-			alertify.confirm('Non-aktifkan data ini?', function(c){
-				if(c) {
-					jQuery.get('token', function(token){
-						if(token) {
-							jQuery.ajax({
-								url:'ref/user/non-aktif',
-								method:'PUT',
-								data:{
-									_token:token, 
-									id:id
-								},
-								success:function(result){
-									if(result=='success') {
-										alertify.log('Proses ubah berhasil.');
-										table.ajax.reload();
-									} else {
-										alertify.log(result);
-									} 
-								},
-								error:function(result){
-									alertify.log('Koneksi pada aplikasi/database terputus. Hubungi Administrator.');
-								}
-							});
-						} else {
-							alertify.log('Proses ubah gagal. Silahkan refresh halaman browser anda.');
-						} 
-					});
-				} 
-			});
-		});
-		
-		jQuery('body').off('click', '.lihat').on('click', '.lihat', function(){
-			jQuery('#view-modal').modal();
-			var id = this.id;
-			jQuery.getJSON('view/user/'+id, function(response){
-				jQuery('.trcontent').remove();
-				jQuery.each(response, function(key, value){
-					jQuery('#content-view').append(
-						'<tr class="trcontent">'+
-							'<td class="col-md-3" style="text-align:right;">'+key+'</td>'+
-							'<td class="col-md-6">'+value+'</td>'+
-						'</tr>'
-					);
-				});
 			});
 		});
 		

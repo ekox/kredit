@@ -449,14 +449,16 @@ class DebiturRekamController extends Controller {
 														}
 													}
 													
+													$noreg = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 6);
+													
 													//debitur
 													$insert = DB::insert("
 														insert into d_debitur
 														(kdjenkredit,id_hunian,kdtipe,nik,nokk,npwp,nama,kotalhr,tglhr,nmibu,
 														kdkelamin,kdagama,kdpendidikan,kdpekerjaan,kdkawin,kdbpjs,nohp,email,jmltinggal,
 														jmlkjp,jmlbpjs,jmltanggung,jmlrmh,jmlroda2,jmlroda4,pengeluaran,tgpemohon,
-														status,created_at,updated_at)
-														values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,".$status.",now(),now())
+														status,created_at,updated_at,noreg)
+														values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,".$status.",now(),now(),?)
 													",[
 														$data['kdjenkredit'],$data['id_hunian'],$data['kdtipe'],$data['nik'],$data['nokk'],$data['npwp'],$data['nama'],$data['kotlhr'],$tglhr,$data['nmibu'],
 														$data['kdkelamin'],$data['kdagama'],$data['kdpendidikan'],$data['kdpekerjaan'],$data['kdkawin'],$data['kdbpjs'],$data['nohp'],$data['email'],
@@ -468,7 +470,8 @@ class DebiturRekamController extends Controller {
 														preg_replace("/[^0-9 \d]/i", "", $data['jmlroda2']),
 														preg_replace("/[^0-9 \d]/i", "", $data['jmlroda4']),
 														preg_replace("/[^0-9 \d]/i", "", $data['pengeluaran']),
-														$tgpemohon
+														$tgpemohon,
+														$noreg
 													]);
 													
 													if($insert){
@@ -737,6 +740,48 @@ class DebiturRekamController extends Controller {
 		}
 	}
 	
+	public function cek_debitur(Request $request)
+	{
+		try{
+			if($request->input('nik')!=='' && $request->input('noreg')!==''){
+				
+				$rows = DB::select("
+					select	a.noreg,
+							b.nmstatus
+					from d_debitur a
+					left outer join t_status_debitur b on(a.status=b.status)
+					where a.nik=?
+				",[
+					$request->input('nik')
+				]);
+				
+				if(count($rows)>0){
+					
+					if($rows[0]->noreg==$request->input('noreg')){
+						
+						return response()->json(['error' => false,'message' => $rows[0]->nmstatus], 200);
+						
+					}
+					else{
+						return response()->json(['error' => true,'message' => 'NIK/Kode Pendaftaran tidak valid!'], 200);
+					}
+					
+				}
+				else{
+					return response()->json(['error' => true,'message' => 'NIK/Kode Pendaftaran tidak valid!'], 200);
+				}
+				
+			}
+			else{
+				return response()->json(['error' => true,'message' => 'NIK dan Kode Pendaftaran tidak dapat dikosongkan!'], 200);
+			}
+		}
+		catch(\Exception $e){
+			return $e;
+			return response()->json(['error' => true,'message' => 'Terdapat kesalahan lainnya!'], 503);
+		}
+	}
+	
 	public function validasi_dukcapil(Request $request, APIDukcapil $apidukcapil)
 	{
 		try{
@@ -995,7 +1040,7 @@ class DebiturRekamController extends Controller {
 	{
 		try{
 			$rows = DB::select("
-				select	md5(a.nik) as id,
+				select	a.noreg as id,
 						a.nik,
 						a.nokk,
 						a.nama,
@@ -1383,366 +1428,6 @@ class DebiturRekamController extends Controller {
 		catch(\Exception $e){
 			return 'Terdapat kesalahan lainnya!';
 		}
-	}
-	
-	public function download($param)
-	{
-		
-			$css = new RKOSPBYController;
-			$html_out = $css->css();
-			
-			$rows_satker = DB::select("
-				select	kdsatker,
-						uraian as nmsatker
-			from d_pagu
-			where kdsatker=? and thang=? and lvl='0'
-			",[
-				session('kdsatker'),
-				session('tahun')
-			]);
-			
-			$rows_program = DB::select("
-				select 	CONCAT('023','.','11','.',a.kdprogram) as kode,
-						a.kdprogram,
-						b.nmprogram,
-						c.kdppk,
-						d.nama as nama_ppk,
-						d.nip as nip_ppk,
-						c.kdbpp,
-						c.id_unit,
-						e.nama as nama_bpp,
-						e.nip as nip_bpp,
-						f.nama as nama_pk2,
-						f.nip as nip_pk2,
-						g.nama as nama_pk1,
-						g.nip as nip_pk1,
-						h.is_sekre,
-						i.uraian as nama_unit,
-						sum(a.nilai) as nilai,
-						sum(a.ppn) as ppn,
-						sum(a.pph_21) as pph_21,
-						sum(a.pph_22) as pph_22,
-						sum(a.pph_23) as pph_23,
-						sum(a.pph_24) as pph_24
-				from d_rko_pagu2 a 
-				left outer join (select kdprogram, nmprogram
-					from t_program where kddept='023' and kdunit='11'
-				) b on a.kdprogram=b.kdprogram
-				left outer join d_rko c on a.id_rko=c.id
-				LEFT OUTER JOIN(
-					SELECT kdsatker,kdppk,nama,nip
-					 FROM t_user
-					 WHERE kdlevel='06' AND aktif='1'
-				) d ON(c.kdsatker=d.kdsatker AND c.kdppk=d.kdppk)
-				LEFT OUTER JOIN(
-					SELECT kdsatker,kdbpp,nama,nip
-					 FROM t_user
-					 WHERE kdlevel='05' AND aktif='1'
-				) e ON(c.kdsatker=e.kdsatker AND c.kdbpp=e.kdbpp)
-				LEFT OUTER JOIN(
-					 SELECT kdsatker,kdppk,id_unit,nama,nip
-								 FROM t_user
-								 WHERE kdlevel='03' AND aktif='1'
-				) f ON(c.kdsatker=f.kdsatker AND c.kdppk=f.kdppk AND LEFT(c.id_unit,8)=LEFT(f.id_unit,8))
-				LEFT OUTER JOIN(
-					 SELECT kdsatker,kdppk,id_unit,nama,nip
-								 FROM t_user
-								 WHERE kdlevel='02' AND aktif='1'
-				) g ON(c.kdsatker=g.kdsatker AND c.kdppk=g.kdppk AND c.id_unit=g.id_unit)
-				LEFT OUTER JOIN t_unit_instansi h on(c.id_unit=h.id_unit)
-				LEFT OUTER JOIN(
-					select *
-					from t_unit_instansi
-					where substr(id_unit,7,5)='00.00'
-				) i ON(substr(c.id_unit,1,5)=substr(i.id_unit,1,5))
-				where a.id_rko=".$param."
-				group by CONCAT('023','.','11','.',a.kdprogram), a.kdprogram, b.nmprogram, c.kdppk, c.kdbpp, c.id_unit
-			");
-			
-			if(count($rows_program)==0) {
-				//~ new Exception('No data program found');
-				return "tidak ada data";
-			} 
-			
-			$rows_akun = DB::select("
-				SELECT	a.*,
-						b.nmakun
-				FROM(
-					SELECT	a.id_rko,
-							a.kdakun,
-							SUM(nilai) AS nilai,
-							sum(a.ppn) as ppn,
-							sum(a.pph_21) as pph_21,
-							sum(a.pph_22) as pph_22,
-							sum(a.pph_23) as pph_23,
-							sum(a.pph_24) as pph_24
-					FROM d_rko_pagu2 a
-					WHERE a.id_rko=?
-					GROUP BY a.id_rko,a.kdakun
-				) a
-				LEFT OUTER JOIN t_akun b ON(a.kdakun=b.kdakun)
-				ORDER BY a.kdakun ASC
-			",[
-				$param
-			]);
-			
-			if(count($rows_akun)==0) {
-				//~ new Exception('No data akun found');
-				return "tidak ada data";
-			} 
-			
-			function rows_uraian($id_rko, $kdakun) 
-			{
-				return DB::select("
-					select 	if(a.kdspj='01',
-								if(a.nip is null,
-									concat(c.nama),
-									concat(b.nama)
-								),
-								if(a.kdspj='02',
-									a.uraian,
-									if(a.nama is null,
-										a.uraian,
-										a.nama
-									)
-								)
-							) as uraian,
-							a.nilai,
-							a.ppn,
-							a.pph_21,
-							a.pph_22,
-							a.pph_23,
-							a.pph_24,
-							substr(b.kdgol,1,1) as kdgol
-					from d_rko_pagu2 a
-					left outer join t_pegawai b on(a.nip=b.nip)
-					left outer join t_pegawai_non c on(a.id_peg_non=c.id)
-					where a.id_rko=".$id_rko." and a.kdakun='".$kdakun."'
-				");
-			}
-			
-			$html_out.= '<table cellpadding="0" cellspacing="0" class="fz60">';
-			$html_out.= '<thead>';
-			
-			$html_out.= '<tr>';
-				$html_out.= '<th class="wd20 tl">NAMA SATKER</th>';
-				$html_out.= '<th class="wd2 tc">:</th>';
-				$html_out.= '<th class="tl">'.$rows_satker[0]->nmsatker.'</th>';
-			$html_out.= '</tr>';
-			$html_out.= '<tr>';
-				$html_out.= '<th class="tl">KODE SATKER</th>';
-				$html_out.= '<th class="tc">:</th>';
-				$html_out.= '<th class="tl">'.$rows_satker[0]->kdsatker.'</th>';
-			$html_out.= '</tr>';
-			$html_out.= '<tr>';
-				$html_out.= '<th class="tl">NOMOR DAN TANGGAL DIPA</th>';
-				$html_out.= '<th class="tc">:</th>';
-				$html_out.= '<th class="tl">SP DIPA- 023.11.1.137608/2018 Tgl. 2 Juli 2018</th>';
-			$html_out.= '</tr>';
-			$html_out.= '<tr>';
-				$html_out.= '<th class="tl">JUMLAH UP-RM</th>';
-				$html_out.= '<th class="tc">:</th>';
-				$html_out.= '<th class="tl">'.number_format($rows_program[0]->nilai,0,",",".").'</th>';
-			$html_out.= '</tr>';
-			$html_out.= '<tr>';
-				$html_out.= '<th class="tl">UNIT KERJA</th>';
-				$html_out.= '<th class="tc">:</th>';
-				$html_out.= '<th class="tl">'.$rows_program[0]->nama_unit.'</th>';
-			$html_out.= '</tr>';
-			
-			$html_out.= '</thead>';
-			$html_out.= '</table>';
-			
-			$html_out.= '<br/>';
-			
-			$html_out.= '<table cellspacing="0" cellpadding="0" class="fz60 bd">';
-			$html_out.= '<thead>';
-				$html_out.= '<tr>';
-					$html_out .= '<th class="bd pd wd3">NO</th>';
-					$html_out .= '<th class="bd pd wd8">KODE</th>';
-					$html_out .= '<th class="bd pd wd8">KELOMPOK AKUN</th>';
-					$html_out .= '<th class="bd pd">URAIAN</th>';
-					$html_out .= '<th class="bd pd wd10">JUMLAH YANG DIMINTAKAN</th>';
-					$html_out .= '<th class="bd pd wd7">Gol.</th>';
-					$html_out .= '<th class="bd pd wd7">PPN</th>';
-					$html_out .= '<th class="bd pd wd7">PPh21</th>';
-					$html_out .= '<th class="bd pd wd7">PPh22</th>';
-					$html_out .= '<th class="bd pd wd7">PPh23</th>';
-					//~ $html_out .= '<th class="bd pd wd7">PPh24</th>';
-				$html_out.= '</tr>';
-				$html_out.= '<tr>';
-					$html_out .= '<th class="fz60 bd">1</th>';
-					$html_out .= '<th class="fz60 bd">2</th>';
-					$html_out .= '<th class="fz60 bd">3</th>';
-					$html_out .= '<th class="fz60 bd">4</th>';
-					$html_out .= '<th class="fz60 bd">5</th>';
-					$html_out .= '<th class="fz60 bd">6</th>';
-					$html_out .= '<th class="fz60 bd">7</th>';
-					$html_out .= '<th class="fz60 bd">8</th>';
-					$html_out .= '<th class="fz60 bd">9</th>';
-					$html_out .= '<th class="fz60 bd">10</th>';
-				$html_out.= '</tr>';
-			$html_out.= '</thead>';
-			$html_out.= '<tbody>';
-				$html_out.= '<tr>';
-					$html_out.= '<td class="bdlr vt fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr vt tc fwb">'.$rows_program[0]->kode.'</td>';
-					$html_out.= '<td class="bdlr vt tc fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr vt tl fwb">'.$rows_program[0]->nmprogram.'</td>';
-					$html_out.= '<td class="bdlr vt tr fwb">'.number_format($rows_program[0]->nilai,0,',','.').'</td>';
-					$html_out.= '<td class="bdlr vt fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr vt fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr vt fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr vt fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr vt fwb">&nbsp;</td>';
-				$html_out.= '</tr>';
-			
-			foreach($rows_akun as $ra) {
-				$html_out.= '<tr>';
-					$html_out.= '<td class="bdlr fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr tr fwb">'.$ra->kdakun.'</td>';
-					$html_out.= '<td class="bdlr tl fwb">'.$ra->nmakun.'</td>';
-					$html_out.= '<td class="bdlr tr fwb">'.number_format($ra->nilai,0,',','.').'</td>';
-					$html_out.= '<td class="bdlr tr fwb">&nbsp;</td>';
-					$html_out.= '<td class="bdlr tr fwb">'.number_format($ra->ppn,0,',','.').'</td>';
-					$html_out.= '<td class="bdlr tr fwb">'.number_format($ra->pph_21,0,',','.').'</td>';
-					$html_out.= '<td class="bdlr tr fwb">'.number_format($ra->pph_22,0,',','.').'</td>';
-					$html_out.= '<td class="bdlr tr fwb">'.number_format($ra->pph_23,0,',','.').'</td>';
-					//~ $html_out.= '<td class="bdlr tr fwb">'.number_format($ra->pph_24,0,',','.').'</td>';
-				$html_out.= '</tr>';
-				
-				foreach(rows_uraian($ra->id_rko, $ra->kdakun) as $ru) {
-					$html_out.= '<tr>';
-						$html_out.= '<td class="bdlr ">&nbsp;</td>';
-						$html_out.= '<td class="bdlr ">&nbsp;</td>';
-						$html_out.= '<td class="bdlr tr">&nbsp;</td>';
-						$html_out.= '<td class="bdlr tl">&nbsp;&nbsp; - &nbsp;'.$ru->uraian.'</td>';
-						$html_out.= '<td class="bdlr tr">'.number_format($ru->nilai,0,',','.').'</td>';
-						$html_out.= '<td class="bdlr tc">'.$ru->kdgol.'</td>';
-						$html_out.= '<td class="bdlr tr">'.number_format($ru->ppn,0,',','.').'</td>';
-						$html_out.= '<td class="bdlr tr">'.number_format($ru->pph_21,0,',','.').'</td>';
-						$html_out.= '<td class="bdlr tr">'.number_format($ru->pph_22,0,',','.').'</td>';
-						$html_out.= '<td class="bdlr tr">'.number_format($ru->pph_23,0,',','.').'</td>';
-						//~ $html_out.= '<td class="bdlr tr">'.number_format($ru->pph_24,0,',','.').'</td>';
-					$html_out.= '</tr>';
-				}
-			}
-			
-			$html_out.= '<tr>';
-				$html_out.= '<td class="pd bd fwb">&nbsp;</td>';
-				$html_out.= '<td class="pd bd fwb">&nbsp;</td>';
-				$html_out.= '<td colspan="2" class="pd bd fwb">JUMLAH</td>';
-				$html_out.= '<td class="pd bd tr fwb">'.number_format($rows_program[0]->nilai,0,',','.').'</td>';
-				$html_out.= '<td class="pd bd tr fwb">&nbsp;</td>';
-				$html_out.= '<td class="pd bd tr fwb">'.number_format($rows_program[0]->ppn,0,',','.').'</td>';
-				$html_out.= '<td class="pd bd tr fwb">'.number_format($rows_program[0]->pph_21,0,',','.').'</td>';
-				$html_out.= '<td class="pd bd tr fwb">'.number_format($rows_program[0]->pph_22,0,',','.').'</td>';
-				$html_out.= '<td class="pd bd tr fwb">'.number_format($rows_program[0]->pph_23,0,',','.').'</td>';
-				//~ $html_out.= '<td class="pd bd tr fwb">'.number_format($rows_program[0]->pph_24,0,',','.').'</td>';
-			$html_out.= '</tr>';
-			
-			$html_out.= '</tbody>';
-			$html_out.= '</table>';
-			$obj_ppk = HTMLController::refPPK();
-			$obj_bpp = HTMLController::refBPP();
-			
-			if($rows_program[0]->is_sekre=='1'){
-				
-				$html_out.= '<table class="fz60">
-							<tbody>
-								<tr>
-									<td colspan="3">&nbsp;</td>
-								</tr>
-								<tr>
-									<td class="">&nbsp;</td>
-									<td class="">&nbsp;</td>
-									<td class="">&nbsp;</td>
-									<td class="">Jakarta, '.HTMLController::today().'</td>
-								</tr>
-								<tr>
-									<td class="">Pejabat Pembuat Komitmen</td>
-									<td class="">Bendahara Pengeluaran Pembantu</td>
-									<td class="">Pelaksana Kegiatan II</td>
-									<td class="">Pelaksana Kegiatan I</td>
-								</tr>
-								<tr>
-									<td class="" colspan="4">&nbsp;</td>
-								</tr>
-								<tr>
-									<td class="" colspan="4">&nbsp;</td>
-								</tr>
-								<tr>
-									<td class="" colspan="4">&nbsp;</td>
-								</tr>
-								<tr>
-									<td class="wd30">'.$rows_program[0]->nama_ppk.'</td>
-									<td class="wd30">'.$rows_program[0]->nama_bpp.'</td>
-									<td class="wd30">'.$rows_program[0]->nama_pk2.'</td>
-									<td class="wd30">'.$rows_program[0]->nama_pk1.'</td>
-								</tr>
-								<tr>
-									<td class="wd30">NIP '.$rows_program[0]->nip_ppk.'</td>
-									<td class="wd30">NIP '.$rows_program[0]->nip_bpp.'</td>
-									<td class="wd30">NIP '.$rows_program[0]->nip_pk2.'</td>
-									<td class="wd30">NIP '.$rows_program[0]->nip_pk1.'</td>
-								</tr>
-							</tbody>
-						</table>';
-				
-			}
-			else{
-				
-				$html_out.= '<table class="fz60">
-							<tbody>
-								<tr>
-									<td colspan="3">&nbsp;</td>
-								</tr>
-								<tr>
-									<td class="">&nbsp;</td>
-									<td class="">&nbsp;</td>
-									<td class="">&nbsp;</td>
-									<td class="">Jakarta, '.HTMLController::today().'</td>
-								</tr>
-								<tr>
-									<td class="">Pejabat Pembuat Komitmen</td>
-									<td class="">&nbsp;</td>
-									<td class="">&nbsp;</td>
-									<td class="">Bendahara Pengeluaran Pembantu</td>
-								</tr>
-								<tr>
-									<td class="" colspan="4">&nbsp;</td>
-								</tr>
-								<tr>
-									<td class="" colspan="4">&nbsp;</td>
-								</tr>
-								<tr>
-									<td class="" colspan="4">&nbsp;</td>
-								</tr>
-								<tr>
-									<td class="wd30">'.$rows_program[0]->nama_ppk.'</td>
-									<td class="wd30">&nbsp;</td>
-									<td class="wd30">&nbsp;</td>
-									<td class="wd30">'.$rows_program[0]->nama_bpp.'</td>
-								</tr>
-								<tr>
-									<td class="wd30">NIP '.$rows_program[0]->nip_ppk.'</td>
-									<td class="wd30">&nbsp;</td>
-									<td class="wd30">&nbsp;</td>
-									<td class="wd30">NIP '.$rows_program[0]->nip_bpp.'</td>
-								</tr>
-							</tbody>
-						</table>';
-				
-			}
-			
-			$mpdf = new mPDF("en", "A4", "15");
-			$mpdf->SetTitle('Form RKO');
-			
-			$mpdf->AddPage('L');
-			$mpdf->writeHTML($html_out);
-			$mpdf->Output('Form_RKO_GUP_'.$id.'.pdf','I');
-		
 	}
 	
 }
