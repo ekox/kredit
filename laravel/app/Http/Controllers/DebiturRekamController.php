@@ -896,9 +896,11 @@ class DebiturRekamController extends Controller {
 						
 						if(json_decode($data)){
 							
+							//var_dump($data);
+							
 							$data = (array)json_decode($data);
 							
-							if($data['NIK']!==null){
+							if(isset($data['NIK'])){
 								
 								if($data['NO_KK']==$nokk){
 									
@@ -959,7 +961,7 @@ class DebiturRekamController extends Controller {
 								
 							}
 							else{
-								return 'Data debitur tidak valid!';
+								return $data['response'];
 							}
 							
 						}
