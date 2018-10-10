@@ -54,6 +54,77 @@ class DropdownController extends Controller {
 		}
 	}
 	
+	public function harga($id)
+	{
+		try{
+			if($id!=='xxx'){
+				
+				$rows = DB::select("
+					SELECT	a.id,
+							CONCAT('TIPE ',a.kdkategori) AS kdkategori,
+							a.kdtipe,
+							b.ukuran,
+							a.niljual,
+							a.jmlunit
+					FROM d_hunian_dtl a
+					LEFT OUTER JOIN t_tipe b ON(a.kdtipe=b.kdtipe)
+					WHERE a.id_hunian=?
+				",[
+					$id
+				]);
+				
+				if(count($rows)>0){
+					
+					$data = '<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>Kategori</th>
+										<th>Tipe</th>
+										<th>Ukuran</th>
+										<th>Harga</th>
+										<th>Jml.Unit</th>
+										<th>Pilih</th>
+									</tr>
+								</thead>
+								<tbody>';
+					
+					$i = 1;
+					foreach($rows as $row){
+						$data .= '<tr>
+									<td>'.$i++.'</td>
+									<td>'.$row->kdkategori.'</td>
+									<td>'.$row->kdtipe.'</td>
+									<td style="text-align:right;">'.$row->ukuran.'</td>
+									<td style="text-align:right;">'.number_format($row->niljual).'</td>
+									<td style="text-align:right;">'.number_format($row->jmlunit).'</td>
+									<td>
+										<center>
+											<input id="'.$row->id.'" type="radio" name="id_hunian_dtl" value="'.$row->id.'" class="pilih_hunian">
+										</center>
+									</td>
+								  </tr>';
+					}
+					
+					$data .= '</tbody></table>';
+					
+					return $data;
+					
+				}
+				else{
+					return 'Data harga hunian tidak ditemukan!';
+				}
+				
+			}
+			else{
+				return 'Data hunian tidak dapat dikosongkan!';
+			}
+		}
+		catch(\Exception $e){
+			return 'Terdapat kesalahan lainnya!';
+		}
+	}
+	
 	public function jenis_kredit()
 	{
 		try{
@@ -482,6 +553,31 @@ class DropdownController extends Controller {
 				select	kdhutang as kode,
 						nmhutang as nilai
 				from t_hutang
+			");
+			
+			if(count($rows)>0){
+				
+				$data = '<option value="" style="display:none;">Pilih Data</option>';
+				foreach($rows as $row){
+					$data .= '<option value="'.$row->kode.'">'.$row->nilai.'</option>';
+				}
+				
+				return $data;
+				
+			}
+		}
+		catch(\Exception $e){
+			return 'Terdapat kesalahan lainnya!';
+		}
+	}
+	
+	public function kdkreditur()
+	{
+		try{
+			$rows = DB::select("
+				select	kdkreditur as kode,
+						nmkreditur as nilai
+				from t_kreditur
 			");
 			
 			if(count($rows)>0){

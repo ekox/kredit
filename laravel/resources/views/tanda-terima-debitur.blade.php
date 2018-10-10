@@ -97,14 +97,9 @@ top:-9px;width:649px;height:115px'>
 			<td><?php echo $nama; ?></td>
 		</tr>
 		<tr>
-			<td>Nomor NIK</td>
+			<td>NIK</td>
 			<td>:</td>
 			<td><?php echo $nik; ?></td>
-		</tr>
-		<tr>
-			<td>Nomor KK</td>
-			<td>:</td>
-			<td><?php echo $nokk; ?></td>
 		</tr>
 		<tr>
 			<td>Lokasi Unit</td>

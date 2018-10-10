@@ -51,8 +51,8 @@ class DebiturSkoringController extends Controller {
 			/* DB table to use */
 			$sTable = "select	a.nik,
 								b.nama,
-								c.nmhunian,
-								c.alamat,
+								e.nmhunian,
+								e.alamat,
 								b.jmltanggung,
 								b.jmlkjp,
 								b.jmltinggal,
@@ -62,7 +62,8 @@ class DebiturSkoringController extends Controller {
 								d.warna
 					from d_debitur_skoring a
 					left outer join d_debitur b on(a.nik=b.nik)
-					left outer join d_hunian c on(b.id_hunian=c.id)
+					left outer join d_hunian_dtl c on(b.id_hunian_dtl=c.id)
+					left outer join d_hunian e on(c.id_hunian=e.id)
 					left outer join t_status_skoring d on(a.nilai between d.range1 and d.range2)
 					order by a.nilai desc";
 			

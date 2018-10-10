@@ -17,10 +17,6 @@ Route::group(['prefix' => 'home'], function () {
 	
 });
 
-//Route::post('debitur/rekam/debitur/rekam', 'DebiturRekamController@simpan');
-
-//Route::get('debitur/rekam/baru', 'DebiturRekamController@baru')->middleware('role:00.01');
-
 //debitur
 Route::group(['prefix' => 'registrasi'], function () {
 	
@@ -40,6 +36,7 @@ Route::group(['prefix' => 'registrasi'], function () {
 Route::group(['prefix' => 'dropdown'], function () {
 	
 	Route::get('/hunian', 'DropdownController@hunian');
+	Route::get('/harga/{param}', 'DropdownController@harga');
 	Route::get('/jenis-kredit', 'DropdownController@jenis_kredit');
 	Route::get('/tipe-kredit', 'DropdownController@tipe_kredit');
 	Route::get('/form-kredit', 'DropdownController@form_kredit');
@@ -57,6 +54,7 @@ Route::group(['prefix' => 'dropdown'], function () {
 	Route::get('/kelurahan', 'DropdownController@kelurahan');
 	Route::get('/kelurahan/{param1}/{param2}/{param3}', 'DropdownController@kelurahan_param');
 	Route::get('/hutang', 'DropdownController@hutang');
+	Route::get('/kdkreditur', 'DropdownController@kdkreditur');
 	Route::get('/status-skoring', 'DropdownController@status_skoring');
 	Route::get('/level', 'DropdownController@level');
 	

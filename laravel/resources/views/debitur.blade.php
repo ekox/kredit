@@ -193,7 +193,19 @@
 																		<div class="col-md-6">
 																			<select id="id_form" name="id_form" class="form-control"></select>
 																		</div>
-																	</div>																	
+																	</div>
+																	<div class="form-group">
+																		<label class="control-label col-md-3">ID. Rumah </label>
+																		<div class="col-md-6">
+																			<input type="text" id="id_hunian_dtl" name="id_hunian_dtl" class="form-control" readonly />
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label class="control-label col-md-3">Harga Rumah </label>
+																		<div class="col-md-6" id="div-harga">
+																			Silahkan pilih hunian terlebih dahulu
+																		</div>
+																	</div>
 																</div>
 																<div class="tab-pane" id="tab2">
 																	<div class="form-group">
@@ -203,24 +215,24 @@
 																		</div>
 																	</div>
 																	<div class="form-group">
+																		<label class="control-label col-md-3">Nama</label>
+																		<div class="col-md-6">
+																			<input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan Nama Lengkap sesuai e-KTP" maxlength="50" autocomplete="off"/>
+																		</div>
+																	</div>
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Nomor KK</label>
 																		<div class="col-md-6">
 																			<input type="text" id="nokk" name="nokk" class="form-control val_num" placeholder="Masukkan Nomor Kartu Keluarga" maxlength="16" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">NPWP</label>
 																		<div class="col-md-6">
 																			<input type="text" id="npwp" name="npwp" class="form-control val_num" placeholder="Masukkan NPWP" maxlength="15" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
-																		<label class="control-label col-md-3">Nama</label>
-																		<div class="col-md-6">
-																			<input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan Nama Lengkap" maxlength="50" autocomplete="off"/>
-																		</div>
-																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Tempat/Tgl.Lahir</label>
 																		<div class="col-md-3">
 																			<input type="text" id="kotlhr" name="kotlhr" class="form-control" placeholder="Tempat Tempat" maxlength="50" autocomplete="off"/>
@@ -252,7 +264,7 @@
 																		<div class="col-md-6">
 																			<select id="kdpendidikan" name="kdpendidikan" class="form-control"></select>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Status Pernikahan</label>
 																		<div class="col-md-6">
@@ -283,7 +295,7 @@
 																			<input type="text" id="jmltinggal" name="jmltinggal" class="form-control val_num" placeholder="Masukkan lama tinggal di DKI dalam tahunan" maxlength="2" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<legend>Alamat sesuai KTP</legend>
+																	<!--<legend>Alamat sesuai KTP</legend>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Prop/Kota/Kec/Kel</label>
 																		<div class="col-md-2">
@@ -316,13 +328,21 @@
 																		<div class="col-md-6">
 																			<input type="text" id="alamat" name="alamat" class="form-control" placeholder="Masukkan alamat lengkap" maxlength="255" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<legend>Alamat Domisili</legend>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Copy dari KTP?</label>
 																		<div class="col-md-2">
 																			<button type="button" id="sama" class="btn btn-xs btn-danger"><i class="fa fa-check"></i></button>
 																		</div>
+																	</div>-->
+																	<div class="form-group">
+																		<label class="control-label col-md-3">Sama dengan KTP?</label>
+																		<div class="col-md-2">
+																			<input type="radio" class="form-control" id="is_alamat_ktp1" name="is_alamat_ktp" value="1" checked > Ya
+																			<input type="radio" class="form-control" id="is_alamat_ktp2" name="is_alamat_ktp" value="0"> Tidak
+																		</div>
+																		<label class="col-md-3">*Isi alamat domisili jika tidak sama dengan KTP</label>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Prop/Kota/Kec/Kel</label>
@@ -342,7 +362,7 @@
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Kodepos</label>
 																		<div class="col-md-6">
-																			<input type="text" id="kodepos1" name="kodepos1" class="form-control val_num" placeholder="Masukkan Kodepos sesuai KTP" maxlength="5" autocomplete="off"/>
+																			<input type="text" id="kodepos1" name="kodepos1" class="form-control val_num" placeholder="Masukkan Kodepos" maxlength="5" autocomplete="off"/>
 																		</div>
 																	</div>
 																	<div class="form-group">
@@ -368,10 +388,10 @@
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Nama</label>
 																		<div class="col-md-6">
-																			<input type="text" id="nama_p" name="nama_p" class="form-control" placeholder="Masukkan Nama Lengkap" maxlength="50" autocomplete="off"/>
+																			<input type="text" id="nama_p" name="nama_p" class="form-control" placeholder="Masukkan Nama Lengkap sesuai e-KTP" maxlength="50" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Tempat/Tgl.Lahir</label>
 																		<div class="col-md-3">
 																			<input type="text" id="kotlhr_p" name="kotlhr_p" class="form-control" placeholder="Tempat Tempat" maxlength="50" autocomplete="off"/>
@@ -397,20 +417,28 @@
 																		<div class="col-md-6">
 																			<select id="kdpendidikan_p" name="kdpendidikan_p" class="form-control"></select>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">No.HP</label>
 																		<div class="col-md-6">
 																			<input type="text" id="nohp_p" name="nohp_p" class="form-control val_num" placeholder="Masukkan Nomor HP Aktif" maxlength="20" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Email</label>
 																		<div class="col-md-6">
 																			<input type="text" id="email_p" name="email_p" class="form-control" placeholder="Masukkan Email" maxlength="255" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<legend>Alamat Pasangan</legend>
+																	<div class="form-group">
+																		<label class="control-label col-md-3">Sama dengan pemohon?</label>
+																		<div class="col-md-2">
+																			<input type="radio" class="form-control" id="is_alamat_pemohon1" name="is_alamat_pemohon" value="1" checked > Ya
+																			<input type="radio" class="form-control" id="is_alamat_pemohon2" name="is_alamat_pemohon" value="0"> Tidak
+																		</div>
+																		<label class="col-md-5">*Isi alamat pasangan jika tidak sama dengan pemohon</label>
+																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Prop/Kota/Kec/Kel</label>
 																		<div class="col-md-2">
@@ -459,7 +487,7 @@
 																			<input type="text" id="nmkantor" name="nmkantor" class="form-control" placeholder="Masukkan nama kantor" maxlength="255" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Bidang Usaha</label>
 																		<div class="col-md-6">
 																			<input type="text" id="bidang" name="bidang" class="form-control" placeholder="Masukkan bidang usaha" maxlength="255" autocomplete="off"/>
@@ -470,14 +498,14 @@
 																		<div class="col-md-6">
 																			<input type="text" id="jenis" name="jenis" class="form-control" placeholder="Masukkan jenis usaha" maxlength="255" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Alamat Kantor</label>
 																		<div class="col-md-6">
 																			<input type="text" id="alamat_k" name="alamat_k" class="form-control" placeholder="Masukkan alamat kantor" maxlength="255" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Jabatan</label>
 																		<div class="col-md-6">
 																			<input type="text" id="jabatan" name="jabatan" class="form-control" placeholder="Masukkan jabatan" maxlength="255" autocomplete="off"/>
@@ -488,19 +516,19 @@
 																		<div class="col-md-6">
 																			<input type="text" id="atasan" name="atasan" class="form-control" placeholder="Masukkan nama atasan" maxlength="255" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">No.Telp Kantor</label>
 																		<div class="col-md-6">
 																			<input type="text" id="telp_k" name="telp_k" class="form-control" placeholder="Masukkan nomor telp kantor" maxlength="20" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">TMT. Kerja</label>
 																		<div class="col-md-6">
 																			<input type="text" id="tgkerja" name="tgkerja" class="form-control" placeholder="Masukkan tanggal mulai kerja" maxlength="10" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Penghasilan</label>
 																		<div class="col-md-6">
@@ -520,7 +548,7 @@
 																			<input type="text" id="nmkantor_p" name="nmkantor_p" class="form-control" placeholder="Masukkan nama kantor" maxlength="255" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Bidang Usaha</label>
 																		<div class="col-md-6">
 																			<input type="text" id="bidang_p" name="bidang_p" class="form-control" placeholder="Masukkan bidang usaha" maxlength="255" autocomplete="off"/>
@@ -531,14 +559,14 @@
 																		<div class="col-md-6">
 																			<input type="text" id="jenis_p" name="jenis_p" class="form-control" placeholder="Masukkan jenis usaha" maxlength="255" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Alamat Kantor</label>
 																		<div class="col-md-6">
 																			<input type="text" id="alamat_k_p" name="alamat_k_p" class="form-control" placeholder="Masukkan alamat kantor" maxlength="255" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Jabatan</label>
 																		<div class="col-md-6">
 																			<input type="text" id="jabatan_p" name="jabatan_p" class="form-control" placeholder="Masukkan jabatan" maxlength="255" autocomplete="off"/>
@@ -549,19 +577,19 @@
 																		<div class="col-md-6">
 																			<input type="text" id="atasan_p" name="atasan_p" class="form-control" placeholder="Masukkan nama atasan" maxlength="255" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">No.Telp Kantor</label>
 																		<div class="col-md-6">
 																			<input type="text" id="telp_k_p" name="telp_k_p" class="form-control" placeholder="Masukkan nomor telp kantor" maxlength="20" autocomplete="off"/>
 																		</div>
 																	</div>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">TMT. Kerja</label>
 																		<div class="col-md-6">
 																			<input type="text" id="tgkerja_p" name="tgkerja_p" class="form-control" placeholder="Masukkan tanggal mulai kerja" maxlength="10" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Penghasilan</label>
 																		<div class="col-md-6">
@@ -571,7 +599,7 @@
 																</div>
 																<div class="tab-pane" id="tab5">
 																	<legend>Informasi Aset/Tanggungan</legend>
-																	<div class="form-group">
+																	<!--<div class="form-group">
 																		<label class="control-label col-md-3">Jumlah KJP</label>
 																		<div class="col-md-6">
 																			<input type="text" id="jmlkjp" name="jmlkjp" class="form-control val_num" placeholder="Masukkan jumlah KJP dalam 1 KK" maxlength="2" autocomplete="off"/>
@@ -594,7 +622,7 @@
 																		<div class="col-md-6">
 																			<input type="text" id="jmlrmh" name="jmlrmh" class="form-control val_num" placeholder="Masukkan jumlah tanah atau rumah" maxlength="2" autocomplete="off"/>
 																		</div>
-																	</div>
+																	</div>-->
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Jumlah Kendaraan Roda 2</label>
 																		<div class="col-md-6">
@@ -615,19 +643,25 @@
 																	</div>
 																	<legend>Informasi Hutang</legend>
 																	<div class="form-group">
-																		<label class="control-label col-md-3">Sumber Hutang </label>
+																		<label class="control-label col-md-3">Jenis Hutang </label>
 																		<div class="col-md-6">
 																			<select id="kdhutang" name="kdhutang" class="form-control"></select>
 																		</div>
 																	</div>
 																	<div class="form-group">
-																		<label class="control-label col-md-3">Nilai Total </label>
+																		<label class="control-label col-md-3">Pemberi Pembiayaan/Kreditur </label>
+																		<div class="col-md-6">
+																			<select id="kdkreditur" name="kdkreditur" class="form-control"></select>
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label class="control-label col-md-3">Jumlah Hutang Awal </label>
 																		<div class="col-md-6">
 																			<input type="text" id="total" name="total" class="form-control val_num uang" placeholder="Masukkan jumlah total hutang" maxlength="18" autocomplete="off"/>
 																		</div>
 																	</div>
 																	<div class="form-group">
-																		<label class="control-label col-md-3">Nilai Angsuran </label>
+																		<label class="control-label col-md-3">Cicilan Per Bulan </label>
 																		<div class="col-md-6">
 																			<input type="text" id="angsuran" name="angsuran" class="form-control val_num uang" placeholder="Masukkan jumlah angsuran per bulan" maxlength="18" autocomplete="off"/>
 																		</div>
@@ -680,7 +714,7 @@
 																		<div class="col-md-6">
 																			
 																			<div class="checkbox-list">
-																				<b>Tgl. Pengajuan</b> <input type="text" id="tgpemohon" name="tgpemohon">
+																				<b>Tgl. Pengajuan</b> <input type="text" id="tgpemohon" name="tgpemohon" value="<?php echo date('d-m-Y'); ?>" readonly>
 																			</div>
 																			<div class="checkbox-list" id="namakonf">
 																				
@@ -882,7 +916,7 @@
 			
 			<?php echo $jquery_upload; ?>
 			
-			jQuery('.val_num').val(0);
+			//jQuery('.val_num').val(0);
 			
 			jQuery('.chosen').chosen();	
 			
@@ -891,8 +925,14 @@
 			}
 			
 			jQuery('#pengeluaran,#angsuran').keyup(function(){
-				var totpengeluaran = parseInt(jQuery('#pengeluaran').val().replace(/\,/g,''));
-				var totangsuran = parseInt(jQuery('#angsuran').val().replace(/\,/g,''));
+				var totpengeluaran = 0;
+				var totangsuran = 0;
+				if(jQuery('#pengeluaran').val()!==''){
+					totpengeluaran = parseInt(jQuery('#pengeluaran').val().replace(/\,/g,''));
+				}
+				if(jQuery('#angsuran').val()!==''){
+					totangsuran = parseInt(jQuery('#angsuran').val().replace(/\,/g,''));
+				}
 				var total = totpengeluaran+totangsuran;
 				var total = numberWithCommas(total);
 				jQuery('#totpengeluaran').val(total);
@@ -918,6 +958,22 @@
 				if(result){
 					jQuery('#id_hunian').html(result).trigger('chosen:updated');
 				}
+			});
+			
+			jQuery('#id_hunian').change(function(){
+				var id = jQuery(this).val();
+				if(id==''){
+					id='xxx';
+				}
+				jQuery('#div-harga').html('Sedang proses.....');
+				jQuery.get('../dropdown/harga/'+id, function(result){
+					jQuery('#div-harga').html(result);
+				});
+			});
+			
+			jQuery('body').off('click', '.pilih_hunian').on('click', '.pilih_hunian', function(){
+				var id = this.id;
+				jQuery('#id_hunian_dtl').val(id);
 			});
 			
 			jQuery.get('../dropdown/tipe-kredit', function(result){
@@ -1076,6 +1132,12 @@
 			jQuery.get('../dropdown/hutang', function(result){
 				if(result){
 					jQuery('#kdhutang').html(result).trigger('chosen:updated');
+				}
+			});
+			
+			jQuery.get('../dropdown/kdkreditur', function(result){
+				if(result){
+					jQuery('#kdkreditur').html(result).trigger('chosen:updated');
 				}
 			});
 			

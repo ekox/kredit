@@ -7,7 +7,7 @@ var FormWizard = function () {
                 return;
             }
 
-            $("#kdjenkredit, #kdtipe, #id_hunian, #id_form, #kdkelamin, #kdagama, #kdpendidikan, #kdpekerjaan, #kdkawin, #kdbpjs, #kdprop, #kdkabkota, #kdkec, #kdkel, #kdprop1, #kdkabkota1, #kdkec1, #kdkel1, #kdkelamin_p, #kdagama_p, #kdpendidikan_p, #kdpekerjaan_p, #kdprop_p, #kdkabkota_p, #kdkec_p, #kdkel_p, #kdhutang").select2({
+            $("#kdjenkredit, #kdtipe, #id_hunian, #id_form, #kdkelamin, #kdagama, #kdpendidikan, #kdpekerjaan, #kdkawin, #kdbpjs, #kdprop, #kdkabkota, #kdkec, #kdkel, #kdprop1, #kdkabkota1, #kdkec1, #kdkel1, #kdkelamin_p, #kdagama_p, #kdpendidikan_p, #kdpekerjaan_p, #kdprop_p, #kdkabkota_p, #kdkec_p, #kdkel_p, #kdhutang, #kdkreditur").select2({
                 placeholder: "Select",
                 allowClear: true,
                 escapeMarkup: function (m) {
@@ -34,16 +34,28 @@ var FormWizard = function () {
 					id_hunian: {
 						required: true
 					},
+					id_hunian_dtl: {
+						required: true
+					},
 					/*id_form: {
 						required: true
 					},*/
 					nik: {
 						required: true
 					},
+					nik_p: {
+						required: true
+					},
+					npwp: {
+						required: true
+					},
 					nokk: {
 						required: true
 					},
 					nama: {
+						required: true
+					},
+					nama_p: {
 						required: true
 					},
 					kotlhr: {
@@ -73,6 +85,9 @@ var FormWizard = function () {
 					nohp: {
 						required: true
 					},
+					nohp_p: {
+						required: true
+					},
 					email: {
 						required: true
 					},
@@ -98,7 +113,7 @@ var FormWizard = function () {
 						required: true
 					},
 					
-					kdprop1: {
+					/*kdprop1: {
 						required: true
 					},
 					kdkabkota1: {
@@ -118,7 +133,7 @@ var FormWizard = function () {
 					},
 					alamat1: {
 						required: true
-					},
+					},*/
 					
 					kdpekerjaan: {
 						required: true
