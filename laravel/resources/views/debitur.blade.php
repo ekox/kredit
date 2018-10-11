@@ -202,7 +202,7 @@
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Harga Rumah </label>
-																		<div class="col-md-6" id="div-harga">
+																		<div class="col-md-6" id="div-harga" style="overflow-x:scroll;">
 																			Silahkan pilih hunian terlebih dahulu
 																		</div>
 																	</div>
@@ -272,7 +272,7 @@
 																		</div>
 																	</div>
 																	<div class="form-group">
-																		<label class="control-label col-md-3">Kelas BPJS</label>
+																		<label class="control-label col-md-3">Jumlah tanggungan / anak</label>
 																		<div class="col-md-6">
 																			<select id="kdbpjs" name="kdbpjs" class="form-control"></select>
 																		</div>

@@ -78,7 +78,6 @@ class DropdownController extends Controller {
 					$data = '<table class="table table-bordered">
 								<thead>
 									<tr>
-										<th>No</th>
 										<th>Kategori</th>
 										<th>Tipe</th>
 										<th>Ukuran</th>
@@ -92,7 +91,6 @@ class DropdownController extends Controller {
 					$i = 1;
 					foreach($rows as $row){
 						$data .= '<tr>
-									<td>'.$i++.'</td>
 									<td>'.$row->kdkategori.'</td>
 									<td>'.$row->kdtipe.'</td>
 									<td style="text-align:right;">'.$row->ukuran.'</td>

@@ -202,7 +202,7 @@ class DebiturRekamController extends Controller {
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="registrasi/debitur/tanda-terima/'.$row->nik.'" target="_blank" title="cetak tanda terima?">Tanda Terima</a></li>
+									<li><a href="registrasi/tanda-terima/'.$row->nik.'" target="_blank" title="cetak tanda terima?">Tanda Terima</a></li>
 									<li><a href="javascript:;" id="'.$row->nik.'" title="Lihat detil?" class="detil">Lihat Detil</a></li>
 								</ul>
 							</div>
