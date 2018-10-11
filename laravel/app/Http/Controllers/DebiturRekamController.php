@@ -1343,16 +1343,31 @@ class DebiturRekamController extends Controller {
 				
 				$data = (array)$rows[0];
 				
-				$html_out = view('tanda-terima-debitur', $data);
+				/*$lifetime=60*60*24; //60 detik * 60 menit * 24 jam = 1 hari
+				$issued=time();
+				$exp=time()+$lifetime;
 				
-				return $html_out;
+				$header = '{
+							"typ":"JWT",
+							"alg":"HS256"
+						   }';
+
+				$payload = '{
+							 "iss":"'.$data['nik'].'",
+							 "exp":'.$exp.',
+							 "issued":'.$issued.',
+							 "noreg":"'.$data['id'].'"
+							}';
+
+				$key = 'cinta123!';
+
+				$JWT = new \App\Libraries\jwtphp\JWT;
+
+				$token = $JWT->encode($header, $payload, $key);*/
 				
-				/*$mpdf = new mPDF("en", "A4", "15");
-				$mpdf->SetTitle('Form RKO');
+				$data['qrcode'] = 'http://suhartanto.id/dp0/home?nik='.$data['nik'].'&noreg='.$data['id'];
 				
-				$mpdf->AddPage('P');
-				$mpdf->writeHTML($html_out);
-				$mpdf->Output('Tanda_terima_debitur_'.$param.'.pdf','I');*/
+				return view('tanda-terima-debitur', $data);
 				
 			}
 			else{
@@ -1360,8 +1375,7 @@ class DebiturRekamController extends Controller {
 			}
 		}
 		catch(\Exception $e){
-			return $e;
-			//return 'Terdapat kesalahan lainnya!';
+			return 'Terdapat kesalahan lainnya!';
 		}
 	}
 	

@@ -99,6 +99,9 @@ relative;z-index:251662336"><img width=82 height=93
     </tr>
   </table>
   <br>
+  <?php echo DNS2D::getBarcodeSVG($qrcode, "QRCODE" , 4, 4); ?>
+  <br>
+  <br>
   <button onClick="myFunction()">Print</button>
 
 <script>

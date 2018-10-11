@@ -275,7 +275,7 @@
   <!-- /Features -->
   <!-- Call to Action -->
 
-  <section class="cta">
+  <section class="cta" id="status-registrasi">
     <div class="container">
       <div class="row">
         <div class="col-lg-9 col-sm-12 text-lg-left text-center">
@@ -711,6 +711,18 @@
   <script src="template/Bell/contactform/contactform.js"></script>
   <script>
 	jQuery(document).ready(function(){
+		
+		<?php
+			if($cek_status){
+				echo 'jQuery("#nik").val("'.$nik.'");
+					  jQuery("#noreg").val("'.$noreg.'");
+					  jQuery("#div-status").html("'.$cek_message.'");';
+					  
+				echo "$('html, body').animate({
+						scrollTop: $('#status-registrasi').offset().top
+					  }, 2000);";
+			}
+		?>
 		
 		jQuery('#cek-status').click(function(){
 						
