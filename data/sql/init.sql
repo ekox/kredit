@@ -44,7 +44,7 @@ CREATE TABLE `d_debitur` (
   `jmlrmh` int(11) NOT NULL DEFAULT '0',
   `pengeluaran` decimal(18,0) NOT NULL DEFAULT '0',
   `tgpemohon` date NOT NULL DEFAULT '0000-00-00',
-  `id_hunian_dtl` int(11) NOT NULL,
+  `is_huni` varchar(1) NOT NULL DEFAULT '0',
   `is_alm_ktp` varchar(1) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
@@ -60,28 +60,29 @@ CREATE TABLE `d_debitur` (
   KEY `FK_d_debitur_t_tipe_kredit` (`kdtipe`),
   KEY `FK_d_debitur_t_status_debitur` (`status`),
   KEY `FK_d_debitur_t_bpjs` (`kdbpjs`),
-  KEY `id_hunian_dtl` (`id_hunian_dtl`),
   CONSTRAINT `FK_d_debitur_t_bpjs` FOREIGN KEY (`kdbpjs`) REFERENCES `t_bpjs` (`kdbpjs`),
   CONSTRAINT `FK_d_debitur_t_jenkredit` FOREIGN KEY (`kdjenkredit`) REFERENCES `t_jenkredit` (`kdjenkredit`),
   CONSTRAINT `FK_d_debitur_t_pekerjaan` FOREIGN KEY (`kdpekerjaan`) REFERENCES `t_pekerjaan` (`kdpekerjaan`),
   CONSTRAINT `FK_d_debitur_t_status_debitur` FOREIGN KEY (`status`) REFERENCES `t_status_debitur` (`status`),
-  CONSTRAINT `FK_d_debitur_t_tipe_kredit` FOREIGN KEY (`kdtipe`) REFERENCES `t_tipe_kredit` (`kdtipe`),
-  CONSTRAINT `d_debitur_ibfk_1` FOREIGN KEY (`id_hunian_dtl`) REFERENCES `d_hunian_dtl` (`id`)
+  CONSTRAINT `FK_d_debitur_t_tipe_kredit` FOREIGN KEY (`kdtipe`) REFERENCES `t_tipe_kredit` (`kdtipe`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `d_debitur` */
 
-insert  into `d_debitur`(`nik`,`nokk`,`noreg`,`npwp`,`nama`,`tglhr`,`kotalhr`,`kdkelamin`,`nmibu`,`kdagama`,`kdpendidikan`,`kdpekerjaan`,`kdkawin`,`kdbpjs`,`kdjenkredit`,`kdtipe`,`email`,`nohp`,`jmltanggung`,`jmlkjp`,`jmlbpjs`,`jmltinggal`,`jmlroda2`,`jmlroda4`,`jmlrmh`,`pengeluaran`,`tgpemohon`,`id_hunian_dtl`,`is_alm_ktp`,`status`,`created_at`,`updated_at`,`cek_dukcapil`) values 
-('1111111111111111','2222222222222222',NULL,'111111111111111','test','0000-00-00','test',1,'test',1,5,5,2,1,'1','2','ekox69@gmail.com','12345',1,1,1,20,1,1,1,7500000,'2018-08-01',1,NULL,4,'2018-08-04 16:31:55','2018-08-04 16:31:55',NULL),
-('1111111111111113','3333333333333333',NULL,'222222222222444','test','0000-00-00','test',1,'test',1,5,5,2,1,'1','2','test@gmail.com','123',7,1,1,5,1,1,1,3500000,'2018-08-01',1,NULL,4,'2018-08-04 21:57:29','2018-08-04 21:57:29',NULL),
-('1111111111111117','','jwflub37','000000000000000','test','0000-00-00','',0,'',0,0,5,1,0,'1','1','test@gmail.com','123',0,0,0,5,1,0,0,2000000,'2018-10-10',1,NULL,0,'2018-10-11 02:08:47','2018-10-11 02:08:47',NULL),
-('1111111111111199','1111111111111199','lbl5nv','888888888888888','Test aja','1989-01-03','test',1,'test',1,4,5,2,0,'1','1','ekox69@gmail.com','0821000000',1,0,0,5,1,0,0,2000000,'2018-09-30',1,NULL,0,'2018-09-30 22:09:42','2018-09-30 22:09:42',NULL),
-('1231000123200121','1231000123200121','832sfw','123000000000000','Eko Firmansyah','1986-01-01','Sukabumi',1,'Siti',1,4,5,2,1,'1','1','ekox69@gmail.com','0812000000',5,1,3,5,1,0,0,3000000,'2018-10-10',1,NULL,0,'2018-10-10 17:27:02','2018-10-10 17:27:02',NULL),
-('12312143566788','12334556677885',NULL,'123445667','tes','0000-00-00','jakarta',1,'tesa',1,5,15,2,1,'1','1','ttes@gmail.com','1234567888',1,3,2,5,1,0,0,0,'2018-08-04',1,NULL,3,'2018-08-05 00:09:23','2018-08-05 00:09:23',NULL),
-('1231231232121223','','a0774gga','123343434343443','test','0000-00-00','',0,'',0,0,5,3,1,'1','2','test@gmail.com','123',0,0,0,5,1,0,0,3000000,'2018-10-10',1,'0',0,'2018-10-11 02:41:47','2018-10-11 02:41:47',NULL),
-('3222222222222222','1111111111111133',NULL,'111111111111111','ets','1986-06-30','test',1,'test',1,4,5,3,2,'1','1','test@gmail.com','123454',0,0,2,6,0,0,0,5000000,'2018-08-01',1,NULL,2,'2018-08-06 00:08:00','2018-08-06 00:08:00',NULL),
-('3312056677660001','3312056545340001',NULL,'124886876557000','Eko Saprol','1986-07-01','Sukabumi',1,'Sutarmi',1,5,5,1,1,'1','1','eko@gmail.com','0',1,0,1,5,0,0,0,1000000,'2018-08-09',1,NULL,0,'2018-08-09 03:39:03','2018-08-09 03:39:03',NULL),
-('6371050107860300','3175011206170014','lbl5nv','123','Eko Firmansyah','1986-07-01','Sukabumi',1,'Kuraesin',1,5,5,1,1,'1','1','ekox69@gmail.com','0',1,0,0,0,0,0,0,0,'2018-10-01',1,NULL,0,'2018-08-09 03:39:03','2018-08-09 03:39:03',NULL);
+insert  into `d_debitur`(`nik`,`nokk`,`noreg`,`npwp`,`nama`,`tglhr`,`kotalhr`,`kdkelamin`,`nmibu`,`kdagama`,`kdpendidikan`,`kdpekerjaan`,`kdkawin`,`kdbpjs`,`kdjenkredit`,`kdtipe`,`email`,`nohp`,`jmltanggung`,`jmlkjp`,`jmlbpjs`,`jmltinggal`,`jmlroda2`,`jmlroda4`,`jmlrmh`,`pengeluaran`,`tgpemohon`,`is_huni`,`is_alm_ktp`,`status`,`created_at`,`updated_at`,`cek_dukcapil`) values 
+('0123129432194314','','cjb55yba','000000000000000','testadfsdfs','0000-00-00','',0,'',0,0,5,1,1,'1','1','test@gmail.com','0810000',0,0,0,5,1,0,0,3000000,'2018-10-22','1','1',1,'2018-10-23 01:17:12','2018-10-23 01:17:12',NULL),
+('1111111111111111','2222222222222222',NULL,'111111111111111','test','0000-00-00','test',1,'test',1,5,5,2,1,'1','2','ekox69@gmail.com','12345',1,1,1,20,1,1,1,7500000,'2018-08-01','1',NULL,4,'2018-08-04 16:31:55','2018-08-04 16:31:55',NULL),
+('1111111111111113','3333333333333333',NULL,'222222222222444','test','0000-00-00','test',1,'test',1,5,5,2,1,'1','2','test@gmail.com','123',7,1,1,5,1,1,1,3500000,'2018-08-01','1',NULL,4,'2018-08-04 21:57:29','2018-08-04 21:57:29',NULL),
+('1111111111111117','','jwflub37','000000000000000','test','0000-00-00','',0,'',0,0,5,1,0,'1','1','test@gmail.com','123',0,0,0,5,1,0,0,2000000,'2018-10-10','1',NULL,0,'2018-10-11 02:08:47','2018-10-11 02:08:47',NULL),
+('1111111111111199','1111111111111199','lbl5nv','888888888888888','Test aja','1989-01-03','test',1,'test',1,4,5,2,0,'1','1','ekox69@gmail.com','0821000000',1,0,0,5,1,0,0,2000000,'2018-09-30','1',NULL,0,'2018-09-30 22:09:42','2018-09-30 22:09:42',NULL),
+('1231000123200121','1231000123200121','832sfw','123000000000000','Eko Firmansyah','1986-01-01','Sukabumi',1,'Siti',1,4,5,2,1,'1','1','ekox69@gmail.com','0812000000',5,1,3,5,1,0,0,3000000,'2018-10-10','1',NULL,0,'2018-10-10 17:27:02','2018-10-10 17:27:02',NULL),
+('12312143566788','12334556677885',NULL,'123445667','tes','0000-00-00','jakarta',1,'tesa',1,5,15,2,1,'1','1','ttes@gmail.com','1234567888',1,3,2,5,1,0,0,0,'2018-08-04','1',NULL,3,'2018-08-05 00:09:23','2018-08-05 00:09:23',NULL),
+('1231231232121223','','a0774gga','123343434343443','test','0000-00-00','',0,'',0,0,5,3,1,'1','2','test@gmail.com','123',0,0,0,5,1,0,0,3000000,'2018-10-10','1','0',0,'2018-10-11 02:41:47','2018-10-11 02:41:47',NULL),
+('2134234234234234','','35i3kdtx','234234234324234','tsst','0000-00-00','',0,'',0,0,45,4,2,'1','2','test@gmail.com','2342423',0,0,0,5,1,0,0,4500000,'2018-10-22','1','0',0,'2018-10-22 23:47:42','2018-10-22 23:47:42',NULL),
+('3222222222222222','1111111111111133',NULL,'111111111111111','ets','1986-06-30','test',1,'test',1,4,5,3,2,'1','1','test@gmail.com','123454',0,0,2,6,0,0,0,5000000,'2018-08-01','1',NULL,2,'2018-08-06 00:08:00','2018-08-06 00:08:00',NULL),
+('3312056677660001','3312056545340001',NULL,'124886876557000','Eko Saprol','1986-07-01','Sukabumi',1,'Sutarmi',1,5,5,1,1,'1','1','eko@gmail.com','0',1,0,1,5,0,0,0,1000000,'2018-08-09','1',NULL,0,'2018-08-09 03:39:03','2018-08-09 03:39:03',NULL),
+('3332323232323232','','iz9wqkxz','000000000000000','test','0000-00-00','',0,'',0,0,5,1,2,'1','2','test@gmail.com','081000000',0,0,0,5,2,0,0,7500000,'2018-10-22','1','0',1,'2018-10-23 01:14:37','2018-10-23 01:14:37',NULL),
+('6371050107860300','3175011206170014','lbl5nv','123','Eko Firmansyah','1986-07-01','Sukabumi',1,'Kuraesin',1,5,5,1,1,'1','1','ekox69@gmail.com','0',1,0,0,0,0,0,0,0,'2018-10-01','1',NULL,0,'2018-08-09 03:39:03','2018-08-09 03:39:03',NULL);
 
 /*Table structure for table `d_debitur_alamat` */
 
@@ -107,7 +108,7 @@ CREATE TABLE `d_debitur_alamat` (
   CONSTRAINT `FK_d_debitur_alamat_d_debitur` FOREIGN KEY (`nik`) REFERENCES `d_debitur` (`nik`),
   CONSTRAINT `FK_d_debitur_alamat_t_alamat` FOREIGN KEY (`kdalamat`) REFERENCES `t_alamat` (`kdalamat`),
   CONSTRAINT `FK_d_debitur_alamat_t_kelurahan` FOREIGN KEY (`kdprop`, `kdkabkota`, `kdkec`, `kdkel`) REFERENCES `t_kelurahan` (`kdprop`, `kdkabkota`, `kdkec`, `kdkel`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 /*Data for the table `d_debitur_alamat` */
 
@@ -126,7 +127,9 @@ insert  into `d_debitur_alamat`(`id`,`nik`,`kdalamat`,`kdprop`,`kdkabkota`,`kdke
 (14,'1111111111111199','2','31','71','01','1001','12345','02100000','test','2018-09-30 22:09:42','2018-09-30 22:09:42'),
 (15,'1231000123200121','1','31','71','01','1001','12345','021','-','2018-10-10 17:27:02','2018-10-10 17:27:02'),
 (16,'1231000123200121','2','31','71','01','1001','12345','021','-','2018-10-10 17:27:02','2018-10-10 17:27:02'),
-(22,'1231231232121223','2','31','71','01','1001','12345','123','test','2018-10-11 02:41:47','2018-10-11 02:41:47');
+(22,'1231231232121223','2','31','71','01','1001','12345','123','test','2018-10-11 02:41:47','2018-10-11 02:41:47'),
+(25,'2134234234234234','2','31','71','01','1001','12343','','test','2018-10-22 23:47:42','2018-10-22 23:47:42'),
+(27,'3332323232323232','2','31','71','01','1001','12345','112344','test','2018-10-23 01:14:37','2018-10-23 01:14:37');
 
 /*Table structure for table `d_debitur_dok` */
 
@@ -144,7 +147,7 @@ CREATE TABLE `d_debitur_dok` (
   KEY `FK_d_debitur_dok_t_dok` (`id_dok`),
   CONSTRAINT `FK_d_debitur_dok_d_debitur` FOREIGN KEY (`nik`) REFERENCES `d_debitur` (`nik`),
   CONSTRAINT `FK_d_debitur_dok_t_dok` FOREIGN KEY (`id_dok`) REFERENCES `t_dok` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 /*Data for the table `d_debitur_dok` */
 
@@ -208,7 +211,10 @@ insert  into `d_debitur_dok`(`id`,`nik`,`id_dok`,`nmfile`,`created_at`,`updated_
 (86,'1231000123200121',10,'10_e254dae1d844406b00ddb2a207716cff.pdf','2018-10-10 17:25:59','2018-10-10 17:25:59'),
 (87,'1231000123200121',13,'13_8d8d3f746c9dfad2a87ec8b61f67e2fb.pdf','2018-10-10 17:26:03','2018-10-10 17:26:03'),
 (93,'1111111111111117',6,'6_083d926f36256768bc847b1d10d71e53.pdf','2018-10-11 00:49:26','2018-10-11 00:49:26'),
-(94,'1231231232121223',6,'6_2e571ef19400bf999174091cc1bfef8f.pdf','2018-10-11 02:29:40','2018-10-11 02:29:40');
+(94,'1231231232121223',6,'6_2e571ef19400bf999174091cc1bfef8f.pdf','2018-10-11 02:29:40','2018-10-11 02:29:40'),
+(95,'2134234234234234',6,'6_472a96a8f7c07c4c0af4abeb3ba72876.pdf','2018-10-22 23:38:38','2018-10-22 23:38:38'),
+(96,'3332323232323232',6,'6_88540c0ece5356000e65051cdc7d4963.pdf','2018-10-23 01:08:46','2018-10-23 01:08:46'),
+(97,'0123129432194314',6,'6_ad488351d9d685a7e03bc74113e2b961.pdf','2018-10-23 01:16:37','2018-10-23 01:16:37');
 
 /*Table structure for table `d_debitur_dok_temp` */
 
@@ -224,7 +230,7 @@ CREATE TABLE `d_debitur_dok_temp` (
   PRIMARY KEY (`id`),
   KEY `FK_d_debitur_dok_t_dok` (`id_dok`),
   CONSTRAINT `d_debitur_dok_temp_ibfk_2` FOREIGN KEY (`id_dok`) REFERENCES `t_dok` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 /*Data for the table `d_debitur_dok_temp` */
 
@@ -276,6 +282,28 @@ insert  into `d_debitur_dukcapil`(`nik`,`nokk`,`nama`,`tglhr`,`kotalhr`,`kdkelam
 ('1111111111111113','3333333333333333','Test lagi','2018-08-05','Test',1,1,5,2,'31','75','01','1001','Test',10,2,'2018-08-05 18:01:41',NULL),
 ('3222222222222222','1111111111111133','Sony','1988-07-01','Kotabumi',1,1,5,2,'31','73','01','1001','Test',1,1,'2018-08-09 03:23:19',NULL);
 
+/*Table structure for table `d_debitur_hunian` */
+
+DROP TABLE IF EXISTS `d_debitur_hunian`;
+
+CREATE TABLE `d_debitur_hunian` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nik` varchar(16) NOT NULL,
+  `id_hunian_dtl` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nik` (`nik`,`id_hunian_dtl`),
+  KEY `id_hunian_dtl` (`id_hunian_dtl`),
+  CONSTRAINT `d_debitur_hunian_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `d_debitur` (`nik`),
+  CONSTRAINT `d_debitur_hunian_ibfk_2` FOREIGN KEY (`id_hunian_dtl`) REFERENCES `d_hunian_dtl` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+/*Data for the table `d_debitur_hunian` */
+
+insert  into `d_debitur_hunian`(`id`,`nik`,`id_hunian_dtl`) values 
+(3,'0123129432194314',3),
+(1,'2134234234234234',3),
+(2,'3332323232323232',2);
+
 /*Table structure for table `d_debitur_hutang` */
 
 DROP TABLE IF EXISTS `d_debitur_hutang`;
@@ -296,7 +324,7 @@ CREATE TABLE `d_debitur_hutang` (
   CONSTRAINT `FK_d_debitur_hutang_d_debitur` FOREIGN KEY (`nik`) REFERENCES `d_debitur` (`nik`),
   CONSTRAINT `FK_d_debitur_hutang_t_hutang` FOREIGN KEY (`kdhutang`) REFERENCES `t_hutang` (`kdhutang`),
   CONSTRAINT `d_debitur_hutang_ibfk_1` FOREIGN KEY (`kdkreditur`) REFERENCES `t_kreditur` (`kdkreditur`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 /*Data for the table `d_debitur_hutang` */
 
@@ -307,7 +335,9 @@ insert  into `d_debitur_hutang`(`id`,`nik`,`kdhutang`,`kdkreditur`,`total`,`angs
 (5,'3312056677660001','1','1',20000000,1000000,'2018-08-09 03:39:03','2018-08-09 03:39:03'),
 (6,'1111111111111199','2','1',10000000,500000,'2018-09-30 22:09:42','2018-09-30 22:09:42'),
 (7,'1111111111111117','1',NULL,100000000,1000000,'2018-10-11 02:08:47','2018-10-11 02:08:47'),
-(8,'1231231232121223','2','1',100000000,2000000,'2018-10-11 02:41:47','2018-10-11 02:41:47');
+(8,'1231231232121223','2','1',100000000,2000000,'2018-10-11 02:41:47','2018-10-11 02:41:47'),
+(9,'2134234234234234','1','1',100000000,2000000,'2018-10-22 23:47:42','2018-10-22 23:47:42'),
+(10,'3332323232323232','1','1',100000000,1500000,'2018-10-23 01:14:38','2018-10-23 01:14:38');
 
 /*Table structure for table `d_debitur_pasangan` */
 
@@ -346,7 +376,7 @@ CREATE TABLE `d_debitur_pasangan` (
   KEY `FK_d_debitur_pasangan_t_kelurahan` (`kdprop`,`kdkabkota`,`kdkec`,`kdkel`),
   CONSTRAINT `FK_d_debitur_pasangan_d_debitur` FOREIGN KEY (`nik`) REFERENCES `d_debitur` (`nik`),
   CONSTRAINT `FK_d_debitur_pasangan_t_pekerjaan` FOREIGN KEY (`kdpekerjaan`) REFERENCES `t_pekerjaan` (`kdpekerjaan`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 /*Data for the table `d_debitur_pasangan` */
 
@@ -357,7 +387,10 @@ insert  into `d_debitur_pasangan`(`id`,`nik`,`nik_p`,`nama`,`tglhr`,`kotalhr`,`k
 (5,'1111111111111199','2222222222222299','test','0000-00-00','test',2,1,NULL,3,NULL,'31','71','01','1001','12345','test','12345','021','test@gmail.com','2018-09-30 22:09:42','2018-09-30 22:09:42',NULL),
 (6,'1231000123200121','1231100000001231','Rima','0000-00-00','Banjarmasin',2,1,NULL,4,NULL,'31','71','01','1001','12345','test','021','0810000','test@gmail.com','2018-10-10 17:27:02','2018-10-10 17:27:02',NULL),
 (9,'1111111111111117','1111111111111118','test','0000-00-00','',0,0,NULL,0,NULL,'','','','','','','','123','','2018-10-11 02:08:47','2018-10-11 02:08:47',NULL),
-(13,'1231231232121223','1232132131232132','test','0000-00-00','',0,0,NULL,0,'0','','','','','','','','123','','2018-10-11 02:41:47','2018-10-11 02:41:47',NULL);
+(13,'1231231232121223','1232132131232132','test','0000-00-00','',0,0,NULL,0,'0','','','','','','','','123','','2018-10-11 02:41:47','2018-10-11 02:41:47',NULL),
+(16,'2134234234234234','2354356456456456','test','0000-00-00','',0,0,NULL,0,'0','31','71','01','1001','23432','test','','23525435345','','2018-10-22 23:47:42','2018-10-22 23:47:42',NULL),
+(17,'3332323232323232','2345778999999999','test','0000-00-00','',0,0,NULL,0,'1','','','','','','','','000000','','2018-10-23 01:14:37','2018-10-23 01:14:37',NULL),
+(18,'0123129432194314','2342342342342342','53w5','0000-00-00','',0,0,NULL,0,'1','','','','','','','','081','','2018-10-23 01:17:12','2018-10-23 01:17:12',NULL);
 
 /*Table structure for table `d_debitur_pekerjaan` */
 
@@ -381,7 +414,7 @@ CREATE TABLE `d_debitur_pekerjaan` (
   UNIQUE KEY `Index 2` (`nmkantor`,`nik`),
   KEY `FK_d_debitur_pekerjaan_d_debitur` (`nik`),
   CONSTRAINT `FK_d_debitur_pekerjaan_d_debitur` FOREIGN KEY (`nik`) REFERENCES `d_debitur` (`nik`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 /*Data for the table `d_debitur_pekerjaan` */
 
@@ -394,7 +427,10 @@ insert  into `d_debitur_pekerjaan`(`id`,`nik`,`nmkantor`,`bidang`,`jenis`,`alama
 (7,'1111111111111199','Kantor Pemda','Keuangan','-','-','-','-','021','2010-01-20',5000000,'2018-09-30 22:09:42','2018-09-30 22:09:42'),
 (8,'1231000123200121','Kantor Keuangan','-','-','-','-','-','-','2012-02-01',7000000,'2018-10-10 17:27:02','2018-10-10 17:27:02'),
 (9,'1111111111111117','-','','','-','','','-','0000-00-00',5000000,'2018-10-11 02:08:47','2018-10-11 02:08:47'),
-(13,'1231231232121223','test','','','-','','','-','0000-00-00',10000000,'2018-10-11 02:41:47','2018-10-11 02:41:47');
+(13,'1231231232121223','test','','','-','','','-','0000-00-00',10000000,'2018-10-11 02:41:47','2018-10-11 02:41:47'),
+(16,'2134234234234234','test','','','test','','','','0000-00-00',10000000,'2018-10-22 23:47:42','2018-10-22 23:47:42'),
+(17,'3332323232323232','Kantor Kimpet','','','-','','','-','0000-00-00',10000000,'2018-10-23 01:14:37','2018-10-23 01:14:37'),
+(18,'0123129432194314','-','','','-','','','-','0000-00-00',10000000,'2018-10-23 01:17:12','2018-10-23 01:17:12');
 
 /*Table structure for table `d_debitur_pekerjaan_p` */
 
@@ -418,14 +454,16 @@ CREATE TABLE `d_debitur_pekerjaan_p` (
   UNIQUE KEY `Index 2` (`nmkantor`,`nik`),
   KEY `FK_d_debitur_pekerjaan_p_d_debitur` (`nik`),
   CONSTRAINT `FK_d_debitur_pekerjaan_p_d_debitur` FOREIGN KEY (`nik`) REFERENCES `d_debitur` (`nik`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 /*Data for the table `d_debitur_pekerjaan_p` */
 
 insert  into `d_debitur_pekerjaan_p`(`id`,`nik`,`nmkantor`,`bidang`,`jenis`,`alamat`,`jabatan`,`atasan`,`telp`,`tgkerja`,`penghasilan`,`created_at`,`updated_at`) values 
 (1,'1111111111111111','test','-','-','-','-','-','123','2018-08-01',5000000,'2018-08-04 16:31:55','2018-08-04 16:31:55'),
 (3,'1111111111111113','test','-','-','-','-','-','123','2018-08-01',5000000,'2018-08-04 21:57:29','2018-08-04 21:57:29'),
-(4,'1231231232121223','-','','','-','','','-','0000-00-00',3000000,'2018-10-11 02:41:47','2018-10-11 02:41:47');
+(4,'1231231232121223','-','','','-','','','-','0000-00-00',3000000,'2018-10-11 02:41:47','2018-10-11 02:41:47'),
+(6,'2134234234234234','Dukun','','','-','','','','0000-00-00',5000000,'2018-10-22 23:47:42','2018-10-22 23:47:42'),
+(7,'3332323232323232','Kantor Cuk','','','-','','','-','0000-00-00',5000000,'2018-10-23 01:14:38','2018-10-23 01:14:38');
 
 /*Table structure for table `d_debitur_skoring` */
 
@@ -454,7 +492,7 @@ DROP TABLE IF EXISTS `d_form`;
 
 CREATE TABLE `d_form` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `kdpetugas` varchar(2) NOT NULL,
+  `kdpetugas` varchar(5) NOT NULL,
   `tahun` varchar(4) NOT NULL,
   `nourut` int(11) NOT NULL,
   `status` int(11) NOT NULL,
@@ -466,55 +504,110 @@ CREATE TABLE `d_form` (
   KEY `FK_d_form_t_status_form` (`status`),
   CONSTRAINT `FK_d_form_t_petugas` FOREIGN KEY (`kdpetugas`) REFERENCES `t_petugas` (`kdpetugas`),
   CONSTRAINT `FK_d_form_t_status_form` FOREIGN KEY (`status`) REFERENCES `t_status_form` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=latin1;
 
 /*Data for the table `d_form` */
 
 insert  into `d_form`(`id`,`kdpetugas`,`tahun`,`nourut`,`status`,`created_at`,`updated_at`) values 
-(1,'01','2018',1,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(2,'01','2018',2,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(3,'01','2018',3,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(4,'01','2018',4,1,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(5,'01','2018',5,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(6,'01','2018',6,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(7,'01','2018',7,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(8,'01','2018',8,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(9,'01','2018',9,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(10,'01','2018',10,0,'2018-08-02 18:09:20','2018-08-02 18:09:20'),
-(11,'01','2018',11,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(12,'01','2018',12,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(13,'01','2018',13,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(14,'01','2018',14,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(15,'01','2018',15,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(16,'01','2018',16,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(17,'01','2018',17,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(18,'01','2018',18,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(19,'01','2018',19,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(20,'01','2018',20,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(21,'01','2018',21,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(22,'01','2018',22,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(23,'01','2018',23,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(24,'01','2018',24,0,'2018-08-02 18:17:40','2018-08-02 18:17:40'),
-(31,'01','2018',25,0,'2018-08-02 19:04:25','2018-08-02 19:04:25'),
-(32,'01','2018',26,0,'2018-08-02 19:04:25','2018-08-02 19:04:25'),
-(33,'01','2018',27,0,'2018-08-02 19:04:25','2018-08-02 19:04:25'),
-(34,'01','2018',28,0,'2018-08-02 19:04:25','2018-08-02 19:04:25'),
-(35,'01','2018',29,0,'2018-08-02 19:04:25','2018-08-02 19:04:25'),
-(36,'01','2018',30,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(37,'01','2018',31,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(38,'01','2018',32,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(39,'01','2018',33,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(40,'01','2018',34,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(41,'01','2018',35,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(42,'01','2018',36,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(43,'01','2018',37,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(44,'01','2018',38,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(45,'01','2018',39,0,'2018-08-05 00:13:23','2018-08-05 00:13:23'),
-(46,'01','2018',40,0,'2018-08-09 00:36:22','2018-08-09 00:36:22'),
-(47,'01','2018',41,0,'2018-08-09 00:36:22','2018-08-09 00:36:22'),
-(48,'01','2018',42,0,'2018-08-09 00:36:22','2018-08-09 00:36:22'),
-(49,'01','2018',43,0,'2018-08-09 00:36:22','2018-08-09 00:36:22'),
-(50,'01','2018',44,0,'2018-08-09 00:36:22','2018-08-09 00:36:22');
+(151,'00001','2018',1,1,'2018-10-23 00:48:03','2018-10-23 01:14:38'),
+(152,'00001','2018',2,1,'2018-10-23 00:48:03','2018-10-23 01:17:12'),
+(153,'00001','2018',3,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(154,'00001','2018',4,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(155,'00001','2018',5,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(156,'00001','2018',6,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(157,'00001','2018',7,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(158,'00001','2018',8,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(159,'00001','2018',9,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(160,'00001','2018',10,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(161,'00001','2018',11,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(162,'00001','2018',12,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(163,'00001','2018',13,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(164,'00001','2018',14,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(165,'00001','2018',15,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(166,'00001','2018',16,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(167,'00001','2018',17,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(168,'00001','2018',18,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(169,'00001','2018',19,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(170,'00001','2018',20,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(171,'00001','2018',21,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(172,'00001','2018',22,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(173,'00001','2018',23,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(174,'00001','2018',24,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(175,'00001','2018',25,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(176,'00001','2018',26,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(177,'00001','2018',27,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(178,'00001','2018',28,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(179,'00001','2018',29,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(180,'00001','2018',30,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(181,'00001','2018',31,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(182,'00001','2018',32,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(183,'00001','2018',33,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(184,'00001','2018',34,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(185,'00001','2018',35,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(186,'00001','2018',36,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(187,'00001','2018',37,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(188,'00001','2018',38,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(189,'00001','2018',39,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(190,'00001','2018',40,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(191,'00001','2018',41,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(192,'00001','2018',42,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(193,'00001','2018',43,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(194,'00001','2018',44,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(195,'00001','2018',45,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(196,'00001','2018',46,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(197,'00001','2018',47,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(198,'00001','2018',48,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(199,'00001','2018',49,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(200,'00001','2018',50,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(201,'00001','2018',51,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(202,'00001','2018',52,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(203,'00001','2018',53,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(204,'00001','2018',54,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(205,'00001','2018',55,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(206,'00001','2018',56,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(207,'00001','2018',57,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(208,'00001','2018',58,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(209,'00001','2018',59,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(210,'00001','2018',60,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(211,'00001','2018',61,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(212,'00001','2018',62,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(213,'00001','2018',63,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(214,'00001','2018',64,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(215,'00001','2018',65,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(216,'00001','2018',66,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(217,'00001','2018',67,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(218,'00001','2018',68,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(219,'00001','2018',69,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(220,'00001','2018',70,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(221,'00001','2018',71,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(222,'00001','2018',72,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(223,'00001','2018',73,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(224,'00001','2018',74,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(225,'00001','2018',75,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(226,'00001','2018',76,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(227,'00001','2018',77,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(228,'00001','2018',78,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(229,'00001','2018',79,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(230,'00001','2018',80,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(231,'00001','2018',81,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(232,'00001','2018',82,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(233,'00001','2018',83,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(234,'00001','2018',84,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(235,'00001','2018',85,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(236,'00001','2018',86,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(237,'00001','2018',87,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(238,'00001','2018',88,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(239,'00001','2018',89,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(240,'00001','2018',90,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(241,'00001','2018',91,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(242,'00001','2018',92,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(243,'00001','2018',93,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(244,'00001','2018',94,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(245,'00001','2018',95,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(246,'00001','2018',96,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(247,'00001','2018',97,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(248,'00001','2018',98,0,'2018-10-23 00:48:03','2018-10-23 00:48:03'),
+(249,'00001','2018',99,0,'2018-10-23 00:48:03','2018-10-23 00:48:03');
 
 /*Table structure for table `d_form_debitur` */
 
@@ -531,12 +624,13 @@ CREATE TABLE `d_form_debitur` (
   UNIQUE KEY `Index 4` (`nik`),
   CONSTRAINT `FK_d_form_debitur_d_debitur` FOREIGN KEY (`nik`) REFERENCES `d_debitur` (`nik`),
   CONSTRAINT `FK_d_form_debitur_d_form` FOREIGN KEY (`id_form`) REFERENCES `d_form` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `d_form_debitur` */
 
 insert  into `d_form_debitur`(`id`,`id_form`,`nik`,`created_at`,`updated_at`) values 
-(1,4,'1111111111111111','2018-08-04 16:31:55','2018-08-04 16:31:55');
+(1,151,'3332323232323232','2018-10-23 01:14:38','2018-10-23 01:14:38'),
+(2,152,'0123129432194314','2018-10-23 01:17:12','2018-10-23 01:17:12');
 
 /*Table structure for table `d_hunian` */
 
@@ -724,10 +818,11 @@ CREATE TABLE `t_bpjs` (
 /*Data for the table `t_bpjs` */
 
 insert  into `t_bpjs`(`kdbpjs`,`nmbpjs`) values 
-(0,'Belum Terdaftar'),
-(1,'Kelas I'),
-(2,'Kelas II'),
-(3,'Kelas III');
+(0,'0'),
+(1,'1'),
+(2,'2'),
+(3,'3'),
+(4,'diatas 3');
 
 /*Table structure for table `t_developer` */
 
@@ -868,10 +963,7 @@ CREATE TABLE `t_kawin` (
 
 insert  into `t_kawin`(`kdkawin`,`nmkawin`) values 
 (1,'KAWIN'),
-(2,'KAWIN ANAK 1'),
-(3,'KAWIN ANAK 2'),
-(4,'KAWIN ANAK 3'),
-(5,'KAWIN ANAK > 3');
+(2,'TIDAK KAWIN');
 
 /*Table structure for table `t_kecamatan` */
 
@@ -1561,11 +1653,11 @@ insert  into `t_menu`(`id`,`nmmenu`,`url`,`nmfile`,`is_parent`,`parent_id`,`nour
 (2,'Form Kredit','#',NULL,'1',0,2,'fa fa-edit','+01+','1','0'),
 (3,'Debitur','#',NULL,'1',0,3,'fa fa-group','+00+01+02+','1','0'),
 (4,'Referensi','#',NULL,'1',0,4,'fa fa-list','+00+01+02+','1','0'),
-(5,'Generate','form/rekam','form-rekam.html','0',2,1,'','+00+01+02+','1','0'),
+(5,'Generate','form/rekam','form-rekam.html','0',2,1,'','+01+02+','1','0'),
 (6,'Data','debitur/rekam','debitur-rekam.html','0',3,1,'','+00+01+02+','1','0'),
-(7,'User','ref/user','ref-user.html','0',4,1,'','+00+01+02+','1','0'),
-(8,'Petugas','ref/petugas','ref-petugas.html','0',4,2,'','+00+01+02+','1','0'),
-(9,'Kuota','ref/kuota','ref-kuota.html','0',4,3,'','+00+01+02+','1','0'),
+(7,'User','ref/user','ref-user.html','0',4,1,'','+00+','1','0'),
+(8,'Petugas','ref/petugas','ref-petugas.html','0',4,2,'','+00+','1','0'),
+(9,'Kuota','ref/kuota','ref-kuota.html','0',4,3,'','+00+','1','0'),
 (10,'Skoring','debitur/skoring','debitur-skoring.html','0',3,2,'','+00+','1','0');
 
 /*Table structure for table `t_pekerjaan` */
@@ -1700,7 +1792,7 @@ insert  into `t_pendidikan`(`kdpendidikan`,`nmpendidikan`) values
 DROP TABLE IF EXISTS `t_petugas`;
 
 CREATE TABLE `t_petugas` (
-  `kdpetugas` varchar(2) NOT NULL DEFAULT '',
+  `kdpetugas` varchar(5) NOT NULL DEFAULT '',
   `nmpetugas` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`kdpetugas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1708,11 +1800,7 @@ CREATE TABLE `t_petugas` (
 /*Data for the table `t_petugas` */
 
 insert  into `t_petugas`(`kdpetugas`,`nmpetugas`) values 
-('01','Petugas A'),
-('02','Petugas B'),
-('03','Petugas C'),
-('04','Test lagi'),
-('05','yrdy test');
+('00001','Petugas Dinas A');
 
 /*Table structure for table `t_petugas_kuota` */
 
@@ -1720,20 +1808,18 @@ DROP TABLE IF EXISTS `t_petugas_kuota`;
 
 CREATE TABLE `t_petugas_kuota` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `kdpetugas` varchar(2) NOT NULL,
+  `kdpetugas` varchar(5) NOT NULL,
   `tahun` varchar(4) NOT NULL,
   `kuota` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`kdpetugas`,`tahun`),
   CONSTRAINT `FK_t_petugas_kuota_t_petugas` FOREIGN KEY (`kdpetugas`) REFERENCES `t_petugas` (`kdpetugas`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `t_petugas_kuota` */
 
 insert  into `t_petugas_kuota`(`id`,`kdpetugas`,`tahun`,`kuota`) values 
-(2,'02','2018',100),
-(4,'01','2018',60),
-(5,'03','2018',50);
+(2,'00001','2018',2500);
 
 /*Table structure for table `t_prop` */
 
@@ -2037,14 +2123,17 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `Index 2` (`username`),
   UNIQUE KEY `Index 4` (`nik`),
   UNIQUE KEY `Index 3` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `t_user` */
 
 insert  into `t_user`(`id`,`username`,`password`,`nama`,`nik`,`alamat`,`email`,`telp`,`foto`,`aktif`,`created_at`,`updated_at`) values 
-(1,'petugas1','741406c6940752b8ccf1834696338373','Eko Firmansyah','1986070120060210','Jakarta','test2@jakarta.go.id','123','no-image.png','1','2018-08-01 23:43:24','2018-08-01 23:43:25'),
+(1,'petugas1','f65f45555d09de1aabb780c6ad458323','Eko','1986070120060210','-','testlagi@gmail.com','-','no-image.png','1','2018-08-01 23:43:24','2018-08-01 23:43:25'),
 (3,'supervisor','741406c6940752b8ccf1834696338373','Tomy Suhartanto','0000000000000001','Jakarta','test1@jakarta.go.id','123','no-image.png','1','2018-08-05 09:42:40',NULL),
-(4,'admin','741406c6940752b8ccf1834696338373','Dzikran Kurniawan','0000000000000000','Jakarta','test3@jakarta.go.id','123','no-image.png','1','2018-08-05 11:52:54',NULL);
+(4,'admin','741406c6940752b8ccf1834696338373','Nama Default','0000000000000000','Jakarta','jakarta@gmail.com','-','no-image.png','1','2018-08-05 11:52:54',NULL),
+(5,'ekoganteng','741406c6940752b8ccf1834696338373','Sudarto','9999999999999999','-','-','123','no-image.png','1',NULL,NULL),
+(8,'oprtestaja','741406c6940752b8ccf1834696338373','test lagi aja','0000000000009999','-','asucuk@gmail.com','0210000','no-image.png','1',NULL,NULL),
+(9,'testlagidonk','f65f45555d09de1aabb780c6ad458323','nama','0000000000033243','-','testest@gmail.com','-','no-image.png','1',NULL,NULL);
 
 /*Table structure for table `t_user_level` */
 
@@ -2060,7 +2149,7 @@ CREATE TABLE `t_user_level` (
   KEY `FK_t_user_level_t_level` (`kdlevel`),
   CONSTRAINT `FK_t_user_level_t_level` FOREIGN KEY (`kdlevel`) REFERENCES `t_level` (`kdlevel`),
   CONSTRAINT `FK_t_user_level_t_user` FOREIGN KEY (`id_user`) REFERENCES `t_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `t_user_level` */
 
@@ -2068,7 +2157,10 @@ insert  into `t_user_level`(`id`,`id_user`,`kdlevel`,`aktif`) values
 (1,1,'01','1'),
 (2,1,'00','0'),
 (3,3,'02','1'),
-(4,4,'00','1');
+(4,4,'00','1'),
+(6,5,'01','1'),
+(7,8,'01','1'),
+(8,9,'01','1');
 
 /*Table structure for table `t_user_petugas` */
 
@@ -2077,20 +2169,19 @@ DROP TABLE IF EXISTS `t_user_petugas`;
 CREATE TABLE `t_user_petugas` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `id_user` int(10) NOT NULL,
-  `kdpetugas` varchar(2) NOT NULL,
+  `kdpetugas` varchar(5) NOT NULL,
   `aktif` varchar(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Index 2` (`id_user`),
-  KEY `FK_t_user_petugas_t_petugas` (`kdpetugas`),
-  CONSTRAINT `FK_t_user_petugas_t_petugas` FOREIGN KEY (`kdpetugas`) REFERENCES `t_petugas` (`kdpetugas`),
-  CONSTRAINT `FK_t_user_petugas_t_user` FOREIGN KEY (`id_user`) REFERENCES `t_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `id_user` (`id_user`,`kdpetugas`),
+  KEY `kdpetugas` (`kdpetugas`),
+  CONSTRAINT `t_user_petugas_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `t_user` (`id`),
+  CONSTRAINT `t_user_petugas_ibfk_2` FOREIGN KEY (`kdpetugas`) REFERENCES `t_petugas` (`kdpetugas`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `t_user_petugas` */
 
 insert  into `t_user_petugas`(`id`,`id_user`,`kdpetugas`,`aktif`) values 
-(1,1,'01','1'),
-(4,4,'05','1');
+(6,1,'00001','1');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
