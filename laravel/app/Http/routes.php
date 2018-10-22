@@ -164,8 +164,9 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::group(['prefix' => 'petugas'], function(){
 			
 			Route::get('', 'RefPetugasController@index')->middleware('role:00');
-			Route::get('/{param}', 'RefPetugasController@pilih')->middleware('role:00');
+			Route::get('/pilih/{param}', 'RefPetugasController@pilih')->middleware('role:00');
 			Route::post('', 'RefPetugasController@simpan')->middleware('role:00');
+			Route::post('/hapus', 'RefPetugasController@hapus')->middleware('role:00');
 			Route::get('/dropdown', 'RefPetugasController@dropdown')->middleware('role:00');
 		
 		});

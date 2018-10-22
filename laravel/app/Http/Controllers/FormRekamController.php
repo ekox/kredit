@@ -50,7 +50,7 @@ class FormRekamController extends Controller {
 			/* DB table to use */
 			$sTable = "select	a.id,
 								d.nmpetugas,
-								a.nourut,
+								LPAD(a.nourut,5,'0') as nourut,
 								ifnull(c.nik,'N/A') as nik,
 								ifnull(c.nama,'N/A') as nama,
 								e.nmstatus,
@@ -96,6 +96,9 @@ class FormRekamController extends Controller {
 					$sOrder = " ORDER BY a.".$aColumns[ intval( $sort_col ) ]." ".($sort_dir==='asc' ? 'asc' : 'desc') ." ";
 				}
 			}
+			else{
+				$sOrder = " ORDER BY a.id DESC ";
+			}
 			 
 			 
 			/*
@@ -106,12 +109,7 @@ class FormRekamController extends Controller {
 			$sSearch=$arr_search['value'];
 			if ( isset($sSearch) && $sSearch != "" )
 			{
-				for ( $i=0 ; $i<count($aColumns) ; $i++ )
-				{
-					$arr_where[] = $aColumns[$i]." LIKE '%".( $sSearch )."%' ";
-				}
-				
-				$sWhere .= "WHERE ".implode(" OR ", $arr_where);
+				$sWhere .= "WHERE a.nourut like '".$sSearch."%' ";
 			}
 			 
 			/* Individual column filtering */
@@ -175,7 +173,12 @@ class FormRekamController extends Controller {
 			$rows = DB::select($sQuery);
 			
 			foreach( $rows as $row )
-			{			
+			{
+				$hapus = '';
+				if($row->status=='0'){
+					$hapus = '<li><a href="javascript:;" id="'.$row->id.'" title="Hapus data?" class="hapus">Hapus Data</a></li>';
+				}
+				
 				$aksi='<center style="width:100px;">
 							<div class="dropdown pull-right" style="height:1.5vw !important;">
 								<button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -183,7 +186,7 @@ class FormRekamController extends Controller {
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="javascript:;" id="'.$row->id.'" title="Hapus data?" class="hapus">Hapus Data</a></li>
+									'.$hapus.'
 									<li><a href="form/rekam/download/'.$row->id.'" target="_blank" title="Cetak form?">Cetak Form</a></li>
 								</ul>
 							</div>
@@ -193,7 +196,7 @@ class FormRekamController extends Controller {
 				$output['aaData'][] = array(
 					$row->id,
 					$row->nmpetugas,
-					str_pad($row->nourut, 5, '0', STR_PAD_LEFT),
+					$row->nourut,
 					$row->nik,
 					$row->nama,
 					$row->nmstatus,

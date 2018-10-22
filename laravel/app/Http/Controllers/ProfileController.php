@@ -16,7 +16,7 @@ class ProfileController extends Controller {
 	{
 		$rows = DB::select("
 			select  nama,
-					nip,
+					nik,
 					telp,
 					email,
 					alamat,
@@ -31,123 +31,37 @@ class ProfileController extends Controller {
 	
 	public function ubah(Request $request)
 	{
-		if($request->input('p_password_baru')=='' || $request->input('p_password_baru')==false){
+		$select = DB::select(
+			"select password from t_user
+				where id=?
+			",
+			[session('id_user')]
+		);
+		
+		$password_lama=$select[0]->password;
+		
+		if(md5($request->input('password_lama'))==$password_lama){
+			$password_baru=md5($request->input('password_baru'));
+			$update = DB::update(
+				"update t_user
+					set password=?
+					where id=?
+				", 
+				[
+					$password_baru,
+					session('id_user')
+				]
+			);
 			
-			if(session('upload_foto_user')=='' || session('upload_foto_user')==false){
-				$update = DB::update(
-					"update t_user
-						set nama=?, nip=?, alamat=?, telp=?, email=?
-						where id=?
-					", 
-					[
-						$request->input('p_nama'),
-						$request->input('p_nip'),
-						$request->input('p_alamat'),
-						$request->input('p_telp'),
-						$request->input('p_email'),
-						session('id_user')
-					]
-				);
-			}
-			else{
-				$update = DB::update(
-					"update t_user
-						set nama=?, nip=?, alamat=?, telp=?, email=?, foto=?
-						where id=?
-					", 
-					[
-						$request->input('p_nama'),
-						$request->input('p_nip'),
-						$request->input('p_alamat'),
-						$request->input('p_telp'),
-						$request->input('p_email'),
-						session('upload_foto_user'),
-						session('id_user')
-					]
-				);
+			if($update==true) {
+				return 'success';
+			} else {
+				return 'Proses ubah gagal. Hubungi Administrator.';
 			}
 			
 		}
 		else{
-		
-			$select = DB::select(
-				"select password from t_user
-					where id=?
-				",
-				[session('id_user')]
-			);
-			
-			$password_lama=$select[0]->password;
-			
-			if(md5($request->input('p_password_lama'))==$password_lama){
-				$password_baru=md5($request->input('p_password_baru'));
-				if(session('upload_foto_user')=='' || session('upload_foto_user')==false){
-					$update = DB::update(
-						"update t_user
-							set nama=?, nip=?, alamat=?, telp=?, email=?, password=?
-							where id=?
-						", 
-						[
-							$request->input('p_nama'),
-							$request->input('p_nip'),
-							$request->input('p_alamat'),
-							$request->input('p_telp'),
-							$request->input('p_email'),
-							$password_baru,
-							session('id_user')
-						]
-					);
-				}
-				else{
-					if(session('upload_foto_user')=='' || session('upload_foto_user')==false){
-						$update = DB::update(
-							"update t_user
-								set nama=?, nip=?, alamat=?, telp=?, email=?,  password=?
-								where id=?
-							", 
-							[
-								$request->input('p_nama'),
-								$request->input('p_nip'),
-								$request->input('p_alamat'),
-								$request->input('p_telp'),
-								$request->input('p_email'),
-								$password_baru,
-								session('id_user')
-							]
-						);
-					}
-					else{
-						$update = DB::update(
-							"update t_user
-								set nama=?, nip=?, alamat=?, telp=?, email=?, foto=?, password=?
-								where id=?
-							", 
-							[
-								$request->input('p_nama'),
-								$request->input('p_nip'),
-								$request->input('p_alamat'),
-								$request->input('p_telp'),
-								$request->input('p_email'),
-								session('upload_foto_user'),
-								$password_baru,
-								session('id_user')
-							]
-						);
-					}
-				}
-			}
-			else{
-				return 'Password lama tidak sesuai!';
-			}
-			
-		}
-		
-		session(['upload_foto_user'=>'']);
-		
-		if($update==true) {
-			return 'success';
-		} else {
-			return 'Proses ubah gagal. Hubungi Administrator.';
+			return 'Password tidak valid!';
 		}
 		
 	}

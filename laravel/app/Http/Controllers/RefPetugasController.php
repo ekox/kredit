@@ -295,7 +295,7 @@ class RefPetugasController extends Controller {
 					
 				}
 				else{
-					return 'Duplikasi data!';
+					return 'Duplikasi kode petugas!';
 				}
 				
 			}
@@ -345,18 +345,50 @@ class RefPetugasController extends Controller {
 	public function hapus(Request $request)
 	{
 		try{
-			$delete = DB::delete("
-				delete from t_user
-				where id=?
+			DB::beginTransaction();
+			
+			$rows = DB::select("
+				select	count(*) as jml
+				from t_petugas_kuota
+				where kdpetugas=?
 			",[
 				$request->input('id')
 			]);
 			
-			if($delete==true) {
-				return 'success';
+			if($rows[0]->jml==0){
+				
+				$delete = DB::delete("
+					delete from t_user_petugas
+					where kdpetugas=?
+				",[
+					$request->input('id')
+				]);
+				
+				if($delete==true) {
+					
+					$delete = DB::delete("
+						delete from t_petugas
+						where kdpetugas=?
+					",[
+						$request->input('id')
+					]);
+					
+					if($delete){
+						DB::commit();
+						return 'success';
+					}
+					else{
+						return 'Proses hapus ref petugas gagal!';
+					}
+					
+				}
+				else {
+					return 'Proses hapus user petugas gagal!';
+				}
+				
 			}
-			else {
-				return 'Proses hapus gagal. Hubungi Administrator.';
+			else{
+				return 'Hapus dulu kuota petugas ini!';
 			}
 			
 		}

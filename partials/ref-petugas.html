@@ -30,7 +30,7 @@
 							<div class="form-group">
 								<label class="control-label col-lg-3">Kode Petugas</label>
 								<div class="col-lg-3">
-									<input type="text" id="kdpetugas" name="kdpetugas" class="form-control val_num" maxlength="2"/>
+									<input type="text" id="kdpetugas" name="kdpetugas" class="form-control val_num" maxlength="5"/>
 								</div>
 								<div class="col-lg-2">
 									<span id="warning-kdpetugas" class="label label-warning warning">Required!</span>
@@ -38,7 +38,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label class="control-label col-lg-3">Nama Petugas</label>
+								<label class="control-label col-lg-3">Uraian Petugas</label>
 								<div class="col-lg-3">
 									<input type="text" id="nmpetugas" name="nmpetugas" class="form-control" maxlength="100"/>
 								</div>
@@ -128,6 +128,11 @@
 			jQuery('.warning, #div-form').hide();
 			jQuery('#div-tabel').show();
 			jQuery('#simpan').prop('disabled', false);
+			jQuery('#kdpetugas').prop('readonly', false);
+			jQuery('input,select').val('');
+			jQuery('.chosen').val('').trigger('chosen:updated');
+			jQuery('#simpan').html('<span class=""><i class="fa fa-save"></i> Simpan</span>');
+			jQuery('#simpan').prop('disabled',false);
 		}
 		
 		//aktivasi tampilan default
@@ -135,7 +140,6 @@
 		
 		//klik tambah
 		jQuery('#tambah').click(function(){
-			jQuery('#kdpetugas').prop('disabled',false);
 			jQuery('#inp-rekambaru').val('1');
 			jQuery('#div-form').show();
 			jQuery('#div-tabel').hide();
@@ -182,7 +186,7 @@
 		//cari data user yang akan di edit berdasarkan id user
 		function cari_data(id){
 			jQuery('.chosen').val('').trigger('chosen:updated');
-			jQuery.getJSON('ref/petugas/'+id, function(result){
+			jQuery.getJSON('ref/petugas/pilih/'+id, function(result){
 				if(result) {
 				
 					jQuery('#inp-id').val(id);
@@ -209,12 +213,7 @@
 		
 		//klik batal
 		jQuery('#batal').click(function(){
-			jQuery('#div-form').hide();
-			jQuery('#div-tabel').show();
-			jQuery('input').val('');
-			jQuery('.chosen').val('').trigger('chosen:updated');
-			jQuery('#simpan').html('<span class=""><i class="fa fa-save"></i> Simpan</span>');
-			jQuery('#simpan').prop('disabled',false);
+			form_default();
 		});
 		
 		//klik simpan
@@ -299,8 +298,8 @@
 					jQuery.get('token', function(token){
 						if(token) {
 							jQuery.ajax({
-								url:'ref/petugas',
-								method:'DELETE',
+								url:'ref/petugas/hapus',
+								method:'POST',
 								data:{
 									_token:token, 
 									id:id

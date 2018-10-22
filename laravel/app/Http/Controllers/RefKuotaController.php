@@ -180,8 +180,7 @@ class RefKuotaController extends Controller {
 					$row->nmpetugas,
 					$row->tahun,
 					'<div style="text-align:right;">'.number_format($row->kuota).'</div>',
-					'<div style="text-align:right;">'.number_format($row->realisasi).'</div>',
-					$aksi
+					'<div style="text-align:right;">'.number_format($row->realisasi).'</div>'
 				);
 			}
 			
@@ -247,6 +246,9 @@ class RefKuotaController extends Controller {
 			if(count($rows)>0){
 				return response()->json($rows[0]);
 			}
+			else{
+				return array('kuota'=>'0', 'realisasi'=>'0', 'sisa'=>'0');
+			}
 			
 		}
 		catch(\Exception $e){
@@ -304,7 +306,7 @@ class RefKuotaController extends Controller {
 				",[
 					$request->input('kdpetugas'),
 					$request->input('tahun'),
-					$request->input('kuota')
+					str_replace(",","",$request->input('kuota'))
 				]);
 				
 				if($insert==true) {

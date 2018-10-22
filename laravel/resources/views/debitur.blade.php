@@ -177,6 +177,15 @@
 																		</div>
 																	</div>
 																	<div class="form-group">
+																		<label class="control-label col-md-3">Pilih Hunian Sekarang </label>
+																		<div class="col-md-6">
+																			<select id="is_huni" name="is_huni" class="form-control">
+																				<option value="1">Ya</option>
+																				<option value="0">Tidak</option>
+																			</select>
+																		</div>
+																	</div>
+																	<div class="form-group" id="div-hunian">
 																		<label class="control-label col-md-3">Hunian </label>
 																		<div class="col-md-6">
 																			<select id="id_hunian" name="id_hunian" class="form-control"></select>
@@ -339,42 +348,46 @@
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Sama dengan KTP?</label>
 																		<div class="col-md-2">
-																			<input type="radio" class="form-control" id="is_alamat_ktp1" name="is_alamat_ktp" value="1" checked > Ya
-																			<input type="radio" class="form-control" id="is_alamat_ktp2" name="is_alamat_ktp" value="0"> Tidak
+																			<select id="is_alamat_ktp" name="is_alamat_ktp" class="form-control">
+																				<option value="1">Ya</option>
+																				<option value="0">Tidak</option>
+																			</select>
+																			<!--<input type="radio" class="form-control is_alamat_sama" id="is_alamat_ktp1" name="is_alamat_ktp" value="1" checked > Ya
+																			<input type="radio" class="form-control is_alamat_sama" id="is_alamat_ktp2" name="is_alamat_ktp" value="0"> Tidak-->
 																		</div>
 																		<label class="col-md-3">*Isi alamat domisili jika tidak sama dengan KTP</label>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Prop/Kota/Kec/Kel</label>
 																		<div class="col-md-2">
-																			<select id="kdprop1" name="kdprop1" class="form-control"></select>
+																			<select id="kdprop1" name="kdprop1" class="form-control alamat_sama" disabled></select>
 																		</div>
 																		<div class="col-md-2">
-																			<select id="kdkabkota1" name="kdkabkota1" class="form-control"></select>
+																			<select id="kdkabkota1" name="kdkabkota1" class="form-control alamat_sama" disabled></select>
 																		</div>
 																		<div class="col-md-2">
-																			<select id="kdkec1" name="kdkec1" class="form-control"></select>
+																			<select id="kdkec1" name="kdkec1" class="form-control alamat_sama" disabled></select>
 																		</div>
 																		<div class="col-md-2">
-																			<select id="kdkel1" name="kdkel1" class="form-control"></select>
+																			<select id="kdkel1" name="kdkel1" class="form-control alamat_sama" disabled></select>
 																		</div>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Kodepos</label>
 																		<div class="col-md-6">
-																			<input type="text" id="kodepos1" name="kodepos1" class="form-control val_num" placeholder="Masukkan Kodepos" maxlength="5" autocomplete="off"/>
+																			<input type="text" id="kodepos1" name="kodepos1" class="form-control val_num alamat_sama" placeholder="Masukkan Kodepos" maxlength="5" autocomplete="off" disabled />
 																		</div>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Telp. Rumah</label>
 																		<div class="col-md-6">
-																			<input type="text" id="telp1" name="telp1" class="form-control val_num" placeholder="Masukkan Nomor Telp" maxlength="20" autocomplete="off"/>
+																			<input type="text" id="telp1" name="telp1" class="form-control val_num alamat_sama" placeholder="Masukkan Nomor Telp" maxlength="20" autocomplete="off" disabled />
 																		</div>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Alamat Lengkap</label>
 																		<div class="col-md-6">
-																			<input type="text" id="alamat1" name="alamat1" class="form-control" placeholder="Masukkan alamat lengkap" maxlength="255" autocomplete="off"/>
+																			<input type="text" id="alamat1" name="alamat1" class="form-control alamat_sama" placeholder="Masukkan alamat lengkap" maxlength="255" autocomplete="off" disabled />
 																		</div>
 																	</div>
 																</div>
@@ -434,42 +447,47 @@
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Sama dengan pemohon?</label>
 																		<div class="col-md-2">
-																			<input type="radio" class="form-control" id="is_alamat_pemohon1" name="is_alamat_pemohon" value="1" checked > Ya
-																			<input type="radio" class="form-control" id="is_alamat_pemohon2" name="is_alamat_pemohon" value="0"> Tidak
+																			<select id="is_alamat_pemohon" name="is_alamat_pemohon" class="form-control">
+																				<option value="1">Ya</option>
+																				<option value="0">Tidak</option>
+																			</select>
+																			
+																			<!--<input type="radio" class="form-control" id="is_alamat_pemohon1" name="is_alamat_pemohon" value="1" checked > Ya
+																			<input type="radio" class="form-control" id="is_alamat_pemohon2" name="is_alamat_pemohon" value="0"> Tidak-->
 																		</div>
 																		<label class="col-md-5">*Isi alamat pasangan jika tidak sama dengan pemohon</label>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Prop/Kota/Kec/Kel</label>
 																		<div class="col-md-2">
-																			<select id="kdprop_p" name="kdprop_p" class="form-control"></select>
+																			<select id="kdprop_p" name="kdprop_p" class="form-control alamat_sama1" disabled ></select>
 																		</div>
 																		<div class="col-md-2">
-																			<select id="kdkabkota_p" name="kdkabkota_p" class="form-control"></select>
+																			<select id="kdkabkota_p" name="kdkabkota_p" class="form-control alamat_sama1" disabled ></select>
 																		</div>
 																		<div class="col-md-2">
-																			<select id="kdkec_p" name="kdkec_p" class="form-control"></select>
+																			<select id="kdkec_p" name="kdkec_p" class="form-control alamat_sama1" disabled ></select>
 																		</div>
 																		<div class="col-md-2">
-																			<select id="kdkel_p" name="kdkel_p" class="form-control"></select>
+																			<select id="kdkel_p" name="kdkel_p" class="form-control alamat_sama1" disabled ></select>
 																		</div>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Kodepos</label>
 																		<div class="col-md-6">
-																			<input type="text" id="kodepos_p" name="kodepos_p" class="form-control val_num" placeholder="Masukkan Kodepos sesuai KTP" maxlength="5" autocomplete="off"/>
+																			<input type="text" id="kodepos_p" name="kodepos_p" class="form-control val_num alamat_sama1" placeholder="Masukkan Kodepos sesuai KTP" maxlength="5" autocomplete="off" disabled />
 																		</div>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Telp. Rumah</label>
 																		<div class="col-md-6">
-																			<input type="text" id="telp_p" name="telp_p" class="form-control val_num" placeholder="Masukkan Nomor Telp" maxlength="20" autocomplete="off"/>
+																			<input type="text" id="telp_p" name="telp_p" class="form-control val_num alamat_sama1" placeholder="Masukkan Nomor Telp" maxlength="20" autocomplete="off" disabled />
 																		</div>
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label col-md-3">Alamat Lengkap</label>
 																		<div class="col-md-6">
-																			<input type="text" id="alamat_p" name="alamat_p" class="form-control" placeholder="Masukkan alamat lengkap" maxlength="255" autocomplete="off"/>
+																			<input type="text" id="alamat_p" name="alamat_p" class="form-control alamat_sama1" placeholder="Masukkan alamat lengkap" maxlength="255" autocomplete="off" disabled />
 																		</div>
 																	</div>
 																</div>
@@ -969,6 +987,38 @@
 				jQuery.get('../dropdown/harga/'+id, function(result){
 					jQuery('#div-harga').html(result);
 				});
+			});
+			
+			jQuery('#is_huni').on('change', function(){
+				var is_huni = jQuery(this).val();
+				if(is_huni=='0'){
+					jQuery('#div-hunian').hide();
+					jQuery('#div-harga').html('Silahkan pilih hunian terlebih dahulu');
+				}
+				else{
+					jQuery('#id_hunian').select2("val", '');
+					jQuery('#div-hunian').show();
+				}
+			});
+			
+			jQuery('#is_alamat_ktp').change(function(){
+				var is_alamat_ktp = jQuery(this).val();
+				if(is_alamat_ktp=='1'){
+					jQuery('.alamat_sama').prop('disabled', true);
+				}
+				else{
+					jQuery('.alamat_sama').prop('disabled', false);
+				}
+			});
+			
+			jQuery('#is_alamat_pemohon').change(function(){
+				var is_alamat_pemohon = jQuery(this).val();
+				if(is_alamat_pemohon=='1'){
+					jQuery('.alamat_sama1').prop('disabled', true);
+				}
+				else{
+					jQuery('.alamat_sama1').prop('disabled', false);
+				}
 			});
 			
 			jQuery('body').off('click', '.pilih_hunian').on('click', '.pilih_hunian', function(){

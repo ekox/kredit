@@ -98,7 +98,16 @@ relative;z-index:251662336"><img width=82 height=93
       <td colspan="2" bgcolor="#999999">&nbsp;</td>
     </tr>
   </table>
-  <br>
+  <h5 style="color:red;">
+  <?php
+	if($kdpetugas==''){
+		echo 'Registrasi Mandiri';
+	}
+	else{
+		echo 'Registrasi Oleh Petugas '.$nmpetugas.' ('.$kdpetugas.')';
+	}
+  ?>
+  </h5>
   <?php echo DNS2D::getBarcodeSVG($qrcode, "QRCODE" , 4, 4); ?>
   <br>
   <br>

@@ -265,14 +265,16 @@ class RefUserController extends Controller {
 				
 				if($request->input('inp-rekambaru')=='1'){
 				
-					$password = md5('p4ssw0rd!');
+					$password = md5('samawa2018');
 					
 					$rows = DB::select("
 						select	count(*) as jml
 						from t_user
-						where username=?
+						where username=? or nik=? or email=?
 					",[
-						$request->input('username')
+						$request->input('username'),
+						$request->input('nik'),
+						$request->input('email')
 					]);
 					
 					if($rows[0]->jml==0){
@@ -324,7 +326,7 @@ class RefUserController extends Controller {
 						
 					}
 					else{
-						return 'Username ini sudah ada!';
+						return 'Username/NIK/Email ini sudah ada!';
 					}
 					
 				}

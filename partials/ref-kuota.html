@@ -54,7 +54,7 @@
 							<div class="form-group">
 								<label class="control-label col-lg-3">Total Kuota</label>
 								<div class="col-lg-3">
-									<input type="text" class="form-control val_num" id="kuota" name="kuota" style="text-align:right" maxlength="9">
+									<input type="text" class="form-control val_num uang" id="kuota" name="kuota" style="text-align:right" maxlength="9">
 								</div>
 								<div class="col-lg-2">
 									<span id="warning-kuota" class="label label-warning warning">Required!</span>
@@ -64,7 +64,7 @@
 							<div class="form-group">
 								<label class="control-label col-lg-3">Terpakai</label>
 								<div class="col-lg-3">
-									<input type="text" class="form-control val_num" id="terpakai" name="terpakai" style="text-align:right" maxlength="9" readonly>
+									<input type="text" class="form-control val_num uang" id="terpakai" name="terpakai" style="text-align:right" maxlength="9" readonly>
 								</div>
 								<div class="col-lg-2">
 									<span id="warning-terpakai" class="label label-warning warning">Required!</span>
@@ -74,7 +74,7 @@
 							<div class="form-group">
 								<label class="control-label col-lg-3">Sisa</label>
 								<div class="col-lg-3">
-									<input type="text" class="form-control val_num" id="sisa" name="sisa" style="text-align:right" maxlength="9" readonly>
+									<input type="text" class="form-control val_num uang" id="sisa" name="sisa" style="text-align:right" maxlength="9" readonly>
 								</div>
 								<div class="col-lg-2">
 									<span id="warning-sisa" class="label label-warning warning">Required!</span>
@@ -120,7 +120,6 @@
 								<th>Tahun</th>
 								<th>Kuota</th>
 								<th>Terpakai</th>
-								<th>Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -138,6 +137,8 @@
 	jQuery(document).ready(function(){
 		
 		jQuery.fn.dataTable.ext.errMode = 'none';
+		
+		jQuery('.uang').mask('000,000,000,000,000', {reverse: true});
 		
 		//aktivasi chosen
 		jQuery('.chosen').chosen();
@@ -480,6 +481,17 @@
 					);
 				});
 			});
+		});
+		
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		
+		jQuery('#kuota').keyup(function(){
+			var kuota = parseInt(jQuery('#kuota').val().replace(/\,/g,''));
+			var terpakai = parseInt(jQuery('#terpakai').val().replace(/\,/g,''));
+			sisa = kuota-terpakai;
+			jQuery('#sisa').val(numberWithCommas(sisa));
 		});
 		
 	});

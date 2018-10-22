@@ -57,7 +57,8 @@ class DebiturRekamController extends Controller {
 					left outer join t_status_debitur b on(a.status=b.status)
 					left outer join t_jenkredit c on(a.kdjenkredit=c.kdjenkredit)
 					left outer join t_tipe_kredit d on(a.kdtipe=d.kdtipe)
-					left outer join d_hunian_dtl e on(a.id_hunian_dtl=e.id)
+					left outer join d_debitur_hunian i on(a.nik=i.nik)
+					left outer join d_hunian_dtl e on(i.id_hunian_dtl=e.id)
 					left outer join d_hunian h on(e.id_hunian=h.id)
 					left outer join d_form_debitur f on(a.nik=f.nik)
 					left outer join d_form g on(f.id_form=g.id)
@@ -178,12 +179,14 @@ class DebiturRekamController extends Controller {
 			foreach( $rows as $row )
 			{
 				$aksi1 = '';
-				if($row->status=='0' || $row->status=='1'){
-					$aksi1 = '<li><a href="javascript:;" id="'.$row->nik.'" title="pengecekan DUKCAPIL?" class="validasi">Validasi</a></li>
-							  <li><a href="javascript:;" id="'.$row->nik.'" title="Kembalikan data ini?" class="penolakan">Kembalikan Data</a></li>';
-				}
-				elseif($row->status=='2' && session('kdlevel')=='00'){
-					$aksi1 = '<li><a href="javascript:;" id="'.$row->nik.'" title="Batalkan validasi?" class="batal-validasi">Batal Validasi</a></li>';
+				if(session('kdlevel')=='00'){
+					if($row->status=='0' || $row->status=='1'){
+						$aksi1 = '<li><a href="javascript:;" id="'.$row->nik.'" title="pengecekan DUKCAPIL?" class="validasi">Validasi</a></li>
+								  <li><a href="javascript:;" id="'.$row->nik.'" title="Kembalikan data ini?" class="penolakan">Kembalikan Data</a></li>';
+					}
+					elseif($row->status=='2'){
+						$aksi1 = '<li><a href="javascript:;" id="'.$row->nik.'" title="Batalkan validasi?" class="batal-validasi">Batal Validasi</a></li>';
+					}
 				}
 				
 				$aksi='<center style="width:100px;">
@@ -389,7 +392,7 @@ class DebiturRekamController extends Controller {
 										
 										$data = $request->input();
 								
-										$lanjut = $this->validasi($data, 'kdjenkredit,id_hunian,id_hunian_dtl,kdtipe,nik,nama,kdkawin,kdbpjs,nohp,email,jmltinggal,kdpekerjaan,nmkantor,alamat_k,telp_k,penghasilan,jmlroda2,jmlroda4,pengeluaran,tgpemohon,nik_p,nama_p,nohp_p');
+										$lanjut = $this->validasi($data, 'kdjenkredit,is_huni,kdtipe,nik,nama,kdkawin,kdbpjs,nohp,email,jmltinggal,kdpekerjaan,nmkantor,penghasilan,jmlroda2,jmlroda4,pengeluaran,tgpemohon,nik_p,nama_p,nohp_p');
 										
 										//cek seluruh kolom
 										if($lanjut){
@@ -496,13 +499,13 @@ class DebiturRekamController extends Controller {
 																			//debitur
 																			$insert = DB::insert("
 																				insert into d_debitur
-																				(kdjenkredit,id_hunian_dtl,kdtipe,nik,nokk,npwp,nama,kotalhr,tglhr,nmibu,
+																				(kdjenkredit,is_huni,kdtipe,nik,nokk,npwp,nama,kotalhr,tglhr,nmibu,
 																				kdkelamin,kdagama,kdpendidikan,kdpekerjaan,kdkawin,kdbpjs,nohp,email,jmltinggal,
 																				jmlkjp,jmlbpjs,jmltanggung,jmlrmh,jmlroda2,jmlroda4,pengeluaran,tgpemohon,
 																				status,created_at,updated_at,noreg,is_alm_ktp)
 																				values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,".$status.",now(),now(),?,?)
 																			",[
-																				$data['kdjenkredit'],$data['id_hunian_dtl'],$data['kdtipe'],$data['nik'],/*$data['nokk']*/'',$data['npwp'],$data['nama'],/*$data['kotlhr']*/'',''/*$tglhr*/,''/*$data['nmibu']*/,
+																				$data['kdjenkredit'],$data['is_huni'],$data['kdtipe'],$data['nik'],/*$data['nokk']*/'',$data['npwp'],$data['nama'],/*$data['kotlhr']*/'',''/*$tglhr*/,''/*$data['nmibu']*/,
 																				''/*$data['kdkelamin']*/,''/*$data['kdagama']*/,''/*$data['kdpendidikan']*/,$data['kdpekerjaan'],$data['kdkawin'],$data['kdbpjs'],$data['nohp'],$data['email'],
 																				preg_replace("/[^0-9 \d]/i", "", $data['jmltinggal']),
 																				/*preg_replace("/[^0-9 \d]/i", "", $data['jmlkjp']),
@@ -522,7 +525,7 @@ class DebiturRekamController extends Controller {
 																			]);
 																			
 																			if($insert){
-																			
+																				
 																				//alamat ktp
 																				/*$insert1 = DB::insert("
 																					insert into d_debitur_alamat
@@ -537,7 +540,7 @@ class DebiturRekamController extends Controller {
 																				
 																				if($request->input('is_alamat_ktp')=='0'){
 																					
-																					$valid = $this->validasi($data, 'kdprop1,kdkabkota1,kdkec1,kdkel1,kodepos1,telp1,alamat1');
+																					$valid = $this->validasi($data, 'kdprop1,kdkabkota1,kdkec1,kdkel1,kodepos1,alamat1');
 																					
 																					if($valid){
 																						//alamat domisili
@@ -558,11 +561,15 @@ class DebiturRekamController extends Controller {
 																				
 																				if($insert2){
 																					
-																					/*if($request->input('kdkawin')=='2'){
-																					
-																						
-																						
-																					}*/
+																					if($request->input('is_alamat_pemohon')=='1'){
+																						$data['kdprop_p']='';
+																						$data['kdkabkota_p']='';
+																						$data['kdkec_p']='';
+																						$data['kdkel_p']='';
+																						$data['kodepos_p']='';
+																						$data['telp_p']='';
+																						$data['alamat_p']='';
+																					}
 																					
 																					$insert = DB::insert("
 																						insert into d_debitur_pasangan
@@ -602,7 +609,7 @@ class DebiturRekamController extends Controller {
 																								/*$arr_tanggal1 = explode("-", $request->input('tgkerja_p'));
 																								$tgkerja_p = $arr_tanggal1[2].'-'.$arr_tanggal1[1].'-'.$arr_tanggal1[0];*/
 																								
-																								$valid = $this->validasi($data, 'nmkantor_p,alamat_k_p,telp_k_p,penghasilan_p');
+																								$valid = $this->validasi($data, 'nmkantor_p,alamat_k_p,penghasilan_p');
 																								
 																								if($valid){
 																									
@@ -630,16 +637,14 @@ class DebiturRekamController extends Controller {
 																							
 																							if($lanjut){
 																								
-																								if($request->input('kdhutang')!==''){
+																								if($request->input('is_huni')=='1'){
 																									
 																									$insert = DB::insert("
-																										insert into d_debitur_hutang
-																										(nik,kdhutang,kdkreditur,total,angsuran,created_at,updated_at)
-																										values(?,?,?,?,?,now(),now())
+																										insert into d_debitur_hunian(nik,id_hunian_dtl)
+																										values(?,?)
 																									",[
-																										$data['nik'],$data['kdhutang'],$data['kdkreditur'],
-																										preg_replace("/[^0-9 \d]/i", "", $data['total']),
-																										preg_replace("/[^0-9 \d]/i", "", $data['angsuran'])
+																										$request->input('nik'),
+																										$request->input('id_hunian_dtl')
 																									]);
 																									
 																									if(!$insert){
@@ -649,80 +654,105 @@ class DebiturRekamController extends Controller {
 																								}
 																								
 																								if($lanjut){
-																								
-																									$insert = DB::insert("
-																										insert into d_debitur_dok(nik,id_dok,nmfile,created_at,updated_at)
-																										select	distinct
-																												? as nik,
-																												id_dok,
-																												nmfile,
-																												created_at,
-																												updated_at
-																										from d_debitur_dok_temp
-																										where sesi_upload=?
-																									",[
-																										$data['nik'],session('sesi_upload')
-																									]);
-																								
-																									if($insert){
 																									
-																										$delete = DB::delete("
-																											delete from d_debitur_dok_temp
-																											where sesi_upload=?
+																									if($request->input('kdhutang')!==''){
+																									
+																										$insert = DB::insert("
+																											insert into d_debitur_hutang
+																											(nik,kdhutang,kdkreditur,total,angsuran,created_at,updated_at)
+																											values(?,?,?,?,?,now(),now())
 																										",[
-																											session('sesi_upload')
+																											$data['nik'],$data['kdhutang'],$data['kdkreditur'],
+																											preg_replace("/[^0-9 \d]/i", "", $data['total']),
+																											preg_replace("/[^0-9 \d]/i", "", $data['angsuran'])
 																										]);
 																										
-																										if($delete){
+																										if(!$insert){
+																											$lanjut = false;
+																										}
+																										
+																									}
+																									
+																									if($lanjut){
+																									
+																										$insert = DB::insert("
+																											insert into d_debitur_dok(nik,id_dok,nmfile,created_at,updated_at)
+																											select	distinct
+																													? as nik,
+																													id_dok,
+																													nmfile,
+																													created_at,
+																													updated_at
+																											from d_debitur_dok_temp
+																											where sesi_upload=?
+																										",[
+																											$data['nik'],session('sesi_upload')
+																										]);
+																									
+																										if($insert){
+																										
+																											$delete = DB::delete("
+																												delete from d_debitur_dok_temp
+																												where sesi_upload=?
+																											",[
+																												session('sesi_upload')
+																											]);
 																											
-																											if(isset($data['id_form'])){
-																												if($request->input('id_form')!==''){
+																											if($delete){
 																												
-																													$insert = DB::insert("
-																														insert into d_form_debitur
-																														(id_form,nik,created_at,updated_at)
-																														values(?,?,now(),now())
-																													",[
-																														$data['id_form'],$data['nik']
-																													]);
+																												if(isset($data['id_form'])){
+																													if($request->input('id_form')!==''){
 																													
-																													$update = DB::update("
-																														update d_form
-																														set status=1,
-																															updated_at=now()
-																														where id=?
-																													",[
-																														$data['id_form']
-																													]);
-																													
-																													if(!$insert || !$update){
-																														$lanjut = false;
+																														$insert = DB::insert("
+																															insert into d_form_debitur
+																															(id_form,nik,created_at,updated_at)
+																															values(?,?,now(),now())
+																														",[
+																															$data['id_form'],$data['nik']
+																														]);
+																														
+																														$update = DB::update("
+																															update d_form
+																															set status=1,
+																																updated_at=now()
+																															where id=?
+																														",[
+																															$data['id_form']
+																														]);
+																														
+																														if(!$insert || !$update){
+																															$lanjut = false;
+																														}
+																														
 																													}
-																													
 																												}
-																											}
-																											
-																											if($lanjut){
-																												DB::commit();
-																												return 'success';
+																												
+																												if($lanjut){
+																													DB::commit();
+																													return 'success';
+																												}
+																												else{
+																													return 'Data debitur gagal ditambahkan kedalam form!';
+																												}
+																												
 																											}
 																											else{
-																												return 'Data debitur gagal ditambahkan kedalam form!';
+																												return 'Data temporari gagal dihapus!';
 																											}
-																											
+																										
 																										}
 																										else{
-																											return 'Data temporari gagal dihapus!';
+																											return 'Data dokumen gagal ditambahkan!';
 																										}
-																									
+																										
 																									}
 																									else{
-																										return 'Data dokumen gagal ditambahkan!';
+																										return 'Data hutang gagal ditambahkan!';
 																									}
 																									
 																								}
 																								else{
-																									return 'Data hutang gagal ditambahkan!';
+																									return 'Anda wajib memilih hunian yang diinginkan!';
 																								}
 																								
 																							}
@@ -1324,7 +1354,8 @@ class DebiturRekamController extends Controller {
 						e.nmtipe,
 						date_format(a.tgpemohon,'%d-%m-%Y') as tgpemohon,
 						date_format(a.created_at,'%d-%m-%Y') as created_at,
-						c.kdpetugas,
+						l.nama as nmpetugas,
+						ifnull(c.kdpetugas,'') as kdpetugas,
 						c.tahun,
 						c.nourut
 				from d_debitur a
@@ -1332,8 +1363,13 @@ class DebiturRekamController extends Controller {
 				left outer join d_form c on(b.id_form=c.id)
 				left outer join t_jenkredit d on(a.kdjenkredit=d.kdjenkredit)
 				left outer join t_tipe_kredit e on(a.kdtipe=e.kdtipe)
-				left outer join d_hunian_dtl f on(a.id_hunian_dtl=f.id)
+				left outer join d_debitur_hunian h on(a.nik=h.nik)
+				left outer join d_hunian_dtl f on(h.id_hunian_dtl=f.id)
 				left outer join d_hunian g on(f.id_hunian=g.id)
+				LEFT OUTER JOIN d_form_debitur i ON(a.nik=i.nik)
+				LEFT OUTER JOIN d_form j ON(i.id_form=j.id)
+				LEFT OUTER JOIN t_user_petugas k ON(j.kdpetugas=k.kdpetugas)
+				LEFT OUTER JOIN t_user l ON(k.id_user=l.id)
 				where a.nik=?
 			",[
 				$param
