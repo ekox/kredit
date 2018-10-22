@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <!--<title><?php echo $name_app.' '.$versi_app; ?> - Login</title>-->
-		<link href="{{ asset('/template/img/faviconsim.ico')}}" rel="icon" type="image/x-icon" />
+		<link href="{{ asset('/template/img/logo.jpeg')}}" rel="icon" type="image/x-icon" />
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <link href="{{ asset('/template/css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/template/font-awesome-4.2.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />

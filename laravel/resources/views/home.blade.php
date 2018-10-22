@@ -23,7 +23,7 @@
   <meta name="twitter:image" content="">
 
   <!-- Favicon -->
-  <link href="template/Bell/img/favicon.ico" rel="icon">
+  <link href="template/img/logo.jpeg" rel="icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700|Roboto:400,900" rel="stylesheet">
