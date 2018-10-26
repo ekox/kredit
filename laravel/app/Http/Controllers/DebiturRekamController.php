@@ -640,11 +640,12 @@ class DebiturRekamController extends Controller {
 																								if($request->input('is_huni')=='1'){
 																									
 																									$insert = DB::insert("
-																										insert into d_debitur_hunian(nik,id_hunian_dtl)
-																										values(?,?)
+																										insert into d_debitur_hunian(nik,id_hunian_dtl,tenor)
+																										values(?,?,?)
 																									",[
 																										$request->input('nik'),
-																										$request->input('id_hunian_dtl')
+																										$request->input('id_hunian_dtl'),
+																										$request->input('tenor')
 																									]);
 																									
 																									if(!$insert){

@@ -123,6 +123,66 @@ class DropdownController extends Controller {
 		}
 	}
 	
+	public function harga_dtl($id)
+	{
+		try{
+			if($id!=='xxx'){
+				
+				$rows = DB::select("
+					SELECT	*
+					FROM d_hunian_dtl_tenor
+					WHERE id_hunian_dtl=?
+					ORDER BY tenor ASC
+				",[
+					$id
+				]);
+				
+				if(count($rows)>0){
+					
+					$data = '<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>Jumlah Tenor</th>
+										<th>Angsuran/Bulan</th>
+										<th>Pilih</th>
+									</tr>
+								</thead>
+								<tbody>';
+					
+					$i = 1;
+					foreach($rows as $row){
+						$data .= '<tr>
+									<td>'.$i++.'</td>
+									<td style="text-align:right;">'.number_format($row->tenor).'</td>
+									<td style="text-align:right;">'.number_format($row->angsuran).'</td>
+									<td>
+										<center>
+											<input id="'.$row->tenor.'" type="radio" name="tenor" value="'.$row->tenor.'" class="pilih_tenor">
+										</center>
+									</td>
+								  </tr>';
+					}
+					
+					$data .= '</tbody></table>';
+					
+					return $data;
+					
+				}
+				else{
+					return 'Data harga angsuran tidak ditemukan!';
+				}
+				
+			}
+			else{
+				return 'Data angsuran tidak dapat dikosongkan!';
+			}
+		}
+		catch(\Exception $e){
+			return 'Terdapat kesalahan lainnya!';
+		}
+	}
+	
 	public function jenis_kredit()
 	{
 		try{

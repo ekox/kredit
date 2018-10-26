@@ -37,6 +37,7 @@ Route::group(['prefix' => 'dropdown'], function () {
 	
 	Route::get('/hunian', 'DropdownController@hunian');
 	Route::get('/harga/{param}', 'DropdownController@harga');
+	Route::get('/harga-dtl/{param}', 'DropdownController@harga_dtl');
 	Route::get('/jenis-kredit', 'DropdownController@jenis_kredit');
 	Route::get('/tipe-kredit', 'DropdownController@tipe_kredit');
 	Route::get('/form-kredit', 'DropdownController@form_kredit');

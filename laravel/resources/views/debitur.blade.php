@@ -216,6 +216,18 @@
 																			Silahkan pilih hunian terlebih dahulu
 																		</div>
 																	</div>
+																	<div class="form-group">
+																		<label class="control-label col-md-3">Tenor </label>
+																		<div class="col-md-6">
+																			<input type="text" id="tenor" name="tenor" class="form-control" readonly />
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label class="control-label col-md-3">Tenor/Cicilan </label>
+																		<div class="col-md-6" id="div-harga-dtl" style="overflow-x:scroll;">
+																			Silahkan pilih harga rumah terlebih dahulu
+																		</div>
+																	</div>
 																</div>
 																<div class="tab-pane" id="tab2">
 																	<div class="form-group">
@@ -1025,6 +1037,15 @@
 			jQuery('body').off('click', '.pilih_hunian').on('click', '.pilih_hunian', function(){
 				var id = this.id;
 				jQuery('#id_hunian_dtl').val(id);
+				jQuery('#div-harga-dtl').html('Sedang proses.....');
+				jQuery.get('../dropdown/harga-dtl/'+id, function(result){
+					jQuery('#div-harga-dtl').html(result);
+				});
+			});
+			
+			jQuery('body').off('click', '.pilih_tenor').on('click', '.pilih_tenor', function(){
+				var id = this.id;
+				jQuery('#tenor').val(id);
 			});
 			
 			jQuery.get('../dropdown/tipe-kredit', function(result){
