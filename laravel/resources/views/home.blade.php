@@ -66,7 +66,7 @@
         <p class="tagline">
 			Pemerintah Provinsi DKI Jakarta
         </p>
-        <a class="btn btn-full" href="registrasi/debitur">Registrasi</a>
+        <a class="btn btn-full" href="#">Khusus Petugas</a>
 		<a href="data/aturan/pergub.doc" target="_blank">
 			<p class="tagline">
 				Download Form Permohonan
@@ -96,7 +96,7 @@
                 Licensing information: https://bootstrapmade.com/license/
                 Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Bell
               -->
-             Powered by <a href="https://bootstrapmade.com/">Tim DP 0 DKI Jakarta</a>
+             Powered by <a href="#">Tim Relawan IT DP 0 Rupiah</a>
             </div>
           </div>
 

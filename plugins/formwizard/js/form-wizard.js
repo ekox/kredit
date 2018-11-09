@@ -37,9 +37,9 @@ var FormWizard = function () {
 					nik: {
 						required: true
 					},
-					nik_p: {
+					/*nik_p: {
 						required: true
-					},
+					},*/
 					npwp: {
 						required: true
 					},
@@ -49,9 +49,9 @@ var FormWizard = function () {
 					nama: {
 						required: true
 					},
-					nama_p: {
+					/*nama_p: {
 						required: true
-					},
+					},*/
 					kotlhr: {
 						required: true
 					},
@@ -79,9 +79,9 @@ var FormWizard = function () {
 					nohp: {
 						required: true
 					},
-					nohp_p: {
+					/*nohp_p: {
 						required: true
-					},
+					},*/
 					email: {
 						required: true
 					},
