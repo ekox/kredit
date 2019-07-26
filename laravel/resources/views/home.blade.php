@@ -66,8 +66,8 @@
         <p class="tagline">
 			Pemerintah Provinsi DKI Jakarta
         </p>
-        <a class="btn btn-full" href="#">Khusus Petugas</a>
-		<a href="data/aturan/pergub.doc" target="_blank">
+        <a class="btn btn-full" href="#">Registrasi Mandiri</a>
+		<a href="data/aturan/form-permohonan.docx" target="_blank">
 			<p class="tagline">
 				Download Form Permohonan
 			</p>

@@ -46,7 +46,7 @@
 					</a>
 				</center>
 			</div>
-            <form id="form-ruh" name="form-ruh" onsubmit="return false">
+            <form id="form-ruh" name="form-ruh" onSubmit="return false">
 				<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
                 <div class="body bg-gray">
                     <div class="form-group">
@@ -78,7 +78,7 @@
                 </div>
 				<br>
 				<center style="color:#878787;font-weight : 300;font-size : 10pt">
-					Copyright © Tim X Developer 2018
+					Copyright © Tim Relawan IT DP 0 Rupiah 2018
 				</center>
             </form>
         </div>

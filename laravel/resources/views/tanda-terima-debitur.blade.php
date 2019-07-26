@@ -90,7 +90,7 @@ relative;z-index:251662336"><img width=82 height=93
     <tr>
       <td colspan="2"><p>Selamat, anda telah terdaftar sebagai pemohon fasilitas perolehan rumah bagi MBR.<br>
 	  Permohonan anda akan kami proses untuk validasi dan analisa kelayakan pembiayaan.<br>
-	  Simpan dengan baik kode pendaftaran anda. Gunakan kode pendaftaran untuk melihat status permohonan anda pada http://dp0rupiah.jakarta.go.id<br>
+	  Simpan dengan baik kode pendaftaran anda. Gunakan kode pendaftaran untuk melihat status permohonan anda pada http://samawa.jakarta.go.id<br>
 	  Terima kasih
 	   </p>        </td>
       </tr>
