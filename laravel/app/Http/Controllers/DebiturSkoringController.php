@@ -49,7 +49,7 @@ class DebiturSkoringController extends Controller {
 			/* Indexed column (used for fast and accurate table cardinality) */
 			$sIndexColumn = "nik";
 			/* DB table to use */
-			$sTable = "select	a.nik,
+			$sTable = "SELECT	a.nik,
 								b.nama,
 								e.nmhunian,
 								e.alamat,
@@ -57,15 +57,16 @@ class DebiturSkoringController extends Controller {
 								b.jmlkjp,
 								b.jmltinggal,
 								a.nilai,
-								d.status,
-								d.nmstatus,
-								d.warna
-					from d_debitur_skoring a
-					left outer join d_debitur b on(a.nik=b.nik)
-					left outer join d_hunian_dtl c on(b.id_hunian_dtl=c.id)
-					left outer join d_hunian e on(c.id_hunian=e.id)
-					left outer join t_status_skoring d on(a.nilai between d.range1 and d.range2)
-					order by a.nilai desc";
+								f.status,
+								f.nmstatus,
+								f.warna
+					FROM d_debitur_skoring a
+					LEFT OUTER JOIN d_debitur b ON(a.nik=b.nik)
+					LEFT OUTER JOIN d_debitur_hunian c ON(b.nik=c.nik)
+					LEFT OUTER JOIN d_hunian_dtl d ON(c.id_hunian_dtl=d.id)
+					LEFT OUTER JOIN d_hunian e ON(d.id_hunian=e.id)
+					LEFT OUTER JOIN t_status_skoring f ON(a.nilai BETWEEN f.range1 AND f.range2)
+					ORDER BY a.nilai DESC";
 			
 			/*
 			 * Paging

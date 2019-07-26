@@ -137,6 +137,12 @@ Route::group(['middleware' => 'auth'], function(){
 		
 		});
 		
+		Route::group(['prefix' => 'monitoring'], function(){
+			
+			Route::get('', 'DebiturMonitoringController@index');
+			
+		});
+		
 	});
 	
 	//route for ref
