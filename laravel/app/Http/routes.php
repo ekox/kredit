@@ -24,9 +24,9 @@ Route::group(['prefix' => 'registrasi'], function () {
 	
 	Route::group(['prefix' => 'debitur'], function () {
 		
-		Route::get('', 'DebiturRekamController@baru');
+		Route::get('', 'DebiturRekamController@baru_new');
 		Route::get('/tanda-terima/{param}', 'DebiturRekamController@tanda_terima');
-		Route::post('', 'DebiturRekamController@simpan');
+		Route::post('', 'DebiturRekamController@simpan_new');
 		
 	});
 	

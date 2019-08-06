@@ -341,6 +341,105 @@ class DebiturRekamController extends Controller {
 		}
 	}
 	
+	public function baru_new()
+	{
+		try{
+			session(array(
+				'sesi_upload' => md5(time())
+			));
+			
+			$rows = DB::select("
+				select	*
+				from t_dok
+				where id=6
+				order by id asc
+			");
+			
+			if(count($rows)>0){
+				
+				$data=array();
+
+				$data['htmlout']='';
+				$data['jquery']='';
+				foreach($rows as $row) {
+					
+					$data['htmlout'] .= '
+						<div class="form-group">
+							<label class="control-label col-md-3">'.$row->nmdok.' (*'.$row->tipe.')</label>
+							<div class="col-md-6" id="div2-upload-foto">
+								<span class="btn btn-primary fileinput-button">
+									<i class="fa fa-upload"></i>
+									<span>Browse File</span>
+									<input id="fileupload-'.$row->id.'" type="file" name="file-'.$row->id.'">
+								</span>
+								<!-- The global progress bar -->
+								<div id="files-'.$row->id.'" class="files"></div>
+								<div id="progress-'.$row->id.'" class="progress">
+									<div class="progress-bar progress-bar-success"></div>
+								</div>
+							</div>
+							<div class="col-lg-3" id="nmfile-'.$row->id.'"></div>
+						</div>';
+					
+					$data['jquery'] .= "
+						jQuery('#fileupload-".$row->id."').click(function(){
+							jQuery('#progress-".$row->id." .progress-bar').css('width', 0);
+							jQuery('#progress-".$row->id." .progress-bar').html('');
+							jQuery('#nmfile-".$row->id."').html('');
+						});
+		
+						jQuery('#fileupload-".$row->id."').fileupload({
+							url:'../upload',
+							dataType: 'json',
+							formData: {
+								_token:'".csrf_token()."',
+								id_dok:".$row->id."
+							},
+							done: function (e, data) {
+								jQuery('#nmfile-".$row->id."').html(data.files[0].name);
+								alertify.log('Upload file '+data.files[0].name+' berhasil!');
+							},
+							error: function(error) {
+								alertify.log(error.responseText);
+							},
+							progressall: function (e, data) {
+								var progress = parseInt(data.loaded / data.total * 100, 10);
+								jQuery('#progress-".$row->id." .progress-bar').css('width',progress + '%');
+							}
+						}).prop('disabled', !$.support.fileInput)
+						  .parent().addClass($.support.fileInput ? undefined : 'disabled');
+					";
+					
+				}
+				
+				$kembali = '<a href="../home">
+								Kembali
+							</a>';
+				
+				if(session('authenticated')){
+					$kembali = '<a href="../#/debitur/rekam">
+									Kembali
+								</a>';
+				}
+			
+				return view('debitur-new', array(
+					'kembali' => $kembali,
+					'html_upload' => $data['htmlout'],
+					'jquery_upload' => $data['jquery']
+				));
+				
+			}
+			else{
+				return 'Referensi dokumen tidak ditemukan!';
+			}
+			
+		}
+		catch(\Exception $e){
+			//return $e;
+			return 'Terdapat kesalahan lainnya!';
+		}
+	}
+	
 	public function simpan(Request $request)
 	{
 		try{
@@ -866,6 +965,164 @@ class DebiturRekamController extends Controller {
 			}
 			else{
 				return $e;
+				return 'Kesalahan lainnya! code:'.$e->getCode();
+			}
+		}
+	}
+	
+	public function simpan_new(Request $request)
+	{
+		try{
+			if(strlen($request->input('nik'))==16){
+					
+				if(strlen($request->input('npwp'))==15){
+						
+					$rows = DB::select("
+						SELECT	count(*) as jml
+						FROM d_debitur a
+						WHERE a.nik=?
+					",[
+						$request->input('nik')
+					]);
+					
+					//cek duplikasi data
+					if($rows[0]->jml==0){
+						
+						$cek_dukcapil = $this->api_dukcapil($request->input('nik'));
+						
+						if($cek_dukcapil=='0' || $cek_dukcapil=='1' || $cek_dukcapil=='2'){ //cek dukcapil
+							
+							$data = $request->input();
+					
+							$lanjut = $this->validasi($data, 'nik,nama,npwp');
+							
+							//cek seluruh kolom
+							if($lanjut){
+								
+								DB::beginTransaction();
+																
+								$arr_tanggal1 = explode("-", $request->input('tgpemohon'));
+								$tgpemohon = $arr_tanggal1[2].'-'.$arr_tanggal1[1].'-'.$arr_tanggal1[0];
+								
+								$status = '0';
+								if(isset($data['id_form'])){
+									if($request->input('id_form')!==''){
+										$status = '1';
+									}
+								}
+								
+								$noreg = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 8);
+								
+								//debitur
+								$insert = DB::insert("
+									insert into d_debitur
+									(kdjenkredit,is_huni,kdtipe,nik,npwp,nama,tgpemohon,
+									status,created_at,updated_at,noreg)
+									values(?,?,?,?,?,?,?,".$status.",now(),now(),?)
+								",[
+									$data['kdjenkredit'],$data['is_huni'],$data['kdtipe'],$data['nik'],$data['npwp'],$data['nama'],
+									$tgpemohon,
+									$noreg
+								]);
+								
+								if($insert){
+									
+									if($request->input('is_huni')=='1'){
+														
+										$insert = DB::insert("
+											insert into d_debitur_hunian(nik,id_hunian_dtl,tenor)
+											values(?,?,?)
+										",[
+											$request->input('nik'),
+											$request->input('id_hunian_dtl'),
+											$request->input('tenor')
+										]);
+										
+										if(!$insert){
+											$lanjut = false;
+										}
+										
+									}
+									
+									if($lanjut){
+										
+										if(isset($data['id_form'])){
+											
+											if($request->input('id_form')!==''){
+											
+												$insert = DB::insert("
+													insert into d_form_debitur
+													(id_form,nik,created_at,updated_at)
+													values(?,?,now(),now())
+												",[
+													$data['id_form'],$data['nik']
+												]);
+												
+												$update = DB::update("
+													update d_form
+													set status=1,
+														updated_at=now()
+													where id=?
+												",[
+													$data['id_form']
+												]);
+												
+												if(!$insert || !$update){
+													$lanjut = false;
+												}
+												
+											}
+										}
+										
+										if($lanjut){
+											DB::commit();
+											return 'success';
+										}
+										else{
+											return 'Data debitur gagal ditambahkan kedalam form!';
+										}
+										
+									}
+									else{
+										return 'Data hunian gagal disimpan!';
+									}
+									
+								}
+								else{
+									return 'Data debitur gagal ditambahkan!';
+								}
+								
+							}
+							else{
+								return 'Selain data pasangan dan hutang, seluruh kolom wajib diisi!';
+							}
+							
+						}
+						else{
+							return 'NIK tidak valid! (DUKCAPIL : '.$cek_dukcapil.')';
+						}
+						
+					}
+					else{
+						return 'Data NIK pemohon sudah terdaftar di sistem!';
+					}
+					
+				}
+				else{
+					return 'Format NPWP tidak valid!';
+				}
+				
+			}
+			else{
+				return 'Format NIK pemohon tidak valid!';
+			}
+		}
+		catch(\Exception $e){
+			return $e;
+			if($e->getCode()==23000){
+				return 'Duplikasi data!';
+			}
+			else{
 				return 'Kesalahan lainnya! code:'.$e->getCode();
 			}
 		}
