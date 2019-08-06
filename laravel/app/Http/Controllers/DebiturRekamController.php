@@ -1118,7 +1118,6 @@ class DebiturRekamController extends Controller {
 			}
 		}
 		catch(\Exception $e){
-			return $e;
 			if($e->getCode()==23000){
 				return 'Duplikasi data!';
 			}
