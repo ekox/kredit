@@ -443,7 +443,7 @@ class RefUserController extends Controller {
 				set password=?
 				where id=?
 			",[
-				$password = md5('p4ssw0rd!'),
+				md5('p4ssw0rd!'),
 				$request->input('id')
 			]);
 			
@@ -476,6 +476,44 @@ class RefUserController extends Controller {
 				$data = '<option value="" style="display:none;">Pilih Data</option>';
 				foreach($rows as $row){
 					$data .= '<option value="'.$row->id.'">'.$row->nama.' | '.$row->nik.'</option>';
+				}
+				
+				return $data;
+				
+			}
+			else{
+				return 'Data tidak ditemukan!';
+			}
+		}
+		catch(\Exception $e){
+			return 'Terdapat kesalahan lainnya!';
+		}
+	}
+	
+	public function level()
+	{
+		try{
+			$rows = DB::select("
+				select	a.kdlevel,
+						b.nmlevel,
+						a.aktif
+				from t_user_level a
+				left outer join t_level b on(a.kdlevel=b.kdlevel)
+				where a.id_user=?
+				order by a.kdlevel asc
+			",[
+				session('id_user')
+			]);
+			
+			if(count($rows)>0){
+				
+				$data = '';
+				foreach($rows as $row){
+					$selected = '';
+					if($row->aktif=='1'){
+						$selected = 'selected';
+					}
+					$data .= '<option value="'.$row->kdlevel.'" '.$selected.'>'.$row->nmlevel.'</option>';
 				}
 				
 				return $data;

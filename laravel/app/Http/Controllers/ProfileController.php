@@ -31,37 +31,91 @@ class ProfileController extends Controller {
 	
 	public function ubah(Request $request)
 	{
-		$select = DB::select(
-			"select password from t_user
-				where id=?
-			",
-			[session('id_user')]
-		);
-		
-		$password_lama=$select[0]->password;
-		
-		if(md5($request->input('password_lama'))==$password_lama){
-			$password_baru=md5($request->input('password_baru'));
-			$update = DB::update(
-				"update t_user
-					set password=?
+		if($request->input('password_baru')!=='' && $request->input('password_baru')!==null){
+			
+			$select = DB::select(
+				"select password from t_user
 					where id=?
-				", 
-				[
-					$password_baru,
-					session('id_user')
-				]
+				",
+				[session('id_user')]
 			);
 			
-			if($update==true) {
-				return 'success';
-			} else {
-				return 'Proses ubah gagal. Hubungi Administrator.';
+			$password_lama=$select[0]->password;
+			
+			if(md5($request->input('password_lama'))==$password_lama){
+				$password_baru=md5($request->input('password_baru'));
+				$update = DB::update(
+					"update t_user
+						set password=?
+						where id=?
+					", 
+					[
+						$password_baru,
+						session('id_user')
+					]
+				);
+				
+				if($update==true) {
+					return 'success';
+				} else {
+					return 'Proses ubah gagal. Hubungi Administrator.';
+				}
+				
+			}
+			else{
+				return 'Password tidak valid!';
 			}
 			
 		}
 		else{
-			return 'Password tidak valid!';
+			
+			DB::beginTransaction();
+			
+			$rows = DB::select("
+				select	*
+				from t_level
+				where kdlevel=?
+			",[
+				$request->input('kdlevel')
+			]);
+			
+			$nmlevel = $rows[0]->nmlevel;
+			
+			$update = DB::update(
+				"update t_user_level
+					set aktif='0'
+					where id_user=?
+				", 
+				[
+					session('id_user')
+				]
+			);
+			
+			$update = DB::update(
+				"update t_user_level
+					set aktif='1'
+					where id_user=? and kdlevel=?
+				", 
+				[
+					session('id_user'),
+					$request->input('kdlevel')
+				]
+			);
+			
+			if($update==true) {
+				
+				session([
+					'kdlevel' => $request->input('kdlevel'),
+					'nmlevel' => $nmlevel
+				]);
+				
+				DB::commit();
+				return 'success';
+				
+			} else {
+				return 'Proses ubah gagal. Hubungi Administrator.';
+			}
+			
 		}
 		
 	}

@@ -629,6 +629,69 @@ class DropdownController extends Controller {
 		}
 	}
 	
+	public function hutangTabel()
+	{
+		try{
+			$rows1 = DB::select("
+				SELECT	kdkreditur as kode,
+						nmkreditur as nilai
+				FROM t_kreditur
+			");
+			
+			$rows = DB::select("
+				select	kdhutang as kode,
+						nmhutang as nilai
+				from t_hutang
+			");
+			
+			$data = '<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Jenis Utang</th>
+								<th>Pemberi Pembiayaan</th>
+								<th>Jumlah (Unit)</th>
+								<th>Jumlah Utang Awal</th>
+								<th>Cicilan Per Bulan</th>
+							</tr>
+						</thead>
+						<tbody>';
+			if(count($rows)>0){
+				
+				foreach($rows as $row){
+					
+					$dropdown = '<select name="kdkreditur['.$row->kode.']">';
+					if(count($rows1)>0){
+						
+						$dropdown .= '<option value="">Tidak ada</option>';
+						foreach($rows1 as $row1){
+							$dropdown .= '<option value="'.$row1->kode.'">'.$row1->nilai.'</option>';
+						}
+						
+					}
+					$dropdown .= '</select>';
+					
+					$data .= '<input type="hidden" name="kdhutang[]" value="'.$row->kode.'">
+							  <tr>
+								<td>'.$row->nilai.'</td>
+								<td>'.$dropdown.'</td>
+								<td><input type="text" name="jmlunit['.$row->kode.']" class="val_num uang"></td>
+								<td><input type="text" name="total['.$row->kode.']" class="val_num uang"></td>
+								<td><input type="text" name="angsuran['.$row->kode.']" class="val_num uang"></td>
+							  </tr>';
+				
+				}
+				
+			}
+			
+			$data .= '</tbody></table>';
+			
+			return $data;
+		}
+		catch(\Exception $e){
+			return 'Terdapat kesalahan lainnya!';
+		}
+	}
+	
 	public function kdkreditur()
 	{
 		try{
@@ -696,6 +759,32 @@ class DropdownController extends Controller {
 				$data = '<option value="" style="display:none;">Pilih Data</option>';
 				foreach($rows as $row){
 					$data .= '<option value="'.$row->kode.'">'.$row->nilai.'</option>';
+				}
+				
+				return $data;
+				
+			}
+		}
+		catch(\Exception $e){
+			return 'Terdapat kesalahan lainnya!';
+		}
+	}
+	
+	public function stsdomisili()
+	{
+		try{
+			$rows = DB::select("
+				select	stsdomisili,
+						uraian
+				from t_stsdomisili
+				order by nourut asc
+			");
+			
+			if(count($rows)>0){
+				
+				$data = '<option value="" style="display:none;">Pilih Data</option>';
+				foreach($rows as $row){
+					$data .= '<option value="'.$row->stsdomisili.'">'.$row->uraian.'</option>';
 				}
 				
 				return $data;

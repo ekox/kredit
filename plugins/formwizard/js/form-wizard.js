@@ -7,7 +7,7 @@ var FormWizard = function () {
                 return;
             }
 
-            $("#is_alamat_ktp,#is_alamat_pemohon,#is_huni,#kdjenkredit, #kdtipe, #id_hunian, #id_form, #kdkelamin, #kdagama, #kdpendidikan, #kdpekerjaan, #kdkawin, #kdbpjs, #kdprop, #kdkabkota, #kdkec, #kdkel, #kdprop1, #kdkabkota1, #kdkec1, #kdkel1, #kdkelamin_p, #kdagama_p, #kdpendidikan_p, #kdpekerjaan_p, #kdprop_p, #kdkabkota_p, #kdkec_p, #kdkel_p, #kdhutang, #kdkreditur").select2({
+            $("#stsbpjs,#stsdomisili,#is_alamat_ktp,#is_alamat_pemohon,#is_huni,#kdjenkredit, #kdtipe, #id_hunian, #id_form, #kdkelamin, #kdagama, #kdpendidikan, #kdpekerjaan, #kdkawin, #kdbpjs, #kdprop, #kdkabkota, #kdkec, #kdkel, #kdprop1, #kdkabkota1, #kdkec1, #kdkel1, #kdkelamin_p, #kdagama_p, #kdpendidikan_p, #kdpekerjaan_p, #kdprop_p, #kdkabkota_p, #kdkec_p, #kdkel_p, #kdhutang, #kdkreditur").select2({
                 placeholder: "Select",
                 allowClear: true,
                 escapeMarkup: function (m) {
@@ -47,6 +47,12 @@ var FormWizard = function () {
 						required: true
 					},
 					nama: {
+						required: true
+					},
+					stsbpjs: {
+						required: true
+					},
+					stsdomisili: {
 						required: true
 					},
 					/*nama_p: {
@@ -132,6 +138,9 @@ var FormWizard = function () {
 					kdpekerjaan: {
 						required: true
 					},
+					lama_k: {
+						required: true
+					},
 					nmkantor: {
 						required: true
 					},
@@ -157,6 +166,9 @@ var FormWizard = function () {
 						required: true
 					},
 					penghasilan: {
+						required: true
+					},
+					penghasilan1: {
 						required: true
 					},
 					

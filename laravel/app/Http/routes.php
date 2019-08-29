@@ -24,9 +24,9 @@ Route::group(['prefix' => 'registrasi'], function () {
 	
 	Route::group(['prefix' => 'debitur'], function () {
 		
-		Route::get('', 'DebiturRekamController@baru_new');
+		Route::get('', 'DebiturRekamController@baru');
 		Route::get('/tanda-terima/{param}', 'DebiturRekamController@tanda_terima');
-		Route::post('', 'DebiturRekamController@simpan_new');
+		Route::post('', 'DebiturRekamController@simpan');
 		
 	});
 	
@@ -55,9 +55,11 @@ Route::group(['prefix' => 'dropdown'], function () {
 	Route::get('/kelurahan', 'DropdownController@kelurahan');
 	Route::get('/kelurahan/{param1}/{param2}/{param3}', 'DropdownController@kelurahan_param');
 	Route::get('/hutang', 'DropdownController@hutang');
+	Route::get('/hutang-tabel', 'DropdownController@hutangTabel');
 	Route::get('/kdkreditur', 'DropdownController@kdkreditur');
 	Route::get('/status-skoring', 'DropdownController@status_skoring');
 	Route::get('/level', 'DropdownController@level');
+	Route::get('/stsdomisili', 'DropdownController@stsdomisili');
 	
 });
 
@@ -161,6 +163,7 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::get('', 'RefUserController@index')->middleware('role:00');
 			Route::get('/{param}', 'RefUserController@pilih')->middleware('role:00');
 			Route::get('/pilih/dropdown', 'RefUserController@dropdown')->middleware('role:00');
+			Route::get('/level/dropdown', 'RefUserController@level');
 			Route::post('', 'RefUserController@simpan')->middleware('role:00');
 			Route::post('/reset', 'RefUserController@reset')->middleware('role:00');
 			Route::delete('', 'RefUserController@hapus')->middleware('role:00');
