@@ -130,7 +130,7 @@
 					}        
 				}
 				
-				jQuery('#tahun').val('2018').trigger('chosen:updated');
+				jQuery('#tahun').val('2019').trigger('chosen:updated');
 				
 				setTimeout(function(){
 					jQuery("#username").focus();

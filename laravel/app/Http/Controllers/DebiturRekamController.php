@@ -256,13 +256,12 @@ class DebiturRekamController extends Controller {
 				order by id asc
 			");
 			
-			if(count($rows)>0){
-				
-				$data=array();
+			$data=array();
 
-				$data['htmlout']='';
-				$data['jquery']='';
-				foreach($rows as $row) {
+			$data['htmlout']='';
+			$data['jquery']='';
+			
+			foreach($rows as $row) {
 					
 					$data['htmlout'] .= '
 						<div class="form-group">
@@ -328,11 +327,6 @@ class DebiturRekamController extends Controller {
 					'html_upload' => $data['htmlout'],
 					'jquery_upload' => $data['jquery']
 				));
-				
-			}
-			else{
-				return 'Referensi dokumen tidak ditemukan!';
-			}
 			
 		}
 		catch(\Exception $e){
@@ -811,7 +805,7 @@ class DebiturRekamController extends Controller {
 																							
 																							if($lanjut){
 																							
-																								$insert = DB::insert("
+																								/*$insert = DB::insert("
 																									insert into d_debitur_dok(nik,id_dok,nmfile,created_at,updated_at)
 																									select	distinct
 																											? as nik,
@@ -834,7 +828,7 @@ class DebiturRekamController extends Controller {
 																										session('sesi_upload')
 																									]);
 																									
-																									if($delete){
+																									if($delete){*/
 																										
 																										if(isset($data['id_form'])){
 																											if($request->input('id_form')!==''){
@@ -871,7 +865,7 @@ class DebiturRekamController extends Controller {
 																											return 'Data debitur gagal ditambahkan kedalam form!';
 																										}
 																										
-																									}
+																									/*}
 																									else{
 																										return 'Data temporari gagal dihapus!';
 																									}
@@ -879,7 +873,7 @@ class DebiturRekamController extends Controller {
 																								}
 																								else{
 																									return 'Data dokumen gagal ditambahkan!';
-																								}
+																								}*/
 																								
 																							}
 																							else{

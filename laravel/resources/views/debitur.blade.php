@@ -83,7 +83,7 @@
 											<div class="portlet-title">
 												<div class="caption">
 													<i class="fa fa-user"></i> Form Registrasi Debitur - <span class="step-title">
-													Step 1 of 7 </span>
+													Step 1 of 5 </span>
 												</div>
 												<div class="tools hidden-xs">
 													<a href="javascript:;" class="collapse">
@@ -126,18 +126,18 @@
 																	<i class="fa fa-check"></i> Keuangan </span>
 																	</a>
 																</li>
-																<li>
+																<!--<li>
 																	<a href="#tab5" data-toggle="tab" class="step">
 																	<span class="number">
 																	5 </span>
 																	<span class="desc">
 																	<i class="fa fa-check"></i> Upload </span>
 																	</a>
-																</li>
+																</li>-->
 																<li>
-																	<a href="#tab6" data-toggle="tab" class="step">
+																	<a href="#tab5" data-toggle="tab" class="step">
 																	<span class="number">
-																	6 </span>
+																	5 </span>
 																	<span class="desc">
 																	<i class="fa fa-check"></i> Konfirmasi </span>
 																	</a>
@@ -783,10 +783,10 @@
 																		</div>
 																	</div>-->
 																</div>
-																<div class="tab-pane" id="tab5">
+																<!--<div class="tab-pane" id="tab5">
 																	<?php echo $html_upload; ?>
-																</div>
-																<div class="tab-pane" id="tab6">
+																</div>-->
+																<div class="tab-pane" id="tab5">
 																	<div class="form-group">
 																		<label class="control-label col-md-3"></label>
 																		<div class="col-md-6 terms">
