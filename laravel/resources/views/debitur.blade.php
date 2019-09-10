@@ -904,11 +904,6 @@
 	<script src="{{ asset('/template/js/AdminLTE/app.js') }}" type="text/javascript"></script>
 	
 	<script>
-		
-		(function (window) { // Prevent Cross-Frame Scripting attacks
-			if (window.location !== window.top.location)
-				window.top.location = window.location;
-		})(this);
 
 		jQuery(document).ready(function() {
 		   

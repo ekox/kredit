@@ -763,6 +763,7 @@ class DebiturRekamController extends Controller {
 																								$arr_angsuran = $request->input('angsuran');
 																								$arr_key = $arr_utang;
 																								$jml_key = count($arr_key);
+																								$query_utang = array();
 																								
 																								$tot_utang = 0;
 																								for($i=0;$i<$jml_key;$i++){
@@ -786,14 +787,18 @@ class DebiturRekamController extends Controller {
 																								
 																								if(count($query_utang)==$tot_utang){
 																									
-																									$insert = DB::insert("
-																										insert into d_debitur_hutang
-																										(nik,kdhutang,kdkreditur,jmlunit,total,angsuran)
-																										values".implode(",", $query_utang)."
-																									");
+																									if(count($query_utang)>0){
 																									
-																									if(!$insert){
-																										$lanjut = false;
+																										$insert = DB::insert("
+																											insert into d_debitur_hutang
+																											(nik,kdhutang,kdkreditur,jmlunit,total,angsuran)
+																											values".implode(",", $query_utang)."
+																										");
+																										
+																										if(!$insert){
+																											$lanjut = false;
+																										}
+																										
 																									}
 																									
 																								}
